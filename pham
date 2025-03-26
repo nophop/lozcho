@@ -293,6 +293,7 @@ save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 
 local UnlockedZones = 0
 
+
 function getzone()
     local total = 0
     for i, v in next, save.Get().UnlockedZones do
@@ -306,6 +307,51 @@ end
 
 UnlockedZones = getzone()
 
+
+task.spawn(function()
+wait(105)
+
+	local save
+
+repeat
+	wait(1)
+	pcall(function()
+		save = game:GetService("ReplicatedStorage").Library.Client.Save
+	end)
+
+until save
+
+save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+
+local function getGiftAmount()
+
+
+    for i, v in pairs(save.Get().Inventory.Currency) do
+        if v.id == "Diamonds" then
+            return math.floor(v._am)
+        end
+    end
+    return 0
+end
+
+local previousGift = getGiftAmount()
+
+task.wait()
+
+while true do
+    task.wait(30)
+
+    local currentGift = getGiftAmount() -- Lấy giá trị Gift Bag mới
+
+    
+    if currentGift == previousGift then
+        rejoinServer()
+    end
+
+    -- Cập nhật giá trị cũ để tiếp tục vòng lặp
+    previousGift = currentGift
+end
+end)
 
 local minSapphire = 50000
 local minRuby = 15000
@@ -330,6 +376,8 @@ repeat
 until save
 
 save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+
+
 
 wait(3)
 
@@ -371,6 +419,8 @@ wait(3)
         
       		
     end
+
+
 end)
 
 
