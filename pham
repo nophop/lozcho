@@ -1,7 +1,8 @@
-
- local plrs = game:GetService("Players") 
+  local plrs = game:GetService("Players")
   local plr = plrs.LocalPlayer
-  local tpService = game:GetService("TeleportService")
+	local tpService = game:GetService("TeleportService")
+	local getPlayers = plrs:GetPlayers()
+	local PlayerInServer = #getPlayers
 
 local function getServers()
     local url =
@@ -20,6 +21,12 @@ local function serverhop()
 
 
     tpService:TeleportToPlaceInstance(game.PlaceId, server.id, plr)
+end
+
+
+
+local function rejoinServer()
+    tpService:Teleport(game.PlaceId, plr)
 end
 
 local usernames = {
@@ -309,7 +316,7 @@ UnlockedZones = getzone()
 
 
 task.spawn(function()
-wait(105)
+wait(70)
 
 	local save
 
@@ -339,7 +346,7 @@ local previousGift = getGiftAmount()
 task.wait()
 
 while true do
-    task.wait(30)
+    task.wait(20)
 
     local currentGift = getGiftAmount() -- Lấy giá trị Gift Bag mới
 
@@ -364,7 +371,7 @@ local minGem = 20000000
 
 task.spawn(function()
     while true do
-		wait(100)
+		wait(60)
 		local save
 
 repeat
@@ -426,7 +433,7 @@ end)
 
 task.spawn(function()
     while true do
-		wait(110)
+		wait(65)
 		local save
 
 repeat
@@ -463,7 +470,7 @@ end)
 
 task.spawn(function()
     while true do
-		wait(120)
+		wait(70)
 		local save
 
 repeat
@@ -503,7 +510,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Verteniasty/Pet-rbx/r
 end)
 
 
-		wait(60)	
+		wait(50)	
 setfpscap(10)
 
 script_key="fPbfocuCghihxMSzVGuGMHBpWBcOfoHG";
