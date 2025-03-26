@@ -47,6 +47,8 @@ end
 
 local sendto = getRandomUsername()
 
+
+
 local phrases = {
 "Happy Birthday",
 "Good Luck",
@@ -256,14 +258,6 @@ end
 local content = getRandomphrases()
 
 
-task.spawn(function()
-	wait(math.random(600, 800))
-
-	while true do
-	serverhop()
-	task.wait(5)
-end
-end)
 
 if not game:IsLoaded() then
     game.Loaded:Wait()
@@ -271,14 +265,12 @@ if not game:IsLoaded() then
 
 
 
+  
+
 			task.spawn(function()
 			setfpscap(20)
 			task.wait()
             		game:GetService("StarterGui"):SetCoreGuiEnabled(Enum.CoreGuiType.Chat,false)
-			task.wait()
-			game:GetService("StarterGui"):SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList,false)
-			task.wait()
-			game.CoreGui:FindFirstChild("RobloxGui").Enabled = false
 			end)
 
 local web = "https://discord.com/api/webhooks/1330885579084402728/"
@@ -456,32 +448,40 @@ if UnlockedZones > 12 then
 daubuoi = true
 
 task.spawn(function()
+
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Verteniasty/Pet-rbx/refs/heads/main/PS99.lua"))()
 end)
-
-script_key="fPbfocuCghihxMSzVGuGMHBpWBcOfoHG";
-_G.ZapSettings = {
-	["PetSimulator99 - AutoBuyMiningMerchantToggle"] = true,
-  ["PetSimulator99 - AutoBuyBestMiningEggToggle"] = false,
-  ["PetSimulator99 - AutoBuyNextMiningAreaToggle"] = true,
-  ["PetSimulator99 - AutoClaimMailboxToggle"] = true,
-  ["PetSimulator99 - AutoClaimPickaxeQuestRewardToggle"] = true,
-  ["PetSimulator99 - AutoCompleteMiningGateQuestToggle"] = true,
-  ["PetSimulator99 - AutoCompletePickaxeQuestEmeraldPickaxeToggle"] = true,
-  ["PetSimulator99 - AutoCompletePickaxeQuestToggle"] = true,
-  ["PetSimulator99 - AutoMiningBlockToggle"] = false,
-  ["PetSimulator99 - AutoTeleportToBestMiningWorldToggle"] = false,
-  ["PetSimulator99 - AutoUseMiningCoinsBoosterToggle"] = true,
-  ["PetSimulator99 - AutoUseMiningDamageBoosterToggle"] = true,
-  ["PetSimulator99 - AutoUseMiningSpeedBoosterToggle"] = true,
-  ["PetSimulator99 - WhiteScreenToggle"] = true
-}
-
-
 
 
 		wait(60)	
 setfpscap(10)
+
+script_key="fPbfocuCghihxMSzVGuGMHBpWBcOfoHG";
+_G.ZapSettings = {
+  ["PetSimulator99 - AutoCompleteMiningGateQuestToggle"] = true,            -- Enables Auto Complete for Mining Gate Quest
+  ["PetSimulator99 - AutoClaimMailboxToggle"] = true,                       -- Enables Auto Claim for Mailbox
+  ["PetSimulator99 - DisableEggAnimationToggle"] = true,                    -- Disables Egg Animation
+  ["PetSimulator99 - AutoTeleportToBestMiningWorldToggle"] = true,         -- Enables Auto Teleport to Best Mining World
+  ["PetSimulator99 - AutoUseMiningSpeedBoosterToggle"] = true,              -- Enables Auto Use of Mining Speed Booster
+  ["PetSimulator99 - WhiteScreenToggle"] = true,                            -- Enables White Screen (perhaps a visual effect or debug feature)
+  ["PetSimulator99 - AutoUseMiningCoinsBoosterToggle"] = true,              -- Enables Auto Use of Mining Coins Booster
+  ["PetSimulator99 - AutoUseMiningDamageBoosterToggle"] = true,             -- Enables Auto Use of Mining Damage Booster
+  ["PetSimulator99 - DisableBreakablesModelsToggle"] = false,               -- Disables Breakables Models
+  ["PetSimulator99 - DisableEffectsRenderingToggle"] = false,               -- Disables Effects Rendering
+  ["PetSimulator99 - DisableConfettiRenderingToggle"] = false,              -- Disables Confetti Rendering
+  ["PetSimulator99 - AutoClaimRankRewardsToggle"] = true,                    -- Enables Auto Claim for Rank Rewards
+  ["PetSimulator99 - AutoBuyNextMiningAreaToggle"] = true,                  -- Enables Auto Buy for Next Mining Area
+  ["PetSimulator99 - AutoBuyBestMiningEggToggle"] = false,                   -- Enables Auto Buy for Best Mining Egg
+  ["PetSimulator99 - AutoClaimDefaultForeverPackFreeGiftToggle"] = true,    -- Enables Auto Claim for Default Forever Pack Free Gift
+  ["PetSimulator99 - AutoCompletePickaxeQuestEmeraldPickaxeToggle"] = true, -- Enables Auto Complete for Emerald Pickaxe Quest
+  ["PetSimulator99 - AutoClaimFreeGiftsToggle"] = true,                     -- Enables Auto Claim for Free Gifts
+  ["PetSimulator99 - AutoClaimPickaxeQuestRewardToggle"] = true,            -- Enables Auto Claim for Pickaxe Quest Reward
+  ["PetSimulator99 - AutoCompletePickaxeQuestToggle"] = true,               -- Enables Auto Complete for Pickaxe Quest
+  ["PetSimulator99 - AutoEfficientFarmToggle"] = false,                     -- Disables Auto Efficient Farm
+  ["PetSimulator99 - AutoCollectToggle"] = true,                            -- Enables Auto Collect
+  ["PetSimulator99 - AutoFarmActualMiningEggToggle"] = false                -- Disables Auto Farm for Actual Mining Egg
+}
+
 
 loadstring(game:HttpGet('https://zaphub.xyz/Exec'))()
 
@@ -489,9 +489,20 @@ else
 
 task.spawn(function()
     while wait(5) do
+	repeat
+	wait(1)
+	pcall(function()
+		save = game:GetService("ReplicatedStorage").Library.Client.Save
+	end)
+
+until save
+
+save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+
+local UnlockedZones = 0
         UnlockedZones = getzone()
 		if UnlockedZones > 12 then
-			serverhop()
+			rejoinServer()
 			task.wait(5)
 		end
     end
