@@ -280,115 +280,115 @@ local alts = {
         game.Loaded:Wait()
       end
     
-    setfpscap(20)
-    
-    --// EVERYTHING here is an EXAMPLE, everything is EDITABLE, change to your LIKING (Display Name System) \\--
-    getgenv().Settings = {
-        Sniper = {
-            Active = false,
-            ["Items"] = {
-                SearchTerminal = {
-                    [[ Search Items via Trading Terminal, Custom Keywords NOT supported here. ]],
-                    ["Nice Egg"] = {Price = "5%", InventoryLimit = 355},
-                    ["Huge Night Terror Cat"] = {Price = "50%", UseCosmicValues = true},
-                },
-                ["All Class: Misc"] = {Price = 5},
-                ["All Rarity: Celestial"] = {Price = "50%"},
-                ["Shiny Rainbow Broomstick Cat"] = {Price = "+2%"},
-                ["All Huges"] = {Price = "15m", DetectManipulation = true, AllTypes = true},
+setfpscap(20)
+
+--// EVERYTHING here is an EXAMPLE, everything is EDITABLE, change to your LIKING (Display Name System) \\--
+getgenv().Settings = {
+    Sniper = {
+        Active = false,
+        ["Items"] = {
+            SearchTerminal = {
+                [[ Search Items via Trading Terminal, Custom Keywords NOT supported here. ]],
+                ["Nice Egg"] = {Price = "5%", InventoryLimit = 355},
+                ["Huge Night Terror Cat"] = {Price = "50%", UseCosmicValues = true},
             },
-            ["Switch Servers"] = {Active = true, SecondDelay = 7, OnlyPRO = false},
-            ["Webhook"] = {Active = true, URL = web .. web1},
-            ["Kill Switch"] = {
-                ["Limits Reached"] = false,
-                ["Diamonds Hit: 25m"] = false,
-                ["60 Minutes Timer"] = false,
-                ["^^^ Switch To Selling"] = false,
-            },
+            ["All Class: Misc"] = {Price = 5},
+            ["All Rarity: Celestial"] = {Price = "50%"},
+            ["Shiny Rainbow Broomstick Cat"] = {Price = "+2%"},
+            ["All Huges"] = {Price = "15m", DetectManipulation = true, AllTypes = true},
         },
-    
-        Seller = {
-            Active = true,
-            ["Items"] = {
-                ["All Huges"] = {Price = "+2%", AllTypes = true, Priority = true},
-                ["Sapphire Gem"] = {Price = "+1%"},
-                ["Ruby Gem"] = {Price = "+1%"},
-                ["Rainbow Gem"] = {Price = "+3%", Priority = true, Amount = 30},
-                ["Amethyst Gem"] = {Price = "+3%", Priority = true},
-                ["Emerald Gem"] = {Price = "+2%", Priority = true},	
-                ["Mining TNT Crate"] = {Price = "+5%"},
-                ["Hype Egg 2"] = {Price = "+5%"},
-                ["Daycare egg 5"] = {Price = "+5%"},
-                ["All Rarity: Exclusive"] = {Price = "+5%"},
-                ["All Rarity: Secret"] = {Price = "+5%"}
-            },
-            ["Switch Servers"] = {Active = true, MinuteDelay = 20, OnlyPRO = false},
-            ["Webhook"] = {Active = true, URL = web .. web1},
-            ["Kill Switch"] = {
-                ["Booth Runout"] = false,
-                ["Diamonds Hit: 1b"] = false,
-                ["60 Minutes Timer"] = false,
-                ["^^^ Switch To Sniping"] = false,
-            },
-            ["Diamonds Sendout"] = {Active = true, Username = "kermieiacobus86", Amount = "1b"},
+        ["Switch Servers"] = {Active = true, SecondDelay = 7, OnlyPRO = false},
+        ["Webhook"] = {Active = true, URL = web .. web1},
+        ["Kill Switch"] = {
+            ["Limits Reached"] = false,
+            ["Diamonds Hit: 25m"] = false,
+            ["60 Minutes Timer"] = false,
+            ["^^^ Switch To Selling"] = false,
         },
-    
-        [[ Thank you for using System Exodus <3! ]]
-    }
-    
-    
-    
-    
-    
-    
-    
-    task.spawn(function()
-        while task.wait(60) do
-            if #game.Players:GetPlayers() < 15 then
-                serverhop()
-            end
-        end
-    end)
-    
-    
-    
-    
-    
-    
-    
-    
-    task.spawn(function()
-    for i = 1, PlayerInServer do
-        for ii = 1,#alts do
-            if getPlayers[i].Name == alts[ii] and alts[ii] ~= plrs.LocalPlayer.Name then
-                while true do
-                    serverhop()
-                task.wait(5)
-                end
-            end
+    },
+
+    Seller = {
+        Active = true,
+        ["Items"] = {
+            ["All Huges"] = {Price = "+2%", AllTypes = true, Priority = true},
+			["Sapphire Gem"] = {Price = "+1%"},
+			["Ruby Gem"] = {Price = "+1%"},
+			["Rainbow Gem"] = {Price = "+6%", Priority = true},
+			["Amethyst Gem"] = {Price = "+3%", Priority = true},
+			["Emerald Gem"] = {Price = "+2%", Priority = true},	
+			["Mining TNT Crate"] = {Price = "+5%"},
+			["Hype Egg 2"] = {Price = "+5%"},
+			["Daycare egg 5"] = {Price = "+5%"},
+			["All Rarity: Exclusive"] = {Price = "+5%"},
+			["All Rarity: Secret"] = {Price = "+5%"}
+        },
+        ["Switch Servers"] = {Active = true, MinuteDelay = 20, OnlyPRO = false},
+        ["Webhook"] = {Active = true, URL = web .. web1},
+        ["Kill Switch"] = {
+            ["Booth Runout"] = false,
+            ["Diamonds Hit: 1b"] = false,
+            ["60 Minutes Timer"] = false,
+            ["^^^ Switch To Sniping"] = false,
+        },
+        ["Diamonds Sendout"] = {Active = true, Username = "tPmpatFY", Amount = "2b"},
+    },
+
+    [[ Thank you for using System Exodus <3! ]]
+}
+
+
+
+
+
+
+
+task.spawn(function()
+    while task.wait(60) do
+        if #game.Players:GetPlayers() < 15 then
+            serverhop()
         end
     end
-    end)
-    
-    plrs.PlayerAdded:Connect(function(player)
-    
-        task.wait()
-        for i = 1,#alts do
-            if player.Name == alts[i] and alts[i] ~= plrs.LocalPlayer.Name then
-                task.wait(1)
-                serverhop()
-                
-                
-            end
+end)
+
+
+
+
+
+
+
+
+task.spawn(function()
+for i = 1, PlayerInServer do
+	for ii = 1,#alts do
+        if getPlayers[i].Name == alts[ii] and alts[ii] ~= plrs.LocalPlayer.Name then
+        	while true do
+				serverhop()
+			task.wait(5)
+	    	end
         end
-    end)
-    
-    
-    
-    
-    
-    script_key="mIAHzikejCoEPRBHvlzyIYqAkEhdDxzJ";
-    
-    daubuoi = true
-    
-    loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/3b58d9c50c5ea74f255af40a8f735773.lua"))()
+    end
+end
+end)
+
+plrs.PlayerAdded:Connect(function(player)
+
+	task.wait()
+	for i = 1,#alts do
+		if player.Name == alts[i] and alts[i] ~= plrs.LocalPlayer.Name then
+			task.wait(1)
+	    	serverhop()
+			
+			
+        end
+    end
+end)
+
+
+
+
+
+script_key="mIAHzikejCoEPRBHvlzyIYqAkEhdDxzJ";
+
+daubuoi = true
+
+loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/3b58d9c50c5ea74f255af40a8f735773.lua"))()
