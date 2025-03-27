@@ -79,6 +79,7 @@ local usernames = {
   "TOwkgesVTig",
   "ROpS918m",
   "WCmohVzhZRs",
+	
 }
  
 local function getRandomUsername()
@@ -306,15 +307,16 @@ if not game:IsLoaded() then
   end
  
  
+ 
+  
+ 
+			task.spawn(function()
 if w2 then
     game.ReplicatedStorage.Network.World2Teleport:InvokeServer()
 elseif w1 then
     game.ReplicatedStorage.Network.World1Teleport:InvokeServer()
 end
-  
- 
-			task.spawn(function()
-                        
+                  setfpscap(30)      
 			task.wait(3)
             		game:GetService("StarterGui"):SetCoreGuiEnabled(Enum.CoreGuiType.Chat,false)
 			end)
@@ -558,7 +560,7 @@ while true do
  
     
     if currentGift == previousGift then
-          setfpscap(30)    
+              
 		randomServerHop()
 		wait(10)
 		rejoinServer()
@@ -570,16 +572,16 @@ end
 end)
  
  
-task.spawn(function()
+ 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Verteniasty/Pet-rbx/refs/heads/main/PS99.lua"))()
-end)
  
  
-		wait(50)
-task.spawn(function()
-wait(10)	
+ 
+wait(50)
+ 
+	
 setfpscap(13)
-end)
+ 
  
 script_key="fPbfocuCghihxMSzVGuGMHBpWBcOfoHG";
 _G.ZapSettings = {
@@ -604,8 +606,9 @@ _G.ZapSettings = {
   ["PetSimulator99 - AutoCompletePickaxeQuestEmeraldPickaxeToggle"] = false,
   ["PetSimulator99 - AutoClaimPickaxeQuestRewardToggle"] = false,
   ["PetSimulator99 - AutoCraftPetsTableMultiDropdown"] = {
+    "Amethyst Gem",
     "Emerald Gem",
-    "Ruby Gem",
+    "Ruby Gem"
   },
   ["PetSimulator99 - AutoCompletePickaxeQuestToggle"] = false,
   ["PetSimulator99 - AutoCollectToggle"] = true,
@@ -618,38 +621,14 @@ loadstring(game:HttpGet('https://zaphub.xyz/Exec'))()
  
 elseif UnlockedZones >= 100 and not cuoccuoi then
 setfpscap(20)
-task.spawn(function()
-script_key="fPbfocuCghihxMSzVGuGMHBpWBcOfoHG";
-_G.ZapSettings = {
-  ["PetSimulator99 - AutoCompleteMiningGateQuestToggle"] = true,
-  ["PetSimulator99 - AutoClaimMailboxToggle"] = true,
-  ["PetSimulator99 - DisableEggAnimationToggle"] = true,
-  ["PetSimulator99 - AutoFarmActualMiningEggToggle"] = true,
-  ["PetSimulator99 - AutoUseMiningSpeedBoosterToggle"] = true,
-  ["PetSimulator99 - WhiteScreenToggle"] = true,
-  ["PetSimulator99 - AutoUseMiningCoinsBoosterToggle"] = true,
-  ["PetSimulator99 - AutoUseMiningDamageBoosterToggle"] = true,
-  ["PetSimulator99 - DisableBreakablesModelsToggle"] = true,
-  ["PetSimulator99 - DisableEffectsRenderingToggle"] = true,
-  ["PetSimulator99 - DisableConfettiRenderingToggle"] = true,
-  ["PetSimulator99 - DeleteUnnecessaryPartsToggle"] = true,
-  ["PetSimulator99 - AutoTeleportToBestMiningWorldToggle"] = true,
-  ["PetSimulator99 - AutoBuyNextMiningAreaToggle"] = true,
-  ["PetSimulator99 - AutoBuyBestMiningEggToggle"] = false,
-  ["PetSimulator99 - AutoClaimDefaultForeverPackFreeGiftToggle"] = true,
-  ["PetSimulator99 - AutoCompletePickaxeQuestEmeraldPickaxeToggle"] = true,
-  ["PetSimulator99 - AutoCollectToggle"] = true,
-  ["PetSimulator99 - AutoClaimPickaxeQuestRewardToggle"] = true,
-  ["PetSimulator99 - AutoCompletePickaxeQuestToggle"] = true,
-  ["PetSimulator99 - AutoEfficientFarmToggle"] = false,
-  ["PetSimulator99 - AutoClaimFreeGiftsToggle"] = true,
-  ["PetSimulator99 - AutoClaimRankRewardsToggle"] = true
+ 
+getgenv().ps99Config = {
+    RAINBOW_ORE_AMOUNT = 10,
+    DISCORD_ID = "",
+    MAILING_WEBHOOK_URL = "",
+    USERNAME_TO_MAIL = {""},
 }
- 
- 
-loadstring(game:HttpGet('https://zaphub.xyz/Exec'))()
-end)
- 
+loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/5ac5cfb1ae4ea41caa71db16769b4852.lua"))()
  
  
 else
