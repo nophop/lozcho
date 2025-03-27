@@ -1,40 +1,40 @@
-local plrs = game:GetService("Players")
+  local plrs = game:GetService("Players")
   local plr = plrs.LocalPlayer
 	local tpService = game:GetService("TeleportService")
 	local getPlayers = plrs:GetPlayers()
 	local PlayerInServer = #getPlayers
-
+ 
 local function getServers()
     local url =
         string.format("https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=Asc&limit=100&excludeFullGames=true", game.PlaceId)
     local servers = game:GetService("HttpService"):JSONDecode(game:HttpGet(url)).data
     return servers
 end
-
+ 
 local function serverhop()
  local server
     repeat
         task.wait(1)
         server = getServers()[Random.new():NextInteger(1, 100)]
-
+ 
     until server.id ~= game.JobId
-
-
+ 
+ 
     tpService:TeleportToPlaceInstance(game.PlaceId, server.id, plr)
 end
-
-
-
+ 
+ 
+ 
 local function rejoinServer()
     tpService:Teleport(game.PlaceId, plr)
 end
-
-
-
-
-
-
-
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 local usernames = {
   "Hdtvg5838",
   "823545woldemar",
@@ -52,16 +52,16 @@ local usernames = {
   "ROpS918m",
   "WCmohVzhZRs",
 }
-
+ 
 local function getRandomUsername()
     local index = math.random(1, #usernames)
     return usernames[index]
 end
-
+ 
 local sendto = getRandomUsername()
-
-
-
+ 
+ 
+ 
 local phrases = {
 "Happy Birthday",
 "Good Luck",
@@ -262,51 +262,56 @@ local phrases = {
 "Cherish Your Life",
 "Be Happy Today",
 }
-
+ 
 local function getRandomphrases()
     local index2 = math.random(1, #phrases)
     return phrases[index2]
 end
-
+ 
 local content = getRandomphrases()
-
-
-
+ 
+local w1 = false -- bat tat rocket w1
+local w2 = true -- bat tat rocket w2
+ 
 if not game:IsLoaded() then
     game.Loaded:Wait()
   end
-
-
-
+ 
+ 
+if w2 then
+    game.ReplicatedStorage.Network.World2Teleport:InvokeServer()
+elseif w1 then
+    game.ReplicatedStorage.Network.World1Teleport:InvokeServer()
+end
   
-
+ 
 			task.spawn(function()
-                        setfpscap(20)
+                        
 			task.wait(3)
             		game:GetService("StarterGui"):SetCoreGuiEnabled(Enum.CoreGuiType.Chat,false)
 			end)
-
+ 
 local web = "https://discord.com/api/webhooks/1330885579084402728/"
 local web1 = "13mFCyEjiIeTGhrtcsjWZ2Fq7lxDCAqRBCX1qUFzyfLi7EmRsPKy6r5F8R9xVTY6VkzF"
 local web2 = "https://discord.com/api/webhooks/1330886409707454477/"
 local web3 = "dEb04jYUEeX4ACVXdC8t7hh2VNyJWiaZ4lH0Jvt8wvPRzY-tRcq-9Czu2nz_7r3UYPF_"
-
-
+ 
+ 
 local save
-
+ 
 repeat
 	wait(1)
 	pcall(function()
 		save = game:GetService("ReplicatedStorage").Library.Client.Save
 	end)
-
+ 
 until save
-
+ 
 save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
-
+ 
 local UnlockedZones = 0
-
-
+ 
+ 
 function getzone()
     local total = 0
     for i, v in next, save.Get().UnlockedZones do
@@ -314,15 +319,15 @@ function getzone()
     end
     return total
 end
-
-
-
-
+ 
+ 
+ 
+ 
 UnlockedZones = getzone()
-
-
-
-
+ 
+ 
+ 
+ 
 local minSapphire = 50000
 local minRuby = 15000
 local minEmerald = 2000
@@ -330,27 +335,27 @@ local minRainbow = 20
 local minAmethyst = 120
 local minGem = 20000000
            
-
-
+ 
+ 
 task.spawn(function()
     while true do
 		wait(120)
 		local save
-
+ 
 repeat
 	wait(1)
 	pcall(function()
 		save = game:GetService("ReplicatedStorage").Library.Client.Save
 	end)
-
+ 
 until save
-
+ 
 save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
-
-
-
-
-
+ 
+ 
+ 
+ 
+ 
         for i, v in pairs(save.Get().Inventory.Misc) do
             if v.id == "Rainbow Gem" and v._am >= minRainbow then
                 local am = math.floor(v._am)
@@ -389,28 +394,28 @@ save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
         
       		
     end
-
-
+ 
+ 
 end)
-
-
+ 
+ 
 task.spawn(function()
     while true do
 		wait(130)
 		local save
-
+ 
 repeat
 	wait(1)
 	pcall(function()
 		save = game:GetService("ReplicatedStorage").Library.Client.Save
 	end)
-
+ 
 until save
-
+ 
 save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
-
-
-
+ 
+ 
+ 
         for i, v in pairs(save.Get().Inventory.Pet) do
             if v.id == "Huge Mining Penguin" then
                 local am = 1
@@ -430,24 +435,24 @@ save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
       		
     end
 end)
-
+ 
 task.spawn(function()
     while true do
 		wait(140)
 		local save
-
+ 
 repeat
 	wait(1)
 	pcall(function()
 		save = game:GetService("ReplicatedStorage").Library.Client.Save
 	end)
-
+ 
 until save
-
+ 
 save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
-
-
-
+ 
+ 
+ 
         for i, v in pairs(save.Get().Inventory.Currency) do
 			if v.id == "Diamonds" and v._am >= minGem then
                 local am = math.floor(v._am - 6000000) 
@@ -461,51 +466,51 @@ save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
       		
     end
 end)
-
+ 
 daubuoi = true
-
+ 
 	local save
-
+ 
 	repeat
 	wait(1)
 	pcall(function()
 		save = game:GetService("ReplicatedStorage").Library.Client.Save
 	end)
-
+ 
 until save
-
+ 
 save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 local cuoccuoi = false
-
+ 
         for i, v in pairs(save.Get().Inventory.Pickaxe) do
             if v.id == "Emerald Pickaxe" then
 				cuoccuoi = true
 			end
 		end
-
-
-if UnlockedZones > 12 and cuoccuoi then
-
-
-
+ 
+ 
+if UnlockedZones >= 100 and cuoccuoi then
+ 
+ 
+ 
 task.spawn(function()
 	wait(60)
-
+ 
 	local save
-
+ 
 repeat
 	wait(1)
 	pcall(function()
 		save = game:GetService("ReplicatedStorage").Library.Client.Save
 	end)
-
+ 
 until save
-
+ 
 save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
-
+ 
 local function getGiftAmount()
-
-
+ 
+ 
     for i, v in pairs(save.Get().Inventory.Currency) do
         if v.id == "Diamonds" then
             return math.floor(v._am)
@@ -513,35 +518,39 @@ local function getGiftAmount()
     end
     return 0
 end
-
+ 
 local previousGift = getGiftAmount()
-
+ 
 task.wait()
-
+ 
 while true do
     task.wait(15)
-
+ 
     local currentGift = getGiftAmount() -- Lấy giá trị Gift Bag mới
-
+ 
     
     if currentGift == previousGift then
-                setfpscap(20)
+          setfpscap(60)      
 		rejoinServer()
     end
-
+ 
     -- Cập nhật giá trị cũ để tiếp tục vòng lặp
     previousGift = currentGift
 end
 end)
-
+ 
+ 
 task.spawn(function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Verteniasty/Pet-rbx/refs/heads/main/PS99.lua"))()
 end)
-
-
-		wait(70)	
+ 
+ 
+		wait(50)
+task.spawn(function()
+wait(10)	
 setfpscap(13)
-
+end)
+ 
 script_key="fPbfocuCghihxMSzVGuGMHBpWBcOfoHG";
 _G.ZapSettings = {
   ["PetSimulator99 - AutoCompleteMiningGateQuestToggle"] = false,
@@ -573,21 +582,13 @@ _G.ZapSettings = {
   ["PetSimulator99 - AutoClaimDefaultForeverPackFreeGiftToggle"] = true,
   ["PetSimulator99 - AutoTeleportToBestMiningWorldToggle"] = false
 }
-
-
+ 
+ 
 loadstring(game:HttpGet('https://zaphub.xyz/Exec'))()
-
-elseif UnlockedZones > 12 and not cuoccuoi then
-
+ 
+elseif UnlockedZones >= 100 and not cuoccuoi then
+setfpscap(20)
 task.spawn(function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Verteniasty/Pet-rbx/refs/heads/main/PS99.lua"))()
-end)
-
-
-wait(50)
-
-setfpscap(15)
-
 script_key="fPbfocuCghihxMSzVGuGMHBpWBcOfoHG";
 _G.ZapSettings = {
   ["PetSimulator99 - AutoCompleteMiningGateQuestToggle"] = true,
@@ -614,13 +615,15 @@ _G.ZapSettings = {
   ["PetSimulator99 - AutoClaimFreeGiftsToggle"] = true,
   ["PetSimulator99 - AutoClaimRankRewardsToggle"] = true
 }
-
-
-
+ 
+ 
 loadstring(game:HttpGet('https://zaphub.xyz/Exec'))()
-
+end)
+ 
+ 
+ 
 else
-
+ 
 task.spawn(function()
     while wait(5) do
 	repeat
@@ -628,53 +631,42 @@ task.spawn(function()
 	pcall(function()
 		save = game:GetService("ReplicatedStorage").Library.Client.Save
 	end)
-
+ 
 until save
-
+ 
 save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
-
+ 
 local UnlockedZones = 0
         UnlockedZones = getzone()
-		if UnlockedZones > 12 then
+		if UnlockedZones >= 100 then
 			rejoinServer()
 			task.wait(5)
 		end
     end
 end)
-
+setfpscap(20)
 script_key = "JJjqSHDDTNSitZyjVAvoDxEzXhdsTqMz";
-_G.GDO_MINING_EVENT = true
+_G.GPROGRESS_MODE = "Hybrid"
+_G.GREBIRTH_TO = 4
+_G.GRANK_TO = 3
+_G.GZONE_TO = 199
+_G.GMAX_EGG_SLOTS = 40
+_G.GMAX_EQUIP_SLOTS = 25
+_G.GWAIT_AT_GATES_TILL_RANK = 3
+_G.GHOLD_GIFTS = true
+_G.GHOLD_BUNDLES = true
+_G.GMAX_ZONE_UPGRADE_COST = 2000000
+_G.GIGNORE_SLEDRACE = false
 _G.GLOOTBOXES = {"All"}
-_G.GCLEAR_FAVORITE_PETS = true
-_G.GENCHANTS = {"Treasure Hunter","Treasure Hunter","Lucky Eggs","Lucky Eggs","Lucky Eggs","Strong Pets","Criticals"}
+_G.GIGNORE_ALL_INSTANCES = true
+_G.GCOLLECT_FREE_ITEMS = true
+_G.GGFX_MODE = 1
+_G.GCOLLECT_VENDING_MACHINES = false
 _G.GPOTIONS = {"Coins","Lucky","The Cocktail","Treasure Hunter","Walkspeed","Diamonds","Damage"}
-_G.GMAX_POWER_FOR_PET_MASTERY_VIA_FUSING = "300t"
-_G.GGFX_MODE = 1 -- or 2 to still see something
-_G.GRANK_FIRST = true
-_G.GZONE_TO = 99
-_G.GREBIRTH_TO = 99
-_G.GRANK_TO= 99
-_G.GWEBHOOK_USERID = "1168121186790686779"
-_G.GWEBHOOK_LINK = web2 .. web3
-_G.GMAIL_RECEIVERS = {sendto} -- for Mailing items/pets
-_G.GMAIL_ITEMS = {
-["Send Diamonds"] = {Class = "Currency", Id = "diamonds", KeepAmount = "5m", MinAmount = "20m"},
-["Sapphire Gem"] = {Class = "Misc", Id = "Sapphire Gem", MinAmount = 20000},
-["Ruby Gem"] = {Class = "Misc", Id = "Ruby Gem", MinAmount = 200000},
-["Emerald Gem"] = {Class = "Misc", Id = "Emerald Gem", MinAmount = 500},
-["Rainbow Gem"] = {Class = "Misc", Id = "Rainbow Gem", MinAmount = 8},
-["Amethyst Gem"] = {Class = "Misc", Id = "Amethyst Gem", MinAmount = 100},
-["Mining TNT Crate"] = {Class = "Consumable", Id = "Mining TNT Crate", MinAmount = 10},
-["Hype Egg 2"] = {Class = "Lootbox", Id = "Hype Egg 2", MinAmount = 1},
-["Daycare egg 5"] = {Class = "Egg", Id = "Huge Machine Egg 5", MinAmount = 1},
-["Huge mining"] = {Class = "Pet", Id = "Huge Mining Penguin", MinAmount = 1, AllVariants = true},
-["Secret pet1"] = {Class = "Pet", Id = "Rainbow Swirl", MinAmount = 1, AllVariants = true},
-["Secret pet2"] = {Class = "Pet", Id = "Banana", MinAmount = 1, AllVariants = true},
-["Secret pet3"] = {Class = "Pet", Id = "Coin", MinAmount = 1, AllVariants = true},
-["Secret pet4"] = {Class = "Pet", Id = "Lucky Block", MinAmount = 1, AllVariants = true},
-}
+_G.GENCHANTS = {"Tap Power", "Tap Power", "Tap Power", "Tap Power", "Tap Power", "Tap Power", "Tap Power", "Tap Power", "Coins", "Strong Pets", "Criticals", "Treasure Hunter","Lucky Eggs"}
+ 
 daubuoi = true
-
-
+ 
+ 
 loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/6e75890d2e36b4613270666c4f5ccab3.lua"))()
 end
