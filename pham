@@ -1,4 +1,4 @@
- local plrs = game:GetService("Players")
+  local plrs = game:GetService("Players")
   local plr = plrs.LocalPlayer
 	local tpService = game:GetService("TeleportService")
 	local getPlayers = plrs:GetPlayers()
@@ -57,6 +57,7 @@ local function randomServerHop()
         serverhop2()
     end
 end
+ 
  
  
  
@@ -699,4 +700,3 @@ daubuoi = true
  
 loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/6e75890d2e36b4613270666c4f5ccab3.lua"))()
 end
-
