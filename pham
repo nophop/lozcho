@@ -1,8 +1,9 @@
-  local plrs = game:GetService("Players")
+ local plrs = game:GetService("Players")
   local plr = plrs.LocalPlayer
 	local tpService = game:GetService("TeleportService")
 	local getPlayers = plrs:GetPlayers()
 	local PlayerInServer = #getPlayers
+ 
  
 local function getServers()
     local url =
@@ -16,20 +17,46 @@ local function serverhop()
     repeat
         task.wait(1)
         server = getServers()[Random.new():NextInteger(1, 100)]
- 
+	
     until server.id ~= game.JobId
- 
- 
+	
+   
     tpService:TeleportToPlaceInstance(game.PlaceId, server.id, plr)
 end
  
+local function getServers2()
+    local url =
+        string.format("https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=Desc&limit=100&excludeFullGames=true", game.PlaceId)
+    local servers = game:GetService("HttpService"):JSONDecode(game:HttpGet(url)).data
+    return servers
+end
  
+local function serverhop2()
+ local server
+    repeat
+        task.wait(1)
+        server = getServers2()[Random.new():NextInteger(1, 100)]
+	
+    until server.id ~= game.JobId
+	
+   
+    tpService:TeleportToPlaceInstance(game.PlaceId, server.id, plr)
+end
  
 local function rejoinServer()
     tpService:Teleport(game.PlaceId, plr)
 end
  
  
+local function randomServerHop()
+    if Random.new():NextInteger(1, 2) == 1 then
+        print("🔄 Chọn serverhop()")
+        serverhop()
+    else
+        print("🔄 Chọn serverhop2()")
+        serverhop2()
+    end
+end
  
  
  
@@ -530,7 +557,9 @@ while true do
  
     
     if currentGift == previousGift then
-          setfpscap(60)      
+          setfpscap(30)    
+		randomServerHop()
+		wait(10)
 		rejoinServer()
     end
  
@@ -670,3 +699,4 @@ daubuoi = true
  
 loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/6e75890d2e36b4613270666c4f5ccab3.lua"))()
 end
+
