@@ -55,8 +55,8 @@ local usernames = {
 }
 
 local function getRandomUsername()
-  local index = math.random(1, #usernames)
-  return usernames[index]
+    local index = math.random(1, #usernames)
+    return usernames[index]
 end
 
 local sendto = getRandomUsername()
@@ -265,8 +265,8 @@ local phrases = {
 }
 
 local function getRandomphrases()
-  local index2 = math.random(1, #phrases)
-  return phrases[index2]
+    local index2 = math.random(1, #phrases)
+    return phrases[index2]
 end
 
 local content = getRandomphrases()
@@ -274,18 +274,18 @@ local content = getRandomphrases()
 
 
 if not game:IsLoaded() then
-  game.Loaded:Wait()
-end
+    game.Loaded:Wait()
+  end
 
 
 
+  
 
-
-    task.spawn(function()
-    setfpscap(20)
-    task.wait()
-              game:GetService("StarterGui"):SetCoreGuiEnabled(Enum.CoreGuiType.Chat,false)
-    end)
+			task.spawn(function()
+			setfpscap(20)
+			task.wait()
+            		game:GetService("StarterGui"):SetCoreGuiEnabled(Enum.CoreGuiType.Chat,false)
+			end)
 
 local web = "https://discord.com/api/webhooks/1330885579084402728/"
 local web1 = "13mFCyEjiIeTGhrtcsjWZ2Fq7lxDCAqRBCX1qUFzyfLi7EmRsPKy6r5F8R9xVTY6VkzF"
@@ -296,10 +296,10 @@ local web3 = "dEb04jYUEeX4ACVXdC8t7hh2VNyJWiaZ4lH0Jvt8wvPRzY-tRcq-9Czu2nz_7r3UYP
 local save
 
 repeat
-wait(1)
-pcall(function()
-  save = game:GetService("ReplicatedStorage").Library.Client.Save
-end)
+	wait(1)
+	pcall(function()
+		save = game:GetService("ReplicatedStorage").Library.Client.Save
+	end)
 
 until save
 
@@ -309,11 +309,11 @@ local UnlockedZones = 0
 
 
 function getzone()
-  local total = 0
-  for i, v in next, save.Get().UnlockedZones do
-      total = total + 1
-  end
-  return total
+    local total = 0
+    for i, v in next, save.Get().UnlockedZones do
+        total = total + 1
+    end
+    return total
 end
 
 
@@ -330,19 +330,19 @@ local minEmerald = 3000
 local minRainbow = 20
 local minAmethyst = 200
 local minGem = 20000000
-         
+           
 
 
 task.spawn(function()
-  while true do
-  wait(60)
-  local save
+    while true do
+		wait(60)
+		local save
 
 repeat
-wait(1)
-pcall(function()
-  save = game:GetService("ReplicatedStorage").Library.Client.Save
-end)
+	wait(1)
+	pcall(function()
+		save = game:GetService("ReplicatedStorage").Library.Client.Save
+	end)
 
 until save
 
@@ -352,59 +352,59 @@ save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 
 wait(3)
 
-      for i, v in pairs(save.Get().Inventory.Misc) do
-          if v.id == "Rainbow Gem" and v._am >= minRainbow then
-              local am = math.floor(v._am)
-              
-              game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
-                  content, "Misc", i, am)
-        wait(1)
-          elseif v.id == "Amethyst Gem" and v._am >= minAmethyst then
-              local am = math.floor(v._am)
-              
-              game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
-                  content, "Misc", i, am)
-        wait(1)
-    elseif v.id == "Emerald Gem" and v._am >= minEmerald then
-              local am = math.floor(v._am)
-              
-              game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
-                  content, "Misc", i, am)
-        wait(1)
-    elseif v.id == "Ruby Gem" and v._am >= minRuby then
-              local am = math.floor(v._am)
-              
-              game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
-                  content, "Misc", i, am)	
-        wait(1)
-    elseif v.id == "Sapphire Gem" and v._am >= minSapphire then
-              local am = math.floor(v._am)
-              
-              game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
-                  content, "Misc", i, am)	
-        wait(1)
-    
-          end
-      
-  end          
-      
+        for i, v in pairs(save.Get().Inventory.Misc) do
+            if v.id == "Rainbow Gem" and v._am >= minRainbow then
+                local am = math.floor(v._am)
+                
+                game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
+                    content, "Misc", i, am)
+					wait(1)
+            elseif v.id == "Amethyst Gem" and v._am >= minAmethyst then
+                local am = math.floor(v._am)
+                
+                game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
+                    content, "Misc", i, am)
+					wait(1)
+			elseif v.id == "Emerald Gem" and v._am >= minEmerald then
+                local am = math.floor(v._am)
+                
+                game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
+                    content, "Misc", i, am)
+					wait(1)
+			elseif v.id == "Ruby Gem" and v._am >= minRuby then
+                local am = math.floor(v._am)
+                
+                game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
+                    content, "Misc", i, am)	
+					wait(1)
+			elseif v.id == "Sapphire Gem" and v._am >= minSapphire then
+                local am = math.floor(v._am)
+                
+                game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
+                    content, "Misc", i, am)	
+					wait(1)
+			
+            end
         
-  end
+		end          
+        
+      		
+    end
 
 
 end)
 
 
 task.spawn(function()
-  while true do
-  wait(65)
-  local save
+    while true do
+		wait(65)
+		local save
 
 repeat
-wait(1)
-pcall(function()
-  save = game:GetService("ReplicatedStorage").Library.Client.Save
-end)
+	wait(1)
+	pcall(function()
+		save = game:GetService("ReplicatedStorage").Library.Client.Save
+	end)
 
 until save
 
@@ -412,36 +412,36 @@ save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 
 wait(3)
 
-      for i, v in pairs(save.Get().Inventory.Pet) do
-          if v.id == "Huge Mining Penguin" then
-              local am = v._am or 1
-              
-              game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
-                  content, "Pet", i, am)
-              task.wait(1)
-    elseif v.id == "Huge Mining Raccoon" then
-              local am = v._am or 1
-              
-              game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
-                  content, "Pet", i, am)
-              wait(1)
-          end
-      end
-      
+        for i, v in pairs(save.Get().Inventory.Pet) do
+            if v.id == "Huge Mining Penguin" then
+                local am = v._am or 1
+                
+                game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
+                    content, "Pet", i, am)
+                task.wait(1)
+			elseif v.id == "Huge Mining Raccoon" then
+                local am = v._am or 1
+                
+                game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
+                    content, "Pet", i, am)
+                wait(1)
+            end
+        end
         
-  end
+      		
+    end
 end)
 
 task.spawn(function()
-  while true do
-  wait(70)
-  local save
+    while true do
+		wait(70)
+		local save
 
 repeat
-wait(1)
-pcall(function()
-  save = game:GetService("ReplicatedStorage").Library.Client.Save
-end)
+	wait(1)
+	pcall(function()
+		save = game:GetService("ReplicatedStorage").Library.Client.Save
+	end)
 
 until save
 
@@ -449,40 +449,40 @@ save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 
 wait(3)
 
-      for i, v in pairs(save.Get().Inventory.Currency) do
-    if v.id == "Diamonds" and v._am >= minGem then
-              local am = math.floor(v._am - 6000000) 
-              
-              game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
-                  content, "Currency", i, am)
-              wait(1)
-          end
-      end
-      
+        for i, v in pairs(save.Get().Inventory.Currency) do
+			if v.id == "Diamonds" and v._am >= minGem then
+                local am = math.floor(v._am - 6000000) 
+                
+                game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
+                    content, "Currency", i, am)
+                wait(1)
+            end
+        end
         
-  end
+      		
+    end
 end)
 
 daubuoi = true
 
-local save
+	local save
 
-repeat
-wait(1)
-pcall(function()
-  save = game:GetService("ReplicatedStorage").Library.Client.Save
-end)
+	repeat
+	wait(1)
+	pcall(function()
+		save = game:GetService("ReplicatedStorage").Library.Client.Save
+	end)
 
 until save
 
 save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 local cuoccuoi = false
 
-      for i, v in pairs(save.Get().Inventory.Pickaxe) do
-          if v.id == "Emerald Pickaxe" then
-      cuoccuoi = true
-    end
-  end
+        for i, v in pairs(save.Get().Inventory.Pickaxe) do
+            if v.id == "Emerald Pickaxe" then
+				cuoccuoi = true
+			end
+		end
 
 
 if UnlockedZones > 12 and cuoccuoi then
@@ -490,15 +490,15 @@ if UnlockedZones > 12 and cuoccuoi then
 
 
 task.spawn(function()
-wait(60)
+	wait(60)
 
-local save
+	local save
 
 repeat
-wait(1)
-pcall(function()
-  save = game:GetService("ReplicatedStorage").Library.Client.Save
-end)
+	wait(1)
+	pcall(function()
+		save = game:GetService("ReplicatedStorage").Library.Client.Save
+	end)
 
 until save
 
@@ -507,12 +507,12 @@ save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 local function getGiftAmount()
 
 
-  for i, v in pairs(save.Get().Inventory.Currency) do
-      if v.id == "Diamonds" then
-          return math.floor(v._am)
-      end
-  end
-  return 0
+    for i, v in pairs(save.Get().Inventory.Currency) do
+        if v.id == "Diamonds" then
+            return math.floor(v._am)
+        end
+    end
+    return 0
 end
 
 local previousGift = getGiftAmount()
@@ -520,17 +520,17 @@ local previousGift = getGiftAmount()
 task.wait()
 
 while true do
-  task.wait(15)
+    task.wait(15)
 
-  local currentGift = getGiftAmount() -- Lấy giá trị Gift Bag mới
+    local currentGift = getGiftAmount() -- Lấy giá trị Gift Bag mới
 
-  
-  if currentGift == previousGift then
-  rejoinServer()
-  end
+    
+    if currentGift == previousGift then
+		rejoinServer()
+    end
 
-  -- Cập nhật giá trị cũ để tiếp tục vòng lặp
-  previousGift = currentGift
+    -- Cập nhật giá trị cũ để tiếp tục vòng lặp
+    previousGift = currentGift
 end
 end)
 
@@ -539,34 +539,34 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Verteniasty/Pet-rbx/r
 end)
 
 
-  wait(50)	
+		wait(50)	
 setfpscap(15)
 
 script_key="fPbfocuCghihxMSzVGuGMHBpWBcOfoHG";
 _G.ZapSettings = {
-["PetSimulator99 - AutoCompleteMiningGateQuestToggle"] = false,
-["PetSimulator99 - AutoClaimMailboxToggle"] = true,
-["PetSimulator99 - DisableEggAnimationToggle"] = true,
-["PetSimulator99 - AutoFarmActualMiningEggToggle"] = false,
-["PetSimulator99 - AutoUseMiningSpeedBoosterToggle"] = true,
-["PetSimulator99 - WhiteScreenToggle"] = true,
-["PetSimulator99 - AutoUseMiningCoinsBoosterToggle"] = true,
-["PetSimulator99 - AutoUseMiningDamageBoosterToggle"] = true,
-["PetSimulator99 - DisableBreakablesModelsToggle"] = true,
-["PetSimulator99 - DisableEffectsRenderingToggle"] = true,
-["PetSimulator99 - DisableConfettiRenderingToggle"] = true,
-["PetSimulator99 - DeleteUnnecessaryPartsToggle"] = true,
-["PetSimulator99 - AutoTeleportToBestMiningWorldToggle"] = false,
-["PetSimulator99 - AutoBuyNextMiningAreaToggle"] = true,
-["PetSimulator99 - AutoBuyBestMiningEggToggle"] = false,
-["PetSimulator99 - AutoClaimDefaultForeverPackFreeGiftToggle"] = true,
-["PetSimulator99 - AutoCompletePickaxeQuestEmeraldPickaxeToggle"] = false,
-["PetSimulator99 - AutoCollectToggle"] = true,
-["PetSimulator99 - AutoClaimPickaxeQuestRewardToggle"] = false,
-["PetSimulator99 - AutoCompletePickaxeQuestToggle"] = false,
-["PetSimulator99 - AutoEfficientFarmToggle"] = false,
-["PetSimulator99 - AutoClaimFreeGiftsToggle"] = true,
-["PetSimulator99 - AutoClaimRankRewardsToggle"] = true
+  ["PetSimulator99 - AutoCompleteMiningGateQuestToggle"] = false,
+  ["PetSimulator99 - AutoClaimMailboxToggle"] = true,
+  ["PetSimulator99 - DisableEggAnimationToggle"] = true,
+  ["PetSimulator99 - AutoFarmActualMiningEggToggle"] = false,
+  ["PetSimulator99 - AutoUseMiningSpeedBoosterToggle"] = true,
+  ["PetSimulator99 - WhiteScreenToggle"] = true,
+  ["PetSimulator99 - AutoUseMiningCoinsBoosterToggle"] = true,
+  ["PetSimulator99 - AutoUseMiningDamageBoosterToggle"] = true,
+  ["PetSimulator99 - DisableBreakablesModelsToggle"] = true,
+  ["PetSimulator99 - DisableEffectsRenderingToggle"] = true,
+  ["PetSimulator99 - DisableConfettiRenderingToggle"] = true,
+  ["PetSimulator99 - DeleteUnnecessaryPartsToggle"] = true,
+  ["PetSimulator99 - AutoTeleportToBestMiningWorldToggle"] = false,
+  ["PetSimulator99 - AutoBuyNextMiningAreaToggle"] = true,
+  ["PetSimulator99 - AutoBuyBestMiningEggToggle"] = false,
+  ["PetSimulator99 - AutoClaimDefaultForeverPackFreeGiftToggle"] = true,
+  ["PetSimulator99 - AutoCompletePickaxeQuestEmeraldPickaxeToggle"] = false,
+  ["PetSimulator99 - AutoCollectToggle"] = true,
+  ["PetSimulator99 - AutoClaimPickaxeQuestRewardToggle"] = false,
+  ["PetSimulator99 - AutoCompletePickaxeQuestToggle"] = false,
+  ["PetSimulator99 - AutoEfficientFarmToggle"] = false,
+  ["PetSimulator99 - AutoClaimFreeGiftsToggle"] = true,
+  ["PetSimulator99 - AutoClaimRankRewardsToggle"] = true
 }
 
 
@@ -579,29 +579,29 @@ setfpscap(15)
 
 script_key="fPbfocuCghihxMSzVGuGMHBpWBcOfoHG";
 _G.ZapSettings = {
-["PetSimulator99 - AutoCompleteMiningGateQuestToggle"] = true,
-["PetSimulator99 - AutoClaimMailboxToggle"] = true,
-["PetSimulator99 - DisableEggAnimationToggle"] = true,
-["PetSimulator99 - AutoFarmActualMiningEggToggle"] = true,
-["PetSimulator99 - AutoUseMiningSpeedBoosterToggle"] = true,
-["PetSimulator99 - WhiteScreenToggle"] = true,
-["PetSimulator99 - AutoUseMiningCoinsBoosterToggle"] = true,
-["PetSimulator99 - AutoUseMiningDamageBoosterToggle"] = true,
-["PetSimulator99 - DisableBreakablesModelsToggle"] = true,
-["PetSimulator99 - DisableEffectsRenderingToggle"] = true,
-["PetSimulator99 - DisableConfettiRenderingToggle"] = true,
-["PetSimulator99 - DeleteUnnecessaryPartsToggle"] = true,
-["PetSimulator99 - AutoTeleportToBestMiningWorldToggle"] = true,
-["PetSimulator99 - AutoBuyNextMiningAreaToggle"] = true,
-["PetSimulator99 - AutoBuyBestMiningEggToggle"] = false,
-["PetSimulator99 - AutoClaimDefaultForeverPackFreeGiftToggle"] = true,
-["PetSimulator99 - AutoCompletePickaxeQuestEmeraldPickaxeToggle"] = true,
-["PetSimulator99 - AutoCollectToggle"] = true,
-["PetSimulator99 - AutoClaimPickaxeQuestRewardToggle"] = true,
-["PetSimulator99 - AutoCompletePickaxeQuestToggle"] = true,
-["PetSimulator99 - AutoEfficientFarmToggle"] = false,
-["PetSimulator99 - AutoClaimFreeGiftsToggle"] = true,
-["PetSimulator99 - AutoClaimRankRewardsToggle"] = true
+  ["PetSimulator99 - AutoCompleteMiningGateQuestToggle"] = true,
+  ["PetSimulator99 - AutoClaimMailboxToggle"] = true,
+  ["PetSimulator99 - DisableEggAnimationToggle"] = true,
+  ["PetSimulator99 - AutoFarmActualMiningEggToggle"] = true,
+  ["PetSimulator99 - AutoUseMiningSpeedBoosterToggle"] = true,
+  ["PetSimulator99 - WhiteScreenToggle"] = true,
+  ["PetSimulator99 - AutoUseMiningCoinsBoosterToggle"] = true,
+  ["PetSimulator99 - AutoUseMiningDamageBoosterToggle"] = true,
+  ["PetSimulator99 - DisableBreakablesModelsToggle"] = true,
+  ["PetSimulator99 - DisableEffectsRenderingToggle"] = true,
+  ["PetSimulator99 - DisableConfettiRenderingToggle"] = true,
+  ["PetSimulator99 - DeleteUnnecessaryPartsToggle"] = true,
+  ["PetSimulator99 - AutoTeleportToBestMiningWorldToggle"] = true,
+  ["PetSimulator99 - AutoBuyNextMiningAreaToggle"] = true,
+  ["PetSimulator99 - AutoBuyBestMiningEggToggle"] = false,
+  ["PetSimulator99 - AutoClaimDefaultForeverPackFreeGiftToggle"] = true,
+  ["PetSimulator99 - AutoCompletePickaxeQuestEmeraldPickaxeToggle"] = true,
+  ["PetSimulator99 - AutoCollectToggle"] = true,
+  ["PetSimulator99 - AutoClaimPickaxeQuestRewardToggle"] = true,
+  ["PetSimulator99 - AutoCompletePickaxeQuestToggle"] = true,
+  ["PetSimulator99 - AutoEfficientFarmToggle"] = false,
+  ["PetSimulator99 - AutoClaimFreeGiftsToggle"] = true,
+  ["PetSimulator99 - AutoClaimRankRewardsToggle"] = true
 }
 
 
@@ -611,24 +611,24 @@ loadstring(game:HttpGet('https://zaphub.xyz/Exec'))()
 else
 
 task.spawn(function()
-  while wait(5) do
-repeat
-wait(1)
-pcall(function()
-  save = game:GetService("ReplicatedStorage").Library.Client.Save
-end)
+    while wait(5) do
+	repeat
+	wait(1)
+	pcall(function()
+		save = game:GetService("ReplicatedStorage").Library.Client.Save
+	end)
 
 until save
 
 save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 
 local UnlockedZones = 0
-      UnlockedZones = getzone()
-  if UnlockedZones > 12 then
-    rejoinServer()
-    task.wait(5)
-  end
-  end
+        UnlockedZones = getzone()
+		if UnlockedZones > 12 then
+			rejoinServer()
+			task.wait(5)
+		end
+    end
 end)
 
 script_key = "JJjqSHDDTNSitZyjVAvoDxEzXhdsTqMz";
