@@ -310,12 +310,12 @@ getgenv().Settings = {
     Seller = {
         Active = true,
         ["Items"] = {
-            ["All Huges"] = {Price = "+2%", AllTypes = true, Priority = true},
-			["Sapphire Gem"] = {Price = "+1%"},
-			["Ruby Gem"] = {Price = "+1%"},
-			["Rainbow Gem"] = {Price = "+6%", Priority = true},
-			["Amethyst Gem"] = {Price = "+3%", Priority = true},
-			["Emerald Gem"] = {Price = "+2%", Priority = true},	
+            ["All Huges"] = {Price = "+1%", AllTypes = true, Priority = true},
+			["Rainbow Gem"] = {Price = "-1%", Priority = true},
+			["Amethyst Gem"] = {Price = "-1%", Priority = true},
+			["Emerald Gem"] = {Price = "-1%", Priority = true},
+			["Ruby Gem"] = {Price = "-1%"},
+			["Sapphire Gem"] = {Price = "-1%"},
 			["Mining TNT Crate"] = {Price = "+5%"},
 			["Hype Egg 2"] = {Price = "+5%"},
 			["Daycare egg 5"] = {Price = "+5%"},
