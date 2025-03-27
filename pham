@@ -1,3 +1,4 @@
+
 local plrs = game:GetService("Players")
 local plr = plrs.LocalPlayer
 local tpService = game:GetService("TeleportService")
@@ -574,7 +575,7 @@ loadstring(game:HttpGet('https://zaphub.xyz/Exec'))()
 
 elseif UnlockedZones > 12 and not cuoccuoi then
 
-setfpscap(10)
+setfpscap(15)
 
 script_key="fPbfocuCghihxMSzVGuGMHBpWBcOfoHG";
 _G.ZapSettings = {
