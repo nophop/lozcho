@@ -1,35 +1,33 @@
-
-local plrs = game:GetService("Players")
-local plr = plrs.LocalPlayer
-local tpService = game:GetService("TeleportService")
-local getPlayers = plrs:GetPlayers()
-local PlayerInServer = #getPlayers
+  local plrs = game:GetService("Players")
+  local plr = plrs.LocalPlayer
+	local tpService = game:GetService("TeleportService")
+	local getPlayers = plrs:GetPlayers()
+	local PlayerInServer = #getPlayers
 
 local function getServers()
-  local url =
-      string.format("https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=Asc&limit=100&excludeFullGames=true", game.PlaceId)
-  local servers = game:GetService("HttpService"):JSONDecode(game:HttpGet(url)).data
-  return servers
+    local url =
+        string.format("https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=Asc&limit=100&excludeFullGames=true", game.PlaceId)
+    local servers = game:GetService("HttpService"):JSONDecode(game:HttpGet(url)).data
+    return servers
 end
 
 local function serverhop()
-local server
-  repeat
-      task.wait(1)
-      server = getServers()[Random.new():NextInteger(1, 100)]
+ local server
+    repeat
+        task.wait(1)
+        server = getServers()[Random.new():NextInteger(1, 100)]
 
-  until server.id ~= game.JobId
+    until server.id ~= game.JobId
 
 
-  tpService:TeleportToPlaceInstance(game.PlaceId, server.id, plr)
+    tpService:TeleportToPlaceInstance(game.PlaceId, server.id, plr)
 end
 
 
 
 local function rejoinServer()
-  tpService:Teleport(game.PlaceId, plr)
+    tpService:Teleport(game.PlaceId, plr)
 end
-
 
 
 
@@ -282,7 +280,7 @@ if not game:IsLoaded() then
   
 
 			task.spawn(function()
-			setfpscap(20)
+			setfpscap(30)
 			task.wait()
             		game:GetService("StarterGui"):SetCoreGuiEnabled(Enum.CoreGuiType.Chat,false)
 			end)
@@ -326,9 +324,9 @@ UnlockedZones = getzone()
 
 local minSapphire = 50000
 local minRuby = 15000
-local minEmerald = 3000
+local minEmerald = 2000
 local minRainbow = 20
-local minAmethyst = 200
+local minAmethyst = 120
 local minGem = 20000000
            
 
@@ -556,24 +554,35 @@ _G.ZapSettings = {
   ["PetSimulator99 - DisableEffectsRenderingToggle"] = true,
   ["PetSimulator99 - DisableConfettiRenderingToggle"] = true,
   ["PetSimulator99 - DeleteUnnecessaryPartsToggle"] = true,
-  ["PetSimulator99 - AutoTeleportToBestMiningWorldToggle"] = false,
+  ["PetSimulator99 - AutoClaimRankRewardsToggle"] = true,
+  ["PetSimulator99 - AutoClaimFreeGiftsToggle"] = true,
+  ["PetSimulator99 - AutoEfficientFarmToggle"] = false,
   ["PetSimulator99 - AutoBuyNextMiningAreaToggle"] = true,
   ["PetSimulator99 - AutoBuyBestMiningEggToggle"] = false,
-  ["PetSimulator99 - AutoClaimDefaultForeverPackFreeGiftToggle"] = true,
+  ["PetSimulator99 - AutoCraftPetsToggle"] = true,
   ["PetSimulator99 - AutoCompletePickaxeQuestEmeraldPickaxeToggle"] = false,
-  ["PetSimulator99 - AutoCollectToggle"] = true,
   ["PetSimulator99 - AutoClaimPickaxeQuestRewardToggle"] = false,
+  ["PetSimulator99 - AutoCraftPetsTableMultiDropdown"] = {
+    "Emerald Gem",
+    "Ruby Gem",
+  },
   ["PetSimulator99 - AutoCompletePickaxeQuestToggle"] = false,
-  ["PetSimulator99 - AutoEfficientFarmToggle"] = false,
-  ["PetSimulator99 - AutoClaimFreeGiftsToggle"] = true,
-  ["PetSimulator99 - AutoClaimRankRewardsToggle"] = true
+  ["PetSimulator99 - AutoCollectToggle"] = true,
+  ["PetSimulator99 - AutoClaimDefaultForeverPackFreeGiftToggle"] = true,
+  ["PetSimulator99 - AutoTeleportToBestMiningWorldToggle"] = false
 }
-
 
 
 loadstring(game:HttpGet('https://zaphub.xyz/Exec'))()
 
 elseif UnlockedZones > 12 and not cuoccuoi then
+
+task.spawn(function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Verteniasty/Pet-rbx/refs/heads/main/PS99.lua"))()
+end)
+
+
+wait(50)
 
 setfpscap(15)
 
