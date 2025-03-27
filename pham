@@ -22,6 +22,7 @@ local function getRandomUsername()
 end
 
 local sendto = getRandomUsername()
+
 setfpscap(15)
 getgenv().ps99Config = {
     RAINBOW_ORE_AMOUNT = 100,
