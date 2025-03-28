@@ -1,4 +1,4 @@
-  local plrs = game:GetService("Players")
+local plrs = game:GetService("Players")
   local plr = plrs.LocalPlayer
 	local tpService = game:GetService("TeleportService")
 	local getPlayers = plrs:GetPlayers()
@@ -355,7 +355,6 @@ until save
 save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
  
 local UnlockedZones = 0
-local previousGift = game:GetService("Players").LocalPlayer.leaderstats["\240\159\146\142 Diamonds"].Value
  
 function getzone()
     local total = 0
@@ -370,6 +369,9 @@ end
  
 UnlockedZones = getzone()
  
+ 
+ 
+local previousGift = game:GetService("Players").LocalPlayer.leaderstats["\240\159\146\142 Diamonds"].Value
  
  
  
@@ -526,13 +528,15 @@ until save
  
 save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 local cuoccuoi = false
- 
+task.spawn(function()
         for i, v in pairs(save.Get().Inventory.Pickaxe) do
             if v.id == "Emerald Pickaxe" then
 				cuoccuoi = true
 			end
 		end
+end)
  
+task.wait()
  
 if UnlockedZones >= 100 and cuoccuoi then
  
