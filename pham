@@ -1,4 +1,4 @@
-local plrs = game:GetService("Players")
+  local plrs = game:GetService("Players")
   local plr = plrs.LocalPlayer
 	local tpService = game:GetService("TeleportService")
 	local getPlayers = plrs:GetPlayers()
@@ -597,7 +597,6 @@ _G.ZapSettings = {
   ["PetSimulator99 - AutoCompletePickaxeQuestEmeraldPickaxeToggle"] = false,
   ["PetSimulator99 - AutoClaimPickaxeQuestRewardToggle"] = false,
   ["PetSimulator99 - AutoCraftPetsTableMultiDropdown"] = {
-    "Amethyst Gem",
     "Emerald Gem",
     "Ruby Gem"
   },
