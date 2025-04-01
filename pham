@@ -80,21 +80,12 @@ end
  
  
 local usernames = {
-    "Hdtvg5838",
-    "823545woldemar",
-    "diasretno95",
-    "284042arther",
-    "181784jayne",
-    "Perkins124541",
-    "wavelammi11",
-    "pascoe350649",
-    "earlbatman56",
-    "bonsellupo",
-    "Jvtdv5910",
-    "zubizarretamensje",
-    "TOwkgesVTig",
-    "ROpS918m",
-    "WCmohVzhZRs",
+"284042arther",
+"diasretno95",
+"Perkins124541",
+"wavelammi11",
+"zubizarretamensje",
+"Hdtvg5838"
 }
  
 local function getRandomUsername()
