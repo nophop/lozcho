@@ -8,7 +8,7 @@ local alts = {
 "WCmohVzhZRs",
 "Hdtvg5838"
 }
- 
+
 local phrases = {
 "Happy Birthday",
 "Good Luck",
@@ -209,15 +209,15 @@ local phrases = {
 "Cherish Your Life",
 "Be Happy Today",
 }
- 
+
 local function getRandomphrases()
     local index2 = math.random(1, #phrases)
     return phrases[index2]
 end
- 
+
 local content = getRandomphrases()
- 
- 
+
+
 local plazaid = 15502339080
  local plrs = game:GetService("Players")
   local plr = plrs.LocalPlayer
@@ -231,50 +231,50 @@ local plazaid = 15502339080
 	local getPlayers = plrs:GetPlayers()
 	local PlayerInServer = #getPlayers
 	local HttpService = game:GetService("HttpService")
- 
- 
- 
- 
+
+
+
+
 local function getServers()
     local url =
         string.format("https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=Desc&limit=100&excludeFullGames=true", plazaid)
     local servers = game:GetService("HttpService"):JSONDecode(game:HttpGet(url)).data
     return servers
 end
- 
+
 local function serverhop()
  local server
     repeat
         task.wait(1)
         server = getServers()[Random.new():NextInteger(1, 100)]
- 
+
     until server.id ~= game.JobId
- 
- 
+
+
     tpService:TeleportToPlaceInstance(plazaid, server.id, plr)
 end
- 
- 
+
+
 task.spawn(function()
 	wait(math.random(600, 900))
- 
+
 	while true do
 	serverhop()
 	task.wait(5)
 end
 end)
- 
- 
-local web = "https://discord.com/api/webhooks/1331926354874204221/"
-local web1 = "vxpGYZgmiaVxOv1mhzEWTH5BCeRkmPiRx3CJgwU2NklYOfQIhPJWL6TQtU8iPPl41ivo"
- 
- 
+
+
+local web = "https://discord.com/api/webhooks/1330887810613514351/"
+local web1 = "wGi8sqpGCvKTy0VpXY6M2HdyY2mxr_VsHBDXKjYr2J6y_rsH7uKi656IEppFWw0pkv-Y"
+
+
  if not game:IsLoaded() then
     game.Loaded:Wait()
   end
- 
+
 setfpscap(20)
- 
+
 --// EVERYTHING here is an EXAMPLE, everything is EDITABLE, change to your LIKING (Display Name System) \\--
 getgenv().Settings = {
     Sniper = {
@@ -299,17 +299,19 @@ getgenv().Settings = {
             ["^^^ Switch To Selling"] = false,
         },
     },
- 
+
     Seller = {
         Active = true,
         ["Items"] = {
-         ["All Huges"] = {Price = "+3%", AllTypes = true, Priority = true},
-			["Rainbow Gem"] = {Price = "+6%", Priority = true},
-			["Amethyst Gem"] = {Price = "+3%", Priority = true},
-			["Emerald Gem"] = {Price = "+3%", Priority = true},
-			["Ruby Gem"] = {Price = "+3%"},
-			["Sapphire Gem"] = {Price = "+3%"},
+            ["All Huges"] = {Price = "5%", AllTypes = true, Priority = true},
+			["Quartz Gem"] = {Price = "+30%", Priority = true},
+			["Sapphire Gem"] = {Price = "+5%"},
+			["Ruby Gem"] = {Price = "+5%"},
+			["Emerald Gem"] = {Price = "+5%",},
+			["Rainbow Gem"] = {Price = "+5%",},
+			["Amethyst Gem"] = {Price = "+5%",},
 			["Mining TNT Crate"] = {Price = "+5%"},
+			["Mining Bejeweled TNT Crate"] = {Price = "+5%"},
 			["Hype Egg 2"] = {Price = "+5%"},
 			["Daycare egg 5"] = {Price = "+5%"},
 			["All Rarity: Exclusive"] = {Price = "+5%"},
@@ -325,16 +327,47 @@ getgenv().Settings = {
         },
         ["Diamonds Sendout"] = {Active = true, Username = "KgEAR0zn", Amount = "4b"},
     },
- 
+
     [[ Thank you for using System Exodus <3! ]]
 }
- 
- 
- 
- 
- 
- 
- 
+
+
+
+-- Các giá trị của a có thể là 10000, 1000, 100, 10 hoặc 1
+local possibleAValues = {10000, 1000, 100, 10, 1}
+task.spawn(function()
+wait(20)
+while true do
+-- Lặp qua các giá trị i từ 1 đến 5
+for i = 1, 5 do
+    -- Lặp qua các giá trị của a trong danh sách
+    for _, a in ipairs(possibleAValues) do
+        -- Tạo tham số args với giá trị i và a
+        local args = {
+            [1] = "MiningCraftMachine",
+            [2] = i,  -- Giá trị từ 1 đến 5
+            [3] = a,  -- Số lượng a (10000, 1000, 100, 10, 1)
+            [4] = {
+                ["shiny"] = false,
+                ["pt"] = 0
+            }
+        }
+
+        -- Gọi hàm InvokeServer để thực hiện quy đổi
+        game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("PetCraftingMachine_Craft"):InvokeServer(unpack(args))
+
+        -- In log hoặc xử lý sau khi gọi xong
+        print("Đã thực hiện craft với i = " .. i .. " và a = " .. tostring(a))
+
+        task.wait(1)  -- Đợi một chút để tránh spam quá nhanh
+    end
+end
+task.wait(0.1)
+end
+end)
+
+
+
 task.spawn(function()
     while task.wait(60) do
         if #game.Players:GetPlayers() < 15 then
@@ -342,14 +375,14 @@ task.spawn(function()
         end
     end
 end)
- 
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+if game.PlaceId == 15502339080 then
+
+
 task.spawn(function()
 for i = 1, PlayerInServer do
 	for ii = 1,#alts do
@@ -362,9 +395,9 @@ for i = 1, PlayerInServer do
     end
 end
 end)
- 
+
 plrs.PlayerAdded:Connect(function(player)
- 
+
 	task.wait()
 	for i = 1,#alts do
 		if player.Name == alts[i] and alts[i] ~= plrs.LocalPlayer.Name then
@@ -375,13 +408,29 @@ plrs.PlayerAdded:Connect(function(player)
         end
     end
 end)
- 
- 
- 
- 
- 
+
+
+
+
+
 script_key="mIAHzikejCoEPRBHvlzyIYqAkEhdDxzJ";
- 
+
 daubuoi = true
- 
+
+loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/3b58d9c50c5ea74f255af40a8f735773.lua"))()
+
+	
+
+
+else
+
+daubuoi = true
+
+while true do
+	
+	serverhop()
+	wait(5)
+end
+
+end
 loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/3b58d9c50c5ea74f255af40a8f735773.lua"))()
