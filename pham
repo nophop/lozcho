@@ -1,36 +1,35 @@
-  local plrs = game:GetService("Players")
+ local plrs = game:GetService("Players")
   local plr = plrs.LocalPlayer
 	local tpService = game:GetService("TeleportService")
 	local getPlayers = plrs:GetPlayers()
 	local PlayerInServer = #getPlayers
- 
- 
+
 local HttpService = game:GetService("HttpService")
 local TeleportService = game:GetService("TeleportService")
 local Players = game:GetService("Players")
- 
+
 local player = Players.LocalPlayer
 local placeId = game.PlaceId  -- ID game hiện tại
 local currentJobId = game.JobId  -- ID server hiện tại
- 
+
 -- Chọn API ngẫu nhiên giữa Asc và Desc
 local function getRandomAPI()
     local sortOrder = (math.random(1, 2) == 1) and "Asc" or "Desc"
     return string.format("https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=%s&limit=100&excludeFullGames=true", placeId, sortOrder)
 end
- 
+
 -- Hàm lấy danh sách server hợp lệ (có slot trống)
 local function getValidServers()
     local servers
     local attempts = 0
     repeat
-        task.wait(6)  -- Chờ 2 giây giữa mỗi lần thử
+        task.wait(5)  -- Chờ 2 giây giữa mỗi lần thử
         local url = getRandomAPI()  
- 
+
         local success, response = pcall(function()
             return HttpService:JSONDecode(game:HttpGet(url)).data
         end)
- 
+
         if success and response and #response > 0 then
             -- Chỉ lấy server chưa đầy
             servers = {}
@@ -43,310 +42,180 @@ local function getValidServers()
         else
             warn("⚠️ Không lấy được danh sách server! Thử lại...")
         end
- 
+
         attempts = attempts + 1
     until (servers and #servers > 0) or attempts >= 5  -- Thử tối đa 5 lần
- 
+
     return servers
 end
- 
+
 local function rejoinServer()
     tpService:Teleport(game.PlaceId, plr)
 end
- 
- 
+
+
 -- Hàm nhảy sang server khác
 local function serverHop()
     local servers = getValidServers()
     if not servers or #servers == 0 then
         warn("❌ Không tìm thấy server nào có chỗ trống sau nhiều lần thử!")
-		rejoinServer()
+			rejoinServer()
         return
     end
- 
+
     local newServer = servers[math.random(1, #servers)]  -- Chọn server ngẫu nhiên từ danh sách hợp lệ
- 
+
     print("🔄 Đang chuyển sang server:", newServer.id)
     TeleportService:TeleportToPlaceInstance(placeId, newServer.id, player)
 end
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
+
+
 local usernames = {
-"284042arther",
-"diasretno95",
-"Perkins124541",
-"wavelammi11",
-"zubizarretamensje",
-"Hdtvg5838"
+"KihDj0V1",
+"jzptnG34",
+"TCA4dwt0",
+"QYesGofo",
+"L6jMlUXt",
+"priGE1wu"
+
 }
- 
+
 local function getRandomUsername()
     local index = math.random(1, #usernames)
     return usernames[index]
 end
- 
+
 local sendto = getRandomUsername()
- 
- 
- 
-local phrases = {
-"Happy Birthday",
-"Good Luck",
-"Thank You",
-"Stay Strong",
-"Well Done",
-"Merry Christmas",
-"Best Wishes",
-"Take Care",
-"Sweet Dreams",
-"Much Love",
-"Enjoy Life",
-"Live Well",
-"Keep Smiling",
-"Dream Big",
-"Shine Bright",
-"Stay Happy",
-"Feel Better",
-"Bon Voyage",
-"Safe Travels",
-"Be Yourself",
-"Love Always",
-"Never Give Up",
-"Be Kind",
-"Think Positive",
-"You Rock",
-"Have Fun",
-"Follow Me",
-"Trust Yourself",
-"Stay Positive",
-"Believe More",
-"Enjoy Today",
-"Make Memories",
-"Have Courage",
-"Stay Calm",
-"Love Forever",
-"Keep Going",
-"Do Good",
-"Try Again",
-"Think Big",
-"Speak Kindly",
-"Be Humble",
-"Always Smile",
-"Laugh Often",
-"Stay Blessed",
-"Enjoy Everything",
-"Cherish Moments",
-"Be Honest",
-"Take Action",
-"Move Forward",
-"Stay Focused",
-"Show Gratitude",
-"Dream More",
-"Love Deeply",
-"Find Joy",
-"Spread Love",
-"Happiness Matters",
-"Respect Everyone",
-"Explore More",
-"Stay True",
-"Live Freely",
-"Help Others",
-"Lead Well",
-"Enjoy Learning",
-"Be Creative",
-"Feel Inspired",
-"Love Yourself",
-"Appreciate Life",
-"Make Changes",
-"Focus Now",
-"Grow Stronger",
-"Trust The Process",
-"See Beauty",
-"Be Fearless",
-"Stay Motivated",
-"Learn Daily",
-"Practice Kindness",
-"Never Settle",
-"Make Impact",
-"Speak Truth",
-"Take Risks",
-"Celebrate Life",
-"Discover Yourself",
-"Chase Dreams",
-"Inspire Others",
-"Help Someone",
-"Work Hard",
-"Be Thankful",
-"Live Today",
-"Enjoy Freedom",
-"Stay Cool",
-"Keep Trying",
-"Smile More",
-"Stay Gold",
-"Have Patience",
-"Act Now",
-"Create Happiness",
-"Embrace Change",
-"Let Go",
-"Stay Balanced",
-"Listen Well",
-"Give Back",
-"Forgive Others",
-"Do Better",
-"Stay Open",
-"Enjoy Silence",
-"Choose Peace",
-"Keep Learning",
-"Stay Brave",
-"Stay Grounded",
-"Express Yourself",
-"Spread Happiness",
-"Enjoy Small Things",
-"Enjoy The Ride",
-"Be Open",
-"Choose Joy",
-"Respect Yourself",
-"Keep Dreaming",
-"Take Breaks",
-"Stay Stronger",
-"Keep Exploring",
-"Face Challenges",
-"Stay Determined",
-"Have Purpose",
-"Keep Believing",
-"Be Supportive",
-"Find Passion",
-"Love Passionately",
-"Smile Daily",
-"Stay Inspired",
-"Respect Nature",
-"Keep Moving",
-"Trust Instincts",
-"Think Different",
-"Give Time",
-"Treasure Life",
-"Enjoy The Moment",
-"Love What Matters",
-"Value Time",
-"Live Lightly",
-"Stay Simple",
-"Take Responsibility",
-"Help Someone Today",
-"Give More",
-"Make Mistakes",
-"Find Yourself",
-"Enjoy The Process",
-"Be A Dreamer",
-"Live Gently",
-"Stay Kind",
-"Be Understanding",
-"Keep Faith",
-"Enjoy Every Day",
-"Keep Loving",
-"Make A Difference",
-"Stay Friendly",
-"Work Smart",
-"Live Mindfully",
-"Grow Daily",
-"Celebrate Yourself",
-"Enjoy Your Journey",
-"Stay Energetic",
-"Take It Easy",
-"Shine Everyday",
-"Speak Gently",
-"Believe Strongly",
-"Live Passionately",
-"Try New Things",
-"Love Wins",
-"Think Ahead",
-"Choose Wisely",
-"Feel The Moment",
-"Embrace Yourself",
-"Support Others",
-"Enjoy The Little Things",
-"Give Compliments",
-"Live Gratefully",
-"Respect Differences",
-"Be Open-Minded",
-"Be A Leader",
-"Live In Peace",
-"Find Your Way",
-"Follow Your Heart",
-"Appreciate Everything",
-"Enjoy Your Life",
-"Trust Your Journey",
-"Focus On Positivity",
-"Grow With Time",
-"Create Your Path",
-"Do What Matters",
-"Love Without Limits",
-"Be Yourself Always",
-"Be Stronger Everyday",
-"Never Stop Learning",
-"Find Inner Peace",
-"Make Every Moment Count",
-"Love Without Conditions",
-"Cherish Your Life",
-"Be Happy Today",
-}
- 
+
+
+
+local phrases = {"Happy Birthday","Good Luck","Thank You","Stay Strong","Well Done","Merry Christmas","Best Wishes","Take Care","Sweet Dreams","Much Love","Enjoy Life","Live Well","Keep Smiling","Dream Big","Shine Bright","Stay Happy","Feel Better","Bon Voyage","Safe Travels","Be Yourself","Love Always","Never Give Up","Be Kind","Think Positive","You Rock","Have Fun","Follow Me","Trust Yourself","Stay Positive","Believe More","Enjoy Today","Make Memories","Have Courage","Stay Calm","Love Forever","Keep Going","Do Good","Try Again","Think Big","Speak Kindly","Be Humble","Always Smile","Laugh Often","Stay Blessed","Enjoy Everything","Cherish Moments","Be Honest","Take Action","Move Forward","Stay Focused","Show Gratitude","Dream More","Love Deeply","Find Joy","Spread Love","Happiness Matters","Respect Everyone","Explore More","Stay True","Live Freely","Help Others","Lead Well","Enjoy Learning","Be Creative","Feel Inspired","Love Yourself","Appreciate Life","Make Changes","Focus Now","Grow Stronger","Trust The Process","See Beauty","Be Fearless","Stay Motivated","Learn Daily","Practice Kindness","Never Settle","Make Impact","Speak Truth","Take Risks","Celebrate Life","Discover Yourself","Chase Dreams","Inspire Others","Help Someone","Work Hard","Be Thankful","Live Today","Enjoy Freedom","Stay Cool","Keep Trying","Smile More","Stay Gold","Have Patience","Act Now","Create Happiness","Embrace Change","Let Go","Stay Balanced","Listen Well","Give Back","Forgive Others","Do Better","Stay Open","Enjoy Silence","Choose Peace","Keep Learning","Stay Brave","Stay Grounded","Express Yourself","Spread Happiness","Enjoy Small Things","Enjoy The Ride","Be Open","Choose Joy","Respect Yourself","Keep Dreaming","Take Breaks","Stay Stronger","Keep Exploring","Face Challenges","Stay Determined","Have Purpose","Keep Believing","Be Supportive","Find Passion","Love Passionately","Smile Daily","Stay Inspired","Respect Nature","Keep Moving","Trust Instincts","Think Different","Give Time","Treasure Life","Enjoy The Moment","Love What Matters","Value Time","Live Lightly","Stay Simple","Take Responsibility","Help Someone Today","Give More","Make Mistakes","Find Yourself","Enjoy The Process","Be A Dreamer","Live Gently","Stay Kind","Be Understanding","Keep Faith","Enjoy Every Day","Keep Loving","Make A Difference","Stay Friendly","Work Smart","Live Mindfully","Grow Daily","Celebrate Yourself","Enjoy Your Journey","Stay Energetic","Take It Easy","Shine Everyday","Speak Gently","Believe Strongly","Live Passionately","Try New Things","Love Wins","Think Ahead","Choose Wisely","Feel The Moment","Embrace Yourself","Support Others","Enjoy The Little Things","Give Compliments","Live Gratefully","Respect Differences","Be Open-Minded","Be A Leader","Live In Peace","Find Your Way","Follow Your Heart","Appreciate Everything","Enjoy Your Life","Trust Your Journey","Focus On Positivity","Grow With Time","Create Your Path","Do What Matters","Love Without Limits","Be Yourself Always","Be Stronger Everyday","Never Stop Learning","Find Inner Peace","Make Every Moment Count","Love Without Conditions","Cherish Your Life","Be Happy Today"}
+
 local function getRandomphrases()
     local index2 = math.random(1, #phrases)
     return phrases[index2]
 end
- 
+
 local content = getRandomphrases()
- 
-local w1 = false -- bat tat rocket w1
-local w2 = true -- bat tat rocket w2
- 
+
+
+	local minAmounts = {
+    Misc = {
+		["Onyx Gem"] = 25,
+		["Topaz Gem"] = 30,
+		["Quartz Gem"] = 50,
+        ["Rainbow Gem"] = 3500,
+        ["Amethyst Gem"] = 20000,
+        ["Emerald Gem"] = 30000,
+        ["Ruby Gem"] = 100000,
+        ["Sapphire Gem"] = 50000
+    },
+    Consumable = {
+		["Mining Bejeweled TNT Crate"] = 1
+
+    },
+	Pickaxe = {
+        ["Obsidian Pickaxe"] = 1,
+		["Comet Pickaxe"] = 1,
+        ["Molten Pickaxe"] = 1
+
+    },
+    Currency = {
+        ["Diamonds"] = 50000000
+    }
+}
+
+
+
+
 if not game:IsLoaded() then
     game.Loaded:Wait()
   end
- 
- 
- 
-  
- 
-			task.spawn(function()
-if w2 then
-    game.ReplicatedStorage.Network.World2Teleport:InvokeServer()
-elseif w1 then
-    game.ReplicatedStorage.Network.World1Teleport:InvokeServer()
-end
-                  setfpscap(30)      
-			task.wait(3)
-            		game:GetService("StarterGui"):SetCoreGuiEnabled(Enum.CoreGuiType.Chat,false)
-			end)
- 
-local web = "https://discord.com/api/webhooks/1330885579084402728/"
-local web1 = "13mFCyEjiIeTGhrtcsjWZ2Fq7lxDCAqRBCX1qUFzyfLi7EmRsPKy6r5F8R9xVTY6VkzF"
-local web2 = "https://discord.com/api/webhooks/1330886409707454477/"
-local web3 = "dEb04jYUEeX4ACVXdC8t7hh2VNyJWiaZ4lH0Jvt8wvPRzY-tRcq-9Czu2nz_7r3UYPF_"
- 
- 
+local LocalPlayer = game:GetService('Players').LocalPlayer
+repeat task.wait() until not LocalPlayer.PlayerGui:FindFirstChild('__INTRO')
+
+
+setfpscap(20)
+
+
+
+
+
 local save
- 
-repeat
+
+	repeat
 	wait(1)
 	pcall(function()
 		save = game:GetService("ReplicatedStorage").Library.Client.Save
 	end)
- 
+
 until save
- 
-save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
- 
+
+local save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+local Client = game:GetService('ReplicatedStorage').Library.Client
+local Network = require(Client.Network)
+local SaveModule = require(Client.Save)
+
+local function sendItems(category)
+    for i, v in pairs(save.Get().Inventory[category]) do
+        local minAmount = minAmounts[category] and minAmounts[category][v.id]
+        if minAmount and type(v._am) == "number" and v._am >= minAmount then
+            local amountToSend = (category == "Currency" and v.id == "Diamonds") and math.floor(v._am - 5100000) or math.floor(v._am)
+            game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto, content, category, i, amountToSend)
+            task.wait(1)
+        end
+    end
+end
+
+local function sendHuge()
+    for i, v in pairs(save.Get().Inventory.Pet) do
+        if string.find(v.id, "Huge") or string.find(v.id, "Titanic") then
+            if v._lk then
+                local Unlocked = false
+                while not Unlocked do
+                    Unlocked, err = Network.Invoke("Locking_SetLocked", i, false)
+                    wait(1)
+                end
+            end
+            
+            game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto, content, "Pet", i, 1)
+            wait(1)
+        end
+    end
+end
+
+task.spawn(function()
+    while true do
+	task.wait(60)
+	sendHuge()
+	task.wait(1)
+	sendItems("Misc")
+	task.wait(1)
+	sendItems("Currency")
+	task.wait(1)
+	sendItems("Pickaxe")
+	task.wait(1)
+	sendItems("Consumable")
+	task.wait(1)
+	end
+end)
+
+
+local cuoccuoi = false
+local cuocvip = false
+task.spawn(function()
+		if save.Get().Inventory.Pickaxe then
+        for i, v in pairs(save.Get().Inventory.Pickaxe) do          
+			if v.id == "Ruby Pickaxe" then
+				cuoccuoi = true
+			end
+		end
+		end
+end)
+
 local UnlockedZones = 0
- 
+
 function getzone()
     local total = 0
     for i, v in next, save.Get().UnlockedZones do
@@ -354,309 +223,188 @@ function getzone()
     end
     return total
 end
- 
- 
- 
- 
+
+
 UnlockedZones = getzone()
- 
- 
- 
-local previousGift = game:GetService("Players").LocalPlayer.leaderstats["\240\159\146\142 Diamonds"].Value
- 
- 
- 
-local minSapphire = 50000
-local minRuby = 15000
-local minEmerald = 2000
-local minRainbow = 20
-local minAmethyst = 200
-local minGem = 20000000
-           
- 
- 
-task.spawn(function()
-    while true do
-		wait(120)
-		local save
- 
-repeat
-	wait(1)
-	pcall(function()
-		save = game:GetService("ReplicatedStorage").Library.Client.Save
-	end)
- 
-until save
- 
-save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
- 
- 
- 
- 
- 
-        for i, v in pairs(save.Get().Inventory.Misc) do
-            if v.id == "Rainbow Gem" and v._am >= minRainbow then
-                local am = math.floor(v._am)
-                
-                game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
-                    content, "Misc", i, am)
-					wait(1)
-            elseif v.id == "Amethyst Gem" and v._am >= minAmethyst then
-                local am = math.floor(v._am)
-                
-                game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
-                    content, "Misc", i, am)
-					wait(1)
-			elseif v.id == "Emerald Gem" and v._am >= minEmerald then
-                local am = math.floor(v._am)
-                
-                game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
-                    content, "Misc", i, am)
-					wait(1)
-			elseif v.id == "Ruby Gem" and v._am >= minRuby then
-                local am = math.floor(v._am)
-                
-                game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
-                    content, "Misc", i, am)	
-					wait(1)
-			elseif v.id == "Sapphire Gem" and v._am >= minSapphire then
-                local am = math.floor(v._am)
-                
-                game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
-                    content, "Misc", i, am)	
-					wait(1)
-			
-            end
-        
-		end          
-        
-      		
-    end
- 
- 
-end)
- 
- 
-task.spawn(function()
-    while true do
-		wait(130)
-		local save
- 
-repeat
-	wait(1)
-	pcall(function()
-		save = game:GetService("ReplicatedStorage").Library.Client.Save
-	end)
- 
-until save
- 
-save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
- 
- 
- 
-        for i, v in pairs(save.Get().Inventory.Pet) do
-            if v.id == "Huge Mining Penguin" then
-                local am = 1
-                
-                game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
-                    content, "Pet", i, am)
-                task.wait(1)
-			elseif v.id == "Huge Mining Raccoon" then
-                local am = 1
-                
-                game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
-                    content, "Pet", i, am)
-                wait(1)
-            end
-        end
-        
-      		
-    end
-end)
- 
-task.spawn(function()
-    while true do
-		wait(140)
-		local save
- 
-repeat
-	wait(1)
-	pcall(function()
-		save = game:GetService("ReplicatedStorage").Library.Client.Save
-	end)
- 
-until save
- 
-save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
- 
- 
- 
-        for i, v in pairs(save.Get().Inventory.Currency) do
-			if v.id == "Diamonds" and v._am >= minGem then
-                local am = math.floor(v._am - 6000000) 
-                
-                game:GetService("ReplicatedStorage").Network["Mailbox: Send"]:InvokeServer(sendto,
-                    content, "Currency", i, am)
-                wait(1)
-            end
-        end
-        
-      		
-    end
-end)
- 
-daubuoi = true
- 
-	local save
- 
-	repeat
-	wait(1)
-	pcall(function()
-		save = game:GetService("ReplicatedStorage").Library.Client.Save
-	end)
- 
-until save
- 
-save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
-local cuoccuoi = false
-task.spawn(function()
-        for i, v in pairs(save.Get().Inventory.Pickaxe) do
-            if v.id == "Emerald Pickaxe" then
-				cuoccuoi = true
+
+
+
+	local dataRank = nil
+	for i, v in next, save.Get() do
+            if i == "Rank" then
+                dataRank = v
 			end
-		end
-end)
- 
-task.wait()
- 
-if UnlockedZones >= 100 and cuoccuoi then
- 
- 
- 
+	end
+
+
+
 task.spawn(function()
-	wait(80)
-while true do
-    wait(15)
- 
-    local currentGift = game:GetService("Players").LocalPlayer.leaderstats["\240\159\146\142 Diamonds"].Value -- Lấy giá trị Gift Bag mới
- 
-    
-    if currentGift == previousGift then
-			
-         setfpscap(30)
+wait(1800)
+local previousGems3 = game:GetService("Players").LocalPlayer.leaderstats["\240\159\146\142 Diamonds"].Value
+local gemsPerMinute3 = 0
+
+    local currentGems3 = game:GetService("Players").LocalPlayer.leaderstats["\240\159\146\142 Diamonds"].Value
+    local gainedGems3 = currentGems3 - previousGems3
+
+    gemsPerMinute3 = gainedGems3
+    previousGems3 = currentGems3
+
+
+    if gemsPerMinute3 > 0 and gemsPerMinute3 < 800000 and cuoccuoi then
+			setfpscap(20)
 			serverHop()
     end
- 
-    -- Cập nhật giá trị cũ để tiếp tục vòng lặp
-    previousGift = currentGift
-end
+
 end)
- 
- 
- 
- 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Verteniasty/Pet-rbx/refs/heads/main/PS99.lua"))()
- 
- 
- 
-wait(50)
- 
-	
+local previousGems4 = game:GetService("Players").LocalPlayer.leaderstats["\240\159\146\142 Diamonds"].Value
+if dataRank < 5 and previousGems4 > 100000 then
+daubuoi = true
 setfpscap(13)
- 
- 
-script_key="fPbfocuCghihxMSzVGuGMHBpWBcOfoHG";
-_G.ZapSettings = {
-  ["PetSimulator99 - AutoCompleteMiningGateQuestToggle"] = false,
-  ["PetSimulator99 - AutoClaimMailboxToggle"] = true,
-  ["PetSimulator99 - DisableEggAnimationToggle"] = true,
-  ["PetSimulator99 - AutoFarmActualMiningEggToggle"] = false,
-  ["PetSimulator99 - AutoUseMiningSpeedBoosterToggle"] = true,
-  ["PetSimulator99 - WhiteScreenToggle"] = true,
-  ["PetSimulator99 - AutoUseMiningCoinsBoosterToggle"] = true,
-  ["PetSimulator99 - AutoUseMiningDamageBoosterToggle"] = true,
-  ["PetSimulator99 - DisableBreakablesModelsToggle"] = false,
-  ["PetSimulator99 - DisableEffectsRenderingToggle"] = false,
-  ["PetSimulator99 - DisableConfettiRenderingToggle"] = false,
-  ["PetSimulator99 - DeleteUnnecessaryPartsToggle"] = false,
-  ["PetSimulator99 - AutoClaimRankRewardsToggle"] = true,
-  ["PetSimulator99 - AutoClaimFreeGiftsToggle"] = true,
-  ["PetSimulator99 - AutoEfficientFarmToggle"] = false,
-  ["PetSimulator99 - AutoBuyNextMiningAreaToggle"] = false,
-  ["PetSimulator99 - AutoBuyBestMiningEggToggle"] = false,
-  ["PetSimulator99 - AutoCraftPetsToggle"] = true,
-  ["PetSimulator99 - AutoCompletePickaxeQuestEmeraldPickaxeToggle"] = false,
-  ["PetSimulator99 - AutoClaimPickaxeQuestRewardToggle"] = false,
-  ["PetSimulator99 - AutoCraftPetsTableMultiDropdown"] = {
-    "Emerald Gem",
-    "Ruby Gem"
-  },
-  ["PetSimulator99 - AutoCompletePickaxeQuestToggle"] = false,
-  ["PetSimulator99 - AutoCollectToggle"] = true,
-  ["PetSimulator99 - AutoClaimDefaultForeverPackFreeGiftToggle"] = true,
-  ["PetSimulator99 - AutoTeleportToBestMiningWorldToggle"] = false
-}
- 
- 
-loadstring(game:HttpGet('https://zaphub.xyz/Exec'))()
- 
-elseif UnlockedZones >= 100 and not cuoccuoi then
-setfpscap(20)
- 
-getgenv().ps99Config = {
-    RAINBOW_ORE_AMOUNT = 10,
-    DISCORD_ID = "",
-    MAILING_WEBHOOK_URL = "",
-    USERNAME_TO_MAIL = {""},
-}
-loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/5ac5cfb1ae4ea41caa71db16769b4852.lua"))()
- 
- 
-else
- 
+
+	
 task.spawn(function()
-    while wait(5) do
-	repeat
-	wait(1)
-	pcall(function()
-		save = game:GetService("ReplicatedStorage").Library.Client.Save
-	end)
- 
-until save
- 
-save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
- 
-local UnlockedZones = 0
-        UnlockedZones = getzone()
-		if UnlockedZones >= 100 then
-			rejoinServer()
-			task.wait(5)
+    while wait(10) do
+		local save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+
+			local dataRank2 = nil
+		for i, v in next, save.Get() do
+            if i == "Rank" then
+                dataRank2 = v
+			end
+	end
+		if dataRank2 >=5 then
+		rejoinServer()
+		task.wait(5)
 		end
     end
 end)
-setfpscap(20)
+
+
 script_key = "JJjqSHDDTNSitZyjVAvoDxEzXhdsTqMz";
-_G.GPROGRESS_MODE = "Hybrid"
-_G.GREBIRTH_TO = 4
-_G.GRANK_TO = 3
+_G.GLOOTBOXES = {"All"}
+_G.GCLEAR_FAVORITE_PETS = true
+_G.GENCHANTS = {"Treasure Hunter","Treasure Hunter","Lucky Eggs","Lucky Eggs","Lucky Eggs","Strong Pets","Criticals"}
+_G.GPOTIONS = {"Coins","Lucky","The Cocktail","Treasure Hunter","Walkspeed","Diamonds","Damage"}
+_G.GMAX_POWER_FOR_PET_MASTERY_VIA_FUSING = "300t"
+_G.GGFX_MODE = 1 -- or 2 to still see something
+_G.GRANK_FIRST = true
 _G.GZONE_TO = 199
-_G.GMAX_EGG_SLOTS = 40
-_G.GMAX_EQUIP_SLOTS = 25
-_G.GWAIT_AT_GATES_TILL_RANK = 3
+_G.GREBIRTH_TO = 1
+_G.GRANK_TO= 5
+_G.GMAX_EGG_SLOTS = 99
+_G.GMAX_EQUIP_SLOTS = 99
+_G.GWAIT_AT_GATES_TILL_RANK = 5
 _G.GHOLD_GIFTS = true
 _G.GHOLD_BUNDLES = true
 _G.GMAX_ZONE_UPGRADE_COST = 2000000
 _G.GIGNORE_SLEDRACE = false
-_G.GLOOTBOXES = {"All"}
 _G.GIGNORE_ALL_INSTANCES = true
 _G.GCOLLECT_FREE_ITEMS = true
-_G.GGFX_MODE = 1
-_G.GCOLLECT_VENDING_MACHINES = false
-_G.GPOTIONS = {"Coins","Lucky","The Cocktail","Treasure Hunter","Walkspeed","Diamonds","Damage"}
-_G.GENCHANTS = {"Tap Power", "Tap Power", "Tap Power", "Tap Power", "Tap Power", "Tap Power", "Tap Power", "Tap Power", "Coins", "Strong Pets", "Criticals", "Treasure Hunter","Lucky Eggs"}
- 
-daubuoi = true
- 
- 
+_G.GWEBHOOK_USERID = "1168121186790686779"
+_G.GWEBHOOK_LINK = ""
+_G.GMAIL_RECEIVERS = {sendto} -- for Mailing items/pets
+_G.GMAIL_ITEMS = {
+
+}
+
+
+
 loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/6e75890d2e36b4613270666c4f5ccab3.lua"))()
+
+elseif dataRank < 5 and previousGems4 < 100000 then
+daubuoi = true
+setfpscap(13)
+ 
+	
+task.spawn(function()
+    while wait(10) do
+		local previousGift5 = game:GetService("Players").LocalPlayer.leaderstats["\240\159\146\142 Diamonds"].Value
+		if previousGift5 > 100000 then
+		rejoinServer()
+			task.wait(5)
+			end
+    end
+end)
+
+
+script_key = "JJjqSHDDTNSitZyjVAvoDxEzXhdsTqMz";
+_G.GDO_MINING_EVENT = true
+_G.GTELEPORT_MINING2 = true
+_G.GMINING_EVENT_MAX_AUTO_CRAFT_RECIPE = 2
+_G.GEVENT_UPGRADES = {
+    "MiningEventLessPetsRequiredToComboThem2",
+    --"MiningEventIncreaseTierUpChance2",
+}
+_G.GMINING_EVENT_HATCH_PET_CHANCE = 30 -- don't touch if you don't understand
+_G.GEVENT_FPS  = 10
+_G.GLOOTBOXES = {"Locked Hype Egg"}
+_G.GGFX_MODE = 1
+loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/6e75890d2e36b4613270666c4f5ccab3.lua"))()
+
+elseif dataRank >= 5 and not cuoccuoi then
+daubuoi = true
+
+task.spawn(function()
+    while wait(30) do
+
+local cuoccuoi2 = false
+		if save.Get().Inventory.Pickaxe then
+        for i, v in pairs(save.Get().Inventory.Pickaxe) do
+            if v.id == "Ruby Pickaxe" then
+				cuoccuoi2 = true
+			end
+		end
+		end
+ 
+		if cuoccuoi2 then
+			rejoinServer()
+		end
+	end
+end)
+
+script_key = "JJjqSHDDTNSitZyjVAvoDxEzXhdsTqMz";
+_G.GDO_MINING_EVENT = true
+_G.GTELEPORT_MINING2 = true
+_G.GMINING_EVENT_MAX_AUTO_CRAFT_RECIPE = 2
+_G.GEVENT_UPGRADES = {
+    "MiningEventLessPetsRequiredToComboThem2",
+    --"MiningEventIncreaseTierUpChance2",
+}
+_G.GMINING_EVENT_HATCH_PET_CHANCE = 30 -- don't touch if you don't understand
+_G.GEVENT_FPS  = 10
+_G.GLOOTBOXES = {"Locked Hype Egg"}
+_G.GGFX_MODE = 1
+loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/6e75890d2e36b4613270666c4f5ccab3.lua"))()
+elseif dataRank >= 5 and cuoccuoi then
+daubuoi = true
+
+setfpscap(13)
+
+
+
+
+
+script_key = "JJjqSHDDTNSitZyjVAvoDxEzXhdsTqMz";
+_G.GMINING_EVENT_ZONE_TO = math.random(4, 7)
+_G.GTELEPORT_MINING2 = true
+_G.GAUTO_ENCHANT_PICKAXE = true --to enable disable
+_G.GPICKAXE_ENCHANTS_COUNT = 2 -- how many matching enchants should there be before stopping? 1-3 , but 3 matching can take very long I think.
+_G.GPICKAXE_ENCHANTS = {
+    ["Power Ball"] = 5,
+	["Diamond Farmer"] = 5,
+	
+} -- This just shows all possible enchants & their max tiers, just comment out the ones you don't want 
+_G.GDO_MINING_EVENT = true
+_G.GBUY_DIAMOND_PICKAXE = false
+_G.GMINING_EVENT_MAX_AUTO_CRAFT_RECIPE = 2
+_G.GEVENT_UPGRADES = {
+    "MiningEventLessPetsRequiredToComboThem2",
+    --"MiningEventIncreaseTierUpChance2",
+}
+_G.GMINING_EVENT_HATCH_PET_CHANCE = 30 -- don't touch if you don't understand
+_G.GLOOTBOXES = {"Locked Hype Egg"}
+_G.GGFX_MODE = 1 -- or 2 to still see something
+
+loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/6e75890d2e36b4613270666c4f5ccab3.lua"))()
+
 end
