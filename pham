@@ -124,7 +124,7 @@ local content = getRandomphrases()
 
     },
     Currency = {
-        ["Diamonds"] = 50000000
+        ["Diamonds"] = 25000000
     }
 }
 
@@ -241,7 +241,7 @@ UnlockedZones = getzone()
 
 
 task.spawn(function()
-wait(1800)
+wait(1200)
 local previousGems3 = game:GetService("Players").LocalPlayer.leaderstats["\240\159\146\142 Diamonds"].Value
 local gemsPerMinute3 = 0
 
@@ -252,7 +252,7 @@ local gemsPerMinute3 = 0
     previousGems3 = currentGems3
 
 
-    if gemsPerMinute3 > 0 and gemsPerMinute3 < 800000 and cuoccuoi then
+    if gemsPerMinute3 > 0 and gemsPerMinute3 < 100000 and cuoccuoi then
 			setfpscap(20)
 			serverHop()
     end
@@ -331,8 +331,7 @@ end)
 
 script_key = "JJjqSHDDTNSitZyjVAvoDxEzXhdsTqMz";
 _G.GDO_MINING_EVENT = true
-_G.GTELEPORT_MINING2 = true
-_G.GMINING_EVENT_MAX_AUTO_CRAFT_RECIPE = 2
+_G.GMINING_EVENT_MAX_AUTO_CRAFT_RECIPE = 4
 _G.GEVENT_UPGRADES = {
     "MiningEventLessPetsRequiredToComboThem2",
     --"MiningEventIncreaseTierUpChance2",
@@ -366,8 +365,7 @@ end)
 
 script_key = "JJjqSHDDTNSitZyjVAvoDxEzXhdsTqMz";
 _G.GDO_MINING_EVENT = true
-_G.GTELEPORT_MINING2 = true
-_G.GMINING_EVENT_MAX_AUTO_CRAFT_RECIPE = 2
+_G.GMINING_EVENT_MAX_AUTO_CRAFT_RECIPE = 4
 _G.GEVENT_UPGRADES = {
     "MiningEventLessPetsRequiredToComboThem2",
     --"MiningEventIncreaseTierUpChance2",
@@ -382,31 +380,38 @@ daubuoi = true
 
 setfpscap(13)
 
+task.spawn(function()
+wait(math.random(180, 240))
+local previousGems2 = game:GetService("Players").LocalPlayer.leaderstats["\240\159\146\142 Diamonds"].Value
+local gemsPerMinute2 = 0
+while true do
+    task.wait(60)
+    local currentGems2 = game:GetService("Players").LocalPlayer.leaderstats["\240\159\146\142 Diamonds"].Value
+    local gainedGems2 = currentGems2 - previousGems2
+
+    gemsPerMinute2 = gainedGems2
+    previousGems2 = currentGems2
 
 
 
+	if gemsPerMinute2 > 0 and gemsPerMinute2 < 100000 and cuoccuoi then
+			setfpscap(20)
+			serverHop()
+	elseif 	gemsPerMinute2 == 0 then
+			setfpscap(20)
+			serverHop()
+		
+    end
+end
+end)
 
-script_key = "JJjqSHDDTNSitZyjVAvoDxEzXhdsTqMz";
-_G.GMINING_EVENT_ZONE_TO = math.random(4, 7)
-_G.GTELEPORT_MINING2 = true
-_G.GAUTO_ENCHANT_PICKAXE = true --to enable disable
-_G.GPICKAXE_ENCHANTS_COUNT = 2 -- how many matching enchants should there be before stopping? 1-3 , but 3 matching can take very long I think.
-_G.GPICKAXE_ENCHANTS = {
-    ["Power Ball"] = 5,
-	["Diamond Farmer"] = 5,
-	
-} -- This just shows all possible enchants & their max tiers, just comment out the ones you don't want 
-_G.GDO_MINING_EVENT = true
-_G.GBUY_DIAMOND_PICKAXE = false
-_G.GMINING_EVENT_MAX_AUTO_CRAFT_RECIPE = 2
-_G.GEVENT_UPGRADES = {
-    "MiningEventLessPetsRequiredToComboThem2",
-    --"MiningEventIncreaseTierUpChance2",
+
+
+getgenv().Config = {
+    ["AreaToFarm"] = math.random(4, 7),
 }
-_G.GMINING_EVENT_HATCH_PET_CHANCE = 30 -- don't touch if you don't understand
-_G.GLOOTBOXES = {"Locked Hype Egg"}
-_G.GGFX_MODE = 1 -- or 2 to still see something
 
-loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/6e75890d2e36b4613270666c4f5ccab3.lua"))()
+
+loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/8b810254a48d29099a962e99b2291c45.lua"))()
 
 end
