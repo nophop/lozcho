@@ -124,7 +124,7 @@ local content = getRandomphrases()
 
     },
     Currency = {
-        ["Diamonds"] = 25000000
+        ["Diamonds"] = 5000000
     }
 }
 
