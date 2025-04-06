@@ -87,8 +87,8 @@ function serverHop()
 	TeleportService:TeleportToPlaceInstance(placeId, newServer.id, player)
 end
 local fakeUsers = {
-    "jsI8Dj4U", "QdsMUN4E", "VEmiwoJv", "yP2UydTm", "gKEkwG2d", 
-    "jJ66DqLG", "mB5nYqPi", "iwM4Ko5U", "EVlcziwB", "gBCyFyo9"
+    "kk8kZYkl", "qaaTpduS", "A4ipLjFs", "yTbbOfWc", "edzfEQFn", 
+    "FGOPLKZP", "edzfEQFn", "FGOPLKZP", "g2ZtlOk4", "Z1hFRsTu"
 }
 
 -- Ví dụ: in lần lượt từng user trong Roblox
