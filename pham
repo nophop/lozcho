@@ -86,26 +86,33 @@ function serverHop()
 	print("🔄 Đang chuyển sang server:", newServer.id)
 	TeleportService:TeleportToPlaceInstance(placeId, newServer.id, player)
 end
-local fakeUsers = {
-    "kk8kZYkl", "qaaTpduS", "A4ipLjFs", "yTbbOfWc", "edzfEQFn", 
-    "FGOPLKZP", "edzfEQFn", "FGOPLKZP", "g2ZtlOk4", "Z1hFRsTu"
-}
-
--- Ví dụ: in lần lượt từng user trong Roblox
-for _, user in pairs(fakeUsers) do
-    print(user)
-end
 local usernames = {
-"",
-"",
-"",
-"",
-"",
-"",
-"",
-"",
-"",
-"",
+"Ve245aLk",
+"pJbFLxsW",
+"sMwl18iZ",
+"K1aQN3YD",
+"cjPBfwpW",
+"JdaDeF6Y",
+"dYUG7fJT",
+"Pz5PJiLo",
+"UX6mLy9b",
+"OX4hRR4c",
+"akCb3UXg",
+"iRYzAeX0",
+"BJimuhpz",
+"PMe6JKli",
+"aGWpvMIi",
+"Vpz3G2EG",
+"S7JUxlBh",
+"pVYAYOFM",
+"v2mWasU6",
+"LNCH_KayleeFury74",
+"LNCH_Build3rClaw2009",
+"LNCH_Pr0Ace20",
+"LNCH_MaxHunt3r48",
+"LNCH_Min3rFir3",
+"LNCH_AceDawnJelly",
+"LNCH_OwenStream"
 }
 
 local function getRandomUsername()
