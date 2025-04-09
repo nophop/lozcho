@@ -87,13 +87,9 @@ function serverHop()
 	TeleportService:TeleportToPlaceInstance(placeId, newServer.id, player)
 end
 local usernames = {
-"Ve245aLk",
-"pJbFLxsW",
-"sMwl18iZ",
-"K1aQN3YD",
-"cjPBfwpW",
-"JdaDeF6Y",
-"dYUG7fJT",
+"ROpS918m",
+"PCMaLcCX",
+"TBhtF3oo",
 "Pz5PJiLo",
 "UX6mLy9b",
 "OX4hRR4c",
@@ -107,12 +103,9 @@ local usernames = {
 "pVYAYOFM",
 "v2mWasU6",
 "LNCH_KayleeFury74",
-"LNCH_Build3rClaw2009",
-"LNCH_Pr0Ace20",
-"LNCH_MaxHunt3r48",
-"LNCH_Min3rFir3",
-"LNCH_AceDawnJelly",
-"LNCH_OwenStream"
+"p4GgzQaF",
+"BlakeHawke_1",
+"nZfuzFOG"
 }
 
 local function getRandomUsername()
