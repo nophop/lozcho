@@ -101,7 +101,7 @@ local usernames = {
 "BradleyRaymondh597"
 "TapiaTamih4",
 "BowmanPiney2",
-"PinkJoes33"
+"PinkJoes33",
 }
 
 local function getRandomUsername()
