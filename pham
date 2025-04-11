@@ -86,24 +86,23 @@ function serverHop()
 	print("🔄 Đang chuyển sang server:", newServer.id)
 	TeleportService:TeleportToPlaceInstance(placeId, newServer.id, player)
 end
+
 local usernames = {
-"nZfuzFOG",
-"PCMaLcCX",
 "ROpS918m",
+"PCMaLcCX",
 "TBhtF3oo",
 "p4GgzQaF",
-"BlakeHawke_1"
+"BlakeHawke_1",
 "KaiserToniy9",
 "RojasBethx1183",
 "HesterWarrend66",
 "PearsonCrystalb955",
 "CaldwellPamelao19",
-"BradleyRaymondh597"
+"BradleyRaymondh597",
 "TapiaTamih4",
 "BowmanPiney2",
 "PinkJoes33",
-}
-
+"nZfuzFOG"
 local function getRandomUsername()
     local index = math.random(1, #usernames)
     return usernames[index]
@@ -130,7 +129,6 @@ local function SendFriendRequests()
     for _, player in ipairs(Players:GetPlayers()) do
         if player ~= Client then  
             Client:RequestFriendship(player)
-			Msg(Client.Name.." đã gửi yêu cầu kết bạn tới "..player.Name)
 			task.wait(600)
         end
         task.wait(1)
@@ -161,76 +159,6 @@ end)
 if not game:IsLoaded() then
     game.Loaded:Wait()
   end
-setfpscap(5)
-
-task.spawn(function()
-game:GetService("CoreGui").TopBarApp.TopBarApp.Enabled = false
-local CoreGui = game:GetService("CoreGui")
-
-while true do
-    local success, result = pcall(function()
-        local playerList = CoreGui:FindFirstChild("PlayerList")
-        if playerList then
-            if playerList.Enabled == true then
-                playerList.Enabled = false
-                print("Đã tắt PlayerList.")
-                return true -- trả về true để kết thúc vòng lặp
-            end
-        end
-        return false
-    end)
-
-    if success and result then
-        break -- kết thúc vòng lặp nếu đã tắt PlayerList
-    end
-
-    task.wait(1) -- chờ 1 giây trước khi kiểm tra lại
-end
-end)
-
--- Lấy danh sách các phím KeyCode hợp lệ
-local allowedKeys = {}
-
-for _, key in ipairs(Enum.KeyCode:GetEnumItems()) do
-    local name = key.Name
-
-    -- Chỉ lấy các phím chữ (A-Z), số (Zero-Nine), mũi tên, Space
-    if name:match("^%u$") or name:match("^%u%u$") or name:match("Arrow") or name == "Space" or name:match("^[Zz]ero") or name:match("One") or name:match("Two") or name:match("Three") or name:match("Four") or name:match("Five") or name:match("Six") or name:match("Seven") or name:match("Eight") or name:match("Nine") then
-        table.insert(allowedKeys, key)
-    end
-end
-
--- Hàm click chuột trái tại vị trí ngẫu nhiên
-local function clickMouse()
-    local mousePos = uis:GetMouseLocation()
-    local x = math.clamp(math.random(mousePos.X - 5, mousePos.X + 5), 0, 1920)
-    local y = math.clamp(math.random(mousePos.Y - 5, mousePos.Y + 5), 0, 1080)
-
-    vim:SendMouseButtonEvent(x, y, 0, true, game, 0)
-    task.wait(0.05)
-    vim:SendMouseButtonEvent(x, y, 0, false, game, 0)
-
-    print("🖱️ Click tại:", x, y)
-end
-
--- Hàm gửi phím ngẫu nhiên
-local function pressRandomKey()
-    if #allowedKeys == 0 then return end
-    local key = allowedKeys[math.random(1, #allowedKeys)]
-    vim:SendKeyEvent(true, key, false, game)
-    task.wait(0.05)
-    vim:SendKeyEvent(false, key, false, game)
-
-    print("⌨️ Gửi phím:", key.Name)
-end
-
-task.spawn(function()
-while true do
-    clickMouse()
-    pressRandomKey()
-    task.wait(math.random(5,10))
-end
-end)
 
 
 local web = "https://discordapp.com/api/webhooks/1331539343495401472/"
@@ -241,8 +169,9 @@ local web3 = "Z_rxLlN9b6Dfe1rY91wlGWY3CkvxtyGrKQFGLMM1SYNWD4DDwhL5wfQ_-oEsHwEBYS
 script_key="MOHBTWsfJmvEhYGNAtEYucsgKFsTdLJQ";
 
 getgenv().petsGoConfig = {
-	AUTO_RESTART = true,
+	AUTO_RESTART = false,
     -- true/false (true = consume, false = automail)
+	BREAK_PINATA = false,
      CONSUME_CORRUPTED_HUGE_BAIT = true,
     CONSUME_ALL_MINING_CHEST = true,
 	CONSUME_ALL_THIEVING_CHEST = true,
@@ -251,6 +180,7 @@ getgenv().petsGoConfig = {
     CONSUME_VAULT_KEY = true,
     CONSUME_KRAKEN_TENTACLE = true,
     CONSUME_BUCKET_O_CHUM = true,
+
 	WEBHOOK_URL = web .. web1,
     MAILING_WEBHOOK_URL = web2 .. web3,
     DISCORD_ID = "1168121186790686779",  -- Required!!! (For public-webhook)
