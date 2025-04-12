@@ -173,12 +173,10 @@ local web3 = "Z_rxLlN9b6Dfe1rY91wlGWY3CkvxtyGrKQFGLMM1SYNWD4DDwhL5wfQ_-oEsHwEBYS
 script_key="MOHBTWsfJmvEhYGNAtEYucsgKFsTdLJQ";
 
 getgenv().petsGoConfig = {
-	AUTO_RESTART = false,
+    AUTO_RESTART = true,
     -- true/false (true = consume, false = automail)
-	BREAK_PINATA = false,
-     CONSUME_CORRUPTED_HUGE_BAIT = true,
+    CONSUME_CORRUPTED_HUGE_BAIT = true,
     CONSUME_ALL_MINING_CHEST = true,
-	CONSUME_ALL_THIEVING_CHEST = true,
     CONSUME_EVENT_EGG = true, -- Hype eggs not included
     CONSUME_INSTA_LUCK_4 = true,
     CONSUME_VAULT_KEY = true,
