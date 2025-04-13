@@ -88,20 +88,12 @@ function serverHop()
 end
 
 local usernames = {
-"ROpS918m",
-"PCMaLcCX",
-"TBhtF3oo",
 "p4GgzQaF",
 "BlakeHawke_1",
+"TBhtF3oo",
+"ROpS918m",
 "KaiserToniy9",
-"RojasBethx1183",
-"HesterWarrend66",
-"PearsonCrystalb955",
-"CaldwellPamelao19",
-"BradleyRaymondh597",
-"TapiaTamih4",
-"BowmanPiney2",
-"PinkJoes33",
+"PCMaLcCX",
 "nZfuzFOG"
 }
 
