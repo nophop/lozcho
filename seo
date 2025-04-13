@@ -1,22 +1,11 @@
 local alts = {
 "p4GgzQaF",
-"nZfuzFOG",
-"PCMaLcCX",
-"ROpS918m",
-"TBhtF3oo",
 "BlakeHawke_1",
-"Pz5PJiLo",
-"UX6mLy9b",
-"OX4hRR4c",
-"akCb3UXg",
-"iRYzAeX0",
-"BJimuhpz",
-"PMe6JKli",
-"aGWpvMIi",
-"Vpz3G2EG",
-"S7JUxlBh",
-"pVYAYOFM",
-"LNCH_KayleeFury74"
+"TBhtF3oo",
+"ROpS918m",
+"KaiserToniy9",
+"PCMaLcCX",
+"nZfuzFOG"
 }
 
 local phrases = {"Happy Birthday","Good Luck","Thank You","Stay Strong","Well Done","Merry Christmas","Best Wishes","Take Care","Sweet Dreams","Much Love","Enjoy Life","Live Well","Keep Smiling","Dream Big","Shine Bright","Stay Happy","Feel Better","Bon Voyage","Safe Travels","Be Yourself","Love Always","Never Give Up","Be Kind","Think Positive","You Rock","Have Fun","Follow Me","Trust Yourself","Stay Positive","Believe More","Enjoy Today","Make Memories","Have Courage","Stay Calm","Love Forever","Keep Going","Do Good","Try Again","Think Big","Speak Kindly","Be Humble","Always Smile","Laugh Often","Stay Blessed","Enjoy Everything","Cherish Moments","Be Honest","Take Action","Move Forward","Stay Focused","Show Gratitude","Dream More","Love Deeply","Find Joy","Spread Love","Happiness Matters","Respect Everyone","Explore More","Stay True","Live Freely","Help Others","Lead Well","Enjoy Learning","Be Creative","Feel Inspired","Love Yourself","Appreciate Life","Make Changes","Focus Now","Grow Stronger","Trust The Process","See Beauty","Be Fearless","Stay Motivated","Learn Daily","Practice Kindness","Never Settle","Make Impact","Speak Truth","Take Risks","Celebrate Life","Discover Yourself","Chase Dreams","Inspire Others","Help Someone","Work Hard","Be Thankful","Live Today","Enjoy Freedom","Stay Cool","Keep Trying","Smile More","Stay Gold","Have Patience","Act Now","Create Happiness","Embrace Change","Let Go","Stay Balanced","Listen Well","Give Back","Forgive Others","Do Better","Stay Open","Enjoy Silence","Choose Peace","Keep Learning","Stay Brave","Stay Grounded","Express Yourself","Spread Happiness","Enjoy Small Things","Enjoy The Ride","Be Open","Choose Joy","Respect Yourself","Keep Dreaming","Take Breaks","Stay Stronger","Keep Exploring","Face Challenges","Stay Determined","Have Purpose","Keep Believing","Be Supportive","Find Passion","Love Passionately","Smile Daily","Stay Inspired","Respect Nature","Keep Moving","Trust Instincts","Think Different","Give Time","Treasure Life","Enjoy The Moment","Love What Matters","Value Time","Live Lightly","Stay Simple","Take Responsibility","Help Someone Today","Give More","Make Mistakes","Find Yourself","Enjoy The Process","Be A Dreamer","Live Gently","Stay Kind","Be Understanding","Keep Faith","Enjoy Every Day","Keep Loving","Make A Difference","Stay Friendly","Work Smart","Live Mindfully","Grow Daily","Celebrate Yourself","Enjoy Your Journey","Stay Energetic","Take It Easy","Shine Everyday","Speak Gently","Believe Strongly","Live Passionately","Try New Things","Love Wins","Think Ahead","Choose Wisely","Feel The Moment","Embrace Yourself","Support Others","Enjoy The Little Things","Give Compliments","Live Gratefully","Respect Differences","Be Open-Minded","Be A Leader","Live In Peace","Find Your Way","Follow Your Heart","Appreciate Everything","Enjoy Your Life","Trust Your Journey","Focus On Positivity","Grow With Time","Create Your Path","Do What Matters","Love Without Limits","Be Yourself Always","Be Stronger Everyday","Never Stop Learning","Find Inner Peace","Make Every Moment Count","Love Without Conditions","Cherish Your Life","Be Happy Today"}
@@ -186,93 +175,95 @@ getgenv().Settings = {
     Seller = {
         Active = true,
         ["Items"] = {
-            ["All Huges"] = {Price = "5%", AllTypes = true, Priority = true},
-			["Rainbow Token"] = {Price = "5%", Priority = true},
-			["Scarab"] = {Price = "5%"},
-			["Sphinx Gift"] = {Price = "5%"},
-			["Titanic Rainbow Token"] = {Price = "5%", Priority = true},
-			["Huge Rainbow Token"] = {Price = "5%", Priority = true},
-			["Chests"] = {Price = "5%"},
-			["Lightning"] = {Price = "5%"},
-			["Deep Sea Fishing Rod"] = {Price = "5%"},
-			["Atlantean Gift"] = {Price = "5%", Amount = 5000},
-			["Legendary Treasure Chest"] = {Price = "5%", Amount = 5000},
-			["Kraken Tentacle"] = {Price = "5%", Amount = 5000},
-			["Bucket O' Chum"] = {Price = "5%", Amount = 5000},
-			["Master Thief Potion"] = {Price = "5%"},
-			["Royal Gift"] = {Price = "5%"},
-			["Hacker Scroll"] = {Price = "5%", Amount = 5000},
-			["Vault Key"] = {Price = "5%", Amount = 5000},
-			["Hacker Egg"] = {Price = "5%", Amount = 5000},
-			["Exclusive"] = {Price = "5%"},
-			["Diamond"] = {Price = "5%"},
-			["Emerald"] = {Price = "5%", Amount = 5000},
-			["Mastery"] = {Price = "5%"},
-			["Sphinx Egg"] = {Price = "5%", Amount = 5000},
-			["10,000x Thieving Egg"] = {Price = "5%", Amount = 5000},
-			["10x Thieving Egg"] = {Price = "5%"},
-			["1x Thieving Egg"] = {Price = "5%"},
-			["100x Thieving Egg"] = {Price = "5%"},
-			["Heartbreak Egg"] = {Price = "5%"},
-			["Cupids Egg"] = {Price = "5%"},
-			["Magma Egg"] = {Price = "5%"},
-			["Holiday Egg"] = {Price = "5%"},
-			["Santa Egg"] = {Price = "5%"},
-			["Naughty Egg"] = {Price = "5%"},
-			["Hype Egg"] = {Price = "6%"},
-			["Nice Egg"] = {Price = "5%"},
-			["Winter Egg"] = {Price = "5%"},
-			["Huge Egg"] = {Price = "5%"},
-			["Thieving Present"] = {Price = "5%"},
-			["Exotic Thieving Chest"] = {Price = "5%", Amount = 5000},
-			["Legendary Thieving Chest"] = {Price = "5%", Amount = 5000},
-			["Heartbreak Present"] = {Price = "5%"},
-			["Valentines Present"] = {Price = "5%"},
-			["Tech Gift"] = {Price = "5%"},
-			["Titanic Mining Chest"] = {Price = "5%"},
-			["Titanic Present"] = {Price = "5%"},
-			["Exclusive Enchant Safe"] = {Price = "5%"},
-			["Legendary Enchant Safe"] = {Price = "5%", Amount = 5000},
-			["Celestial Enchant Safe"] = {Price = "5%"},
-			["Abyssal Treasure Chest"] = {Price = "5%"},
-			["Naughty Gift"] = {Price = "5%"},
-			["Holiday Gift"] = {Price = "5%"},
-			["Nice Gift"] = {Price = "5%"},
-			["Celestial Mining Chest"] = {Price = "5%"},
-			["Runic Mining Chest"] = {Price = "5%"},
-			["Legendary Mining Chest"] = {Price = "5%", Amount = 5000},
-			["Valentines Spinny Wheel Ticket"] = {Price = "5%"},
-			["Diamond Fishing Rod"] = {Price = "5%"},
-			["Frozen Fishing Rod"] = {Price = "5%"},
-			["Corrupted Fishing Rod"] = {Price = "5%"},
-			["Crystal Key"] = {Price = "5%"},
-			["Crystal Key Upper Half"] = {Price = "5%"},
-			["Crystal Key Lower Half"] = {Price = "5%"},
-			["Exclusive Treasure Chest"] = {Price = "5%"},
-			["Thieving Luck Scroll"] = {Price = "5%"},
-			["Thieving Speed Scroll"] = {Price = "5%"},
-			["Thieving Success Scroll"] = {Price = "5%"},
-			["Magma Scroll"] = {Price = "5%"},
-			["Metal Detector"] = {Price = "5%"},
-			["Ice Fishing Scroll"] = {Price = "5%"},
-			["Holiday Damage Scroll"] = {Price = "5%"},
-			["Santa's Scroll"] = {Price = "5%"},
-			["Fishing Bait"] = {Price = "5%"},
-			["Corrupted Huge Bait"] = {Price = "5%"},
-			["Sphinx God Potion"] = {Price = "6%", Amount = 5000, Priority = true},
-			["Thieving God Potion"] = {Price = "6%", Amount = 5000},
-			["Heartbreak God Potion"] = {Price = "6%", Amount = 5000},
-			["Valentines God Potion"] = {Price = "6%", Amount = 5000},
-			["Holiday God Potion"] = {Price = "6%", Amount = 5000},
-			["Winter God Potion"] = {Price = "6%", Amount = 5000},
-			["Jelly God Potion"] = {Price = "6%", Amount = 5000},
-			["God Potion"] = {Price = "6%", Amount = 5000},
-			["Autumn God Potion"] = {Price = "6%", Amount = 5000},
-			["Instant Luck Potion 4"] = {Price = "5%"},
-			["All Rarity: Exclusive"] = {Price = "1%"},
-			["All Rarity: Secret"] = {Price = "1%"},
-			["All Rarity: Celestial"] = {Price = "1%"},
-			["All Rarity: Superior"] = {Price = "1%"},
+["All Huges"] = {Price = "+3%", AllTypes = true, Priority = true},
+			["Rainbow Token"] = {Price = "+5%", Priority = true},
+			["Scarab"] = {Price = "+5%"},
+			["Sphinx Gift"] = {Price = "+5%"},
+			["Titanic Rainbow Token"] = {Price = "+5%", Priority = true},
+			["Huge Rainbow Token"] = {Price = "+5%", Priority = true},
+			["Chests"] = {Price = "+5%"},
+			["Lightning"] = {Price = "+5%"},
+			["Deep Sea Fishing Rod"] = {Price = "+5%"},
+			["Atlantean Gift"] = {Price = "+5%", Amount = 5000},
+			["Legendary Treasure Chest"] = {Price = "+5%", Amount = 5000},
+			["Kraken Tentacle"] = {Price = "+5%", Amount = 5000},
+			["Bucket O' Chum"] = {Price = "+5%", Amount = 5000},
+			["Master Thief Potion"] = {Price = "+5%"},
+			["Anubis Potion"] = {Price = "+5%"},
+			["Royal Gift"] = {Price = "+5%"},
+			["Hacker Scroll"] = {Price = "+5%", Amount = 5000},
+			["Vault Key"] = {Price = "+5%", Amount = 5000},
+			["Hacker Egg"] = {Price = "+5%", Amount = 5000},
+			["Exclusive"] = {Price = "+5%"},
+			["Diamond"] = {Price = "+5%"},
+			["Emerald"] = {Price = "+5%", Amount = 5000},
+			["Mastery"] = {Price = "+5%"},
+			["Exclusive Balloon Egg"] = {Price = "+5%"},
+			["Sphinx Egg"] = {Price = "+5%", Amount = 5000},
+			["10,000x Thieving Egg"] = {Price = "+5%", Amount = 5000},
+			["10x Thieving Egg"] = {Price = "+5%"},
+			["1x Thieving Egg"] = {Price = "+5%"},
+			["100x Thieving Egg"] = {Price = "+5%"},
+			["Heartbreak Egg"] = {Price = "+5%"},
+			["Cupids Egg"] = {Price = "+5%"},
+			["Magma Egg"] = {Price = "+5%"},
+			["Holiday Egg"] = {Price = "+5%"},
+			["Santa Egg"] = {Price = "+5%"},
+			["Naughty Egg"] = {Price = "+5%"},
+			["Hype Egg"] = {Price = "+5%"},
+			["Nice Egg"] = {Price = "+5%"},
+			["Winter Egg"] = {Price = "+5%"},
+			["Huge Egg"] = {Price = "+5%"},
+			["Thieving Present"] = {Price = "+5%"},
+			["Exotic Thieving Chest"] = {Price = "+5%", Amount = 5000},
+			["Legendary Thieving Chest"] = {Price = "+5%", Amount = 5000},
+			["Heartbreak Present"] = {Price = "+5%"},
+			["Valentines Present"] = {Price = "+5%"},
+			["Tech Gift"] = {Price = "+5%"},
+			["Titanic Mining Chest"] = {Price = "+5%"},
+			["Titanic Present"] = {Price = "+5%"},
+			["Exclusive Enchant Safe"] = {Price = "+5%"},
+			["Legendary Enchant Safe"] = {Price = "+5%", Amount = 5000},
+			["Celestial Enchant Safe"] = {Price = "+5%"},
+			["Abyssal Treasure Chest"] = {Price = "+5%"},
+			["Naughty Gift"] = {Price = "+5%"},
+			["Holiday Gift"] = {Price = "+5%"},
+			["Nice Gift"] = {Price = "+5%"},
+			["Celestial Mining Chest"] = {Price = "+5%"},
+			["Runic Mining Chest"] = {Price = "+5%"},
+			["Legendary Mining Chest"] = {Price = "+5%", Amount = 5000},
+			["Valentines Spinny Wheel Ticket"] = {Price = "+5%"},
+			["Diamond Fishing Rod"] = {Price = "+5%"},
+			["Frozen Fishing Rod"] = {Price = "+5%"},
+			["Corrupted Fishing Rod"] = {Price = "+5%"},
+			["Crystal Key"] = {Price = "+5%"},
+			["Crystal Key Upper Half"] = {Price = "+5%"},
+			["Crystal Key Lower Half"] = {Price = "+5%"},
+			["Exclusive Treasure Chest"] = {Price = "+5%"},
+			["Thieving Luck Scroll"] = {Price = "+5%"},
+			["Thieving Speed Scroll"] = {Price = "+5%"},
+			["Thieving Success Scroll"] = {Price = "+5%"},
+			["Magma Scroll"] = {Price = "+5%"},
+			["Metal Detector"] = {Price = "+5%"},
+			["Ice Fishing Scroll"] = {Price = "+5%"},
+			["Holiday Damage Scroll"] = {Price = "+5%"},
+			["Santa's Scroll"] = {Price = "+5%"},
+			["Fishing Bait"] = {Price = "+5%"},
+			["Corrupted Huge Bait"] = {Price = "+5%"},
+			["Sphinx God Potion"] = {Price = "+5%", Amount = 5000, Priority = true},
+			["Thieving God Potion"] = {Price = "+5%", Amount = 5000},
+			["Heartbreak God Potion"] = {Price = "+5%", Amount = 5000},
+			["Valentines God Potion"] = {Price = "+5%", Amount = 5000},
+			["Holiday God Potion"] = {Price = "+5%", Amount = 5000},
+			["Winter God Potion"] = {Price = "+5%", Amount = 5000},
+			["Jelly God Potion"] = {Price = "+5%", Amount = 5000},
+			["God Potion"] = {Price = "+5%", Amount = 5000},
+			["Autumn God Potion"] = {Price = "+5%", Amount = 5000},
+			["Instant Luck Potion 4"] = {Price = "+5%"},
+			["All Rarity: Exclusive"] = {Price = "10%"},
+			["All Rarity: Secret"] = {Price = "10%"},
+			["All Rarity: Celestial"] = {Price = "10%"},
+			["All Rarity: Superior"] = {Price = "10%"},
         },
         ["Switch Servers"] = {Active = true, MinuteDelay = 20, OnlyPRO = false},
         ["Webhook"] = {Active = true, URL = web .. web1},
@@ -282,7 +273,7 @@ getgenv().Settings = {
             ["60 Minutes Timer"] = false,
             ["^^^ Switch To Sniping"] = false,
         },
-        ["Diamonds Sendout"] = {Active = true, Username = "IvorySpecter0", Amount = "20m"},
+        ["Diamonds Sendout"] = {Active = true, Username = "IvorySpecter0", Amount = "50m"},
     },
 
     [[ Thank you for using System Exodus <3! ]]
@@ -297,7 +288,10 @@ game:GetService("RunService"):Set3dRenderingEnabled(false)
 task.spawn(function()
     while task.wait(60) do
         if #game.Players:GetPlayers() < 15 then
-            serverhop()
+            while true do
+				serverhop()
+			task.wait(5)
+			end
         end
     end
 end)
@@ -354,7 +348,7 @@ if ttcoin < 50000 then
 	until daubuoi
 
 
-elseif game.PlaceId == 19006211286 then
+else
 
 
 task.spawn(function()
@@ -375,9 +369,10 @@ plrs.PlayerAdded:Connect(function(player)
 	task.wait()
 	for i = 1,#alts do
 		if player.Name == alts[i] and alts[i] ~= plrs.LocalPlayer.Name then
-			task.wait(1)
-	    	serverhop()
-			
+		while true do
+				serverhop()
+			task.wait(5)
+		end	
 			
         end
     end
@@ -393,17 +388,5 @@ daubuoi = true
 
 loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/3b58d9c50c5ea74f255af40a8f735773.lua"))()
 
-	
-
-
-else
-
-daubuoi = true
-
-while true do
-	
-	serverhop()
-	wait(5)
-end
 
 end
