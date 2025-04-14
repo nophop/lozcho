@@ -77,8 +77,8 @@ end
 end)
 
 
-local web = "https://discord.com/api/webhooks/1331926354874204221/"
-local web1 = "vxpGYZgmiaVxOv1mhzEWTH5BCeRkmPiRx3CJgwU2NklYOfQIhPJWL6TQtU8iPPl41ivo"
+local web = "https://discord.com/api/webhooks/1330887810613514351/"
+local web1 = "wGi8sqpGCvKTy0VpXY6M2HdyY2mxr_VsHBDXKjYr2J6y_rsH7uKi656IEppFWw0pkv-Y"
 
 
  if not game:IsLoaded() then
@@ -89,7 +89,7 @@ task.spawn(function()
 	wait(60)
     while task.wait(5) do
         game:GetService("ReplicatedStorage").Network["Mailbox: Claim All"]:InvokeServer()
-        task.wait(30)
+        task.wait(300)
     end
 end)
 
@@ -124,7 +124,7 @@ getgenv().Settings = {
     Seller = {
         Active = true,
         ["Items"] = {
-["All Huges"] = {Price = "+3%", AllTypes = true, Priority = true},
+			["All Huges"] = {Price = "+3%", AllTypes = true, Priority = true},
 			["Rainbow Token"] = {Price = "+5%", Priority = true},
 			["Scarab"] = {Price = "+5%"},
 			["Sphinx Gift"] = {Price = "+5%"},
@@ -222,7 +222,7 @@ getgenv().Settings = {
             ["60 Minutes Timer"] = false,
             ["^^^ Switch To Sniping"] = false,
         },
-        ["Diamonds Sendout"] = {Active = true, Username = "IvorySpecter0", Amount = "50m"},
+        ["Diamonds Sendout"] = {Active = true, Username = "IvorySpecter0", Amount = "20m"},
     },
 
     [[ Thank you for using System Exodus <3! ]]
