@@ -94,17 +94,17 @@ local usernames = {
 "ROpS918m",
 "KaiserToniy9",
 "PCMaLcCX",
-"nZfuzFOG"
+"nZfuzFOG",
 "syviamiam50",
 "facathanathan234",
 "euzisabellamasw4717",
 "njfasonason8773",
 "aeyazelaze1578",
 "zbsbigailbigail6693",
-"uiahloehloe5212"
+"uiahloehloe5212",
 "prqavidavid8480",
 "pcyndrewndrew1432",
-"rjparvaarva1370",
+"rjparvaarva1370"
 }
 
 local function getRandomUsername()
@@ -149,21 +149,87 @@ task.spawn(function()
     end
 end)
 
-
 task.spawn(function()
 	wait(math.random(1800, 3600))
-		
-	
 	serverHop()
 	wait(5)
 
 end)
 
 
+
 if not game:IsLoaded() then
     game.Loaded:Wait()
   end
 
+task.spawn(function()
+game:GetService("CoreGui").TopBarApp.TopBarApp.Enabled = false
+local CoreGui = game:GetService("CoreGui")
+
+while true do
+    local success, result = pcall(function()
+        local playerList = CoreGui:FindFirstChild("PlayerList")
+        if playerList then
+            if playerList.Enabled == true then
+                playerList.Enabled = false
+                print("Đã tắt PlayerList.")
+                return true -- trả về true để kết thúc vòng lặp
+            end
+        end
+        return false
+    end)
+
+    if success and result then
+        break -- kết thúc vòng lặp nếu đã tắt PlayerList
+    end
+
+    task.wait(1) -- chờ 1 giây trước khi kiểm tra lại
+end
+end)
+
+-- Lấy danh sách các phím KeyCode hợp lệ
+local allowedKeys = {}
+
+for _, key in ipairs(Enum.KeyCode:GetEnumItems()) do
+    local name = key.Name
+
+    -- Chỉ lấy các phím chữ (A-Z), số (Zero-Nine), mũi tên, Space
+    if name:match("^%u$") or name:match("^%u%u$") or name:match("Arrow") or name == "Space" or name:match("^[Zz]ero") or name:match("One") or name:match("Two") or name:match("Three") or name:match("Four") or name:match("Five") or name:match("Six") or name:match("Seven") or name:match("Eight") or name:match("Nine") then
+        table.insert(allowedKeys, key)
+    end
+end
+
+-- Hàm click chuột trái tại vị trí ngẫu nhiên
+local function clickMouse()
+    local mousePos = uis:GetMouseLocation()
+    local x = math.clamp(math.random(mousePos.X - 5, mousePos.X + 5), 0, 1920)
+    local y = math.clamp(math.random(mousePos.Y - 5, mousePos.Y + 5), 0, 1080)
+
+    vim:SendMouseButtonEvent(x, y, 0, true, game, 0)
+    task.wait(0.05)
+    vim:SendMouseButtonEvent(x, y, 0, false, game, 0)
+
+    print("🖱️ Click tại:", x, y)
+end
+
+-- Hàm gửi phím ngẫu nhiên
+local function pressRandomKey()
+    if #allowedKeys == 0 then return end
+    local key = allowedKeys[math.random(1, #allowedKeys)]
+    vim:SendKeyEvent(true, key, false, game)
+    task.wait(0.05)
+    vim:SendKeyEvent(false, key, false, game)
+
+    print("⌨️ Gửi phím:", key.Name)
+end
+
+task.spawn(function()
+while true do
+    clickMouse()
+    pressRandomKey()
+    task.wait(math.random(10,30))
+end
+end)
 
 
 
@@ -175,7 +241,7 @@ local web3 = "Z_rxLlN9b6Dfe1rY91wlGWY3CkvxtyGrKQFGLMM1SYNWD4DDwhL5wfQ_-oEsHwEBYS
 script_key="MOHBTWsfJmvEhYGNAtEYucsgKFsTdLJQ";
 
 getgenv().petsGoConfig = {
-    AUTO_RESTART = true,
+	AUTO_RESTART = true,
     -- true/false (true = consume, false = automail)
     CONSUME_CORRUPTED_HUGE_BAIT = true,
     CONSUME_ALL_MINING_CHEST = true,
@@ -206,4 +272,3 @@ daubuoi = true
 
 
 loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/cd1c29852c6641789162a7b0a4c97428.lua"))()
-
