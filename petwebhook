@@ -36,7 +36,7 @@ getgenv().Config = {
     -- Webhook Settings
     ["WebhookPet"] = {
         ["PingUserId"] = "1164214864349253696",
-        ["WebhookURL"] = "https://discord.com/api/webhooks/1361752905308311774/w2h6Qct68BbofQn1Yos9NP4AbQU92GI7tTiMv5LY8PtBBbeiOOK4kXR2Jfp1kBfVS04u",
+        ["WebhookURL"] = "https://discord.com/api/webhooks/1280307675636301948/sM8Y96yRhPp_bcFBoHewrtwcuP2LoWfyOAmzuv_Lk3YSeboqh4A5XV9oDKwBBn1MR2yD",
         ["WebhookRaritySender"] = {
             ["Common"] = false,
             ["Unique"] = false,
