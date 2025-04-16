@@ -1,104 +1,31 @@
-getgenv().Config = {
-    -- Main Settings
-    ["AutoBlowBubble"] = true,           -- Automatically blows bubbles continuously
-    ["AutoSellBubble"] = true,           -- Automatically sells collected bubbles
-    ["AutoBuyGum"] = true,               -- Automatically purchases the best available gum and flavors
-    ["AutoUnlockIslands"] = true,        -- Automatically unlocks all available islands
-    ["AutoEquipBestPets"] = true,        -- Automatically equips the best pets in inventory
-    ["AutoClaimRewards"] = true,         -- Automatically claims quest rewards
-    ["AutoUpgradeMasteryAndClaim"] = true, -- Automatically upgrades mastery and claims rewards
-    ["AutoClaimSeason"] = true,          -- Automatically claims season rewards
-    ["AutoCheckInventoryFull"] = true,   -- Automatically checks if inventory is full
-    ["UsePotions"] = true,               -- Automatically uses available potions
-    ["UseGoldenOrb"] = true,             -- Automatically uses golden orbs
-    ["AutoCollectDrops"] = true,         -- Automatically collects dropped items
-    ["AutoFarmZen"] = true,              -- Automatically farms on Zen island
-    ["AutoRedeemCodes"] = true,          -- Automatically redeems available codes
-    ["AutoUseMysteryBox"] = true,        -- Automatically opens mystery boxes
-    ["AutoCheckChests"] = true,          -- Automatically checks and claims chests
-
-    -- Egg Settings
-    ["SelectedEgg"] = "Rainbow Egg",     -- The egg to hatch when AutoHatchSelectedEgg is enabled
-    ["ESpamDuration"] = 3,               -- Duration in seconds to spam E key when hatching
-    ["MaxHatchAttempts"] = 100,          -- Maximum number of hatch attempts per egg
-    ["MinCoinsForHatch"] = 50000000,     -- Minimum coins required before hatching
-    ["SetDefaultEggToHatch"] = false,    -- Whether to set default egg for hatching
-    ["SkipHatchCutscene"] = true,        -- Skips the hatching cutscene animation
-    ["AutoRiftEggLuckHatch"] = true,     -- Automatically hatches eggs in rift mode
-    ["AutoHatchEggs"] = false,           -- Automatically hatches eggs
-    ["AutoHatchSelectedEgg"] = false,    -- Automatically hatches the selected egg
-
-    -- Farm Settings
-    ["SellInterval"] = 5,                -- Interval in seconds between bubble sales
-    ["FarmZenDuration"] = 60,            -- Duration in seconds to farm on Zen island
-    ["FarmZenCooldown"] = 5,             -- Cooldown in seconds between Zen farming
-    ["AutoFarmThreshold"] = 50000000,    -- Minimum coins threshold for auto farming
-
-    -- Island Settings
-    ["IslandUnlockAttempts"] = 2,        -- Number of attempts to unlock each island
-    ["IslandUnlockDelay"] = 1,           -- Delay in seconds between unlock attempts
-
-    -- Performance Settings
-    ["SetFPS"] = 5,                     -- Target FPS cap
-    ["OptimizeGraphics"] = true,         -- Whether to optimize graphics settings
-
-    -- Webhook Settings
-    ["WebhookPet"] = {
-        ["PingUserId"] = "Ur userid In discord!",  -- Discord user ID to ping on webhook
-        ["WebhookURL"] = "https://discord.com/api/webhooks/1280307675636301948/sM8Y96yRhPp_bcFBoHewrtwcuP2LoWfyOAmzuv_Lk3YSeboqh4A5XV9oDKwBBn1MR2yD",  -- Discord webhook URL
-        ["WebhookRaritySender"] = {              -- Which pet rarities to send webhook notifications for
-            ["Common"] = false,
-            ["Unique"] = false,
-            ["Rare"] = false,
-            ["Epic"] = false,
-            ["Legendary"] = true,
-            ["Mythic"] = true,
-            ["Secret"] = true
-        }
+getgenv().Settings = {
+    ["Egg Settings"] = {
+        OpenEggs = true,
+        Egg = "Best",
+        
+        ["Notifications"] = {
+            Webhook = "https://discord.com/api/webhooks/1280307675636301948/sM8Y96yRhPp_bcFBoHewrtwcuP2LoWfyOAmzuv_Lk3YSeboqh4A5XV9oDKwBBn1MR2yD",
+            DiscordID = "",
+            Difficulty = 100000,
+        },
+        ["Rifts"] = {
+            FindRifts = true,
+            SortByMultiplier = true, --// false will still sort multi, but out of BEST egg.
+            Targets = {},
+            --// No targets will let the script automatically find the top 3 best eggs.
+        },
     },
-
-    -- Pet Deletion Settings
-    ["AutoDeleteRarityList"] = {         -- Which pet rarities to automatically delete
-        ["Common"] = true,
-        ["Unique"] = true,
-        ["Rare"] = true,
-        ["Epic"] = false,
-        ["Legendary"] = false,
-        ["Secret"] = false
+    
+    ["Enchant Settings"] = {
+        EnchantPets = false,
+        
+        ["Require All Enchants"] = true,
+        ["Enchants Needed"] = {
+            ["Team Up"] = {Tier = 1, HigherTiers = true},
+        },
     },
-
-    -- Reward Settings
-    ["AutoClaimPlaytime"] = true,        -- Automatically claims playtime rewards
-    ["AutoClaimQuests"] = true,          -- Automatically claims quest rewards
-    ["AutoClaimSeasonRewards"] = true,   -- Automatically claims season rewards
-    ["AutoUpgradeMastery"] = true,       -- Automatically upgrades mastery
-
-    -- Potion Settings
-    ["UseLuckyPotion"] = true,           -- Whether to use lucky potions
-    ["UseSpeedPotion"] = true,           -- Whether to use speed potions
-    ["UseMythicPotion"] = true,          -- Whether to use mythic potions
-    ["UseCoinsPotion"] = true,           -- Whether to use coins potions
-    ["PotionUseInterval"] = 60,          -- Interval in seconds between potion uses
-
-    -- Chest Settings
-    ["CheckGiantChest"] = true,          -- Whether to check giant chest
-    ["CheckVoidChest"] = true,           -- Whether to check void chest
-    ["ChestCheckInterval"] = 300,        -- Interval in seconds between chest checks
-
-    -- Code Settings
-    ["RedeemCodes"] = {"RELEASE", "THANKS", "LUCKY"},  -- List of codes to redeem
-    ["AutoRedeemNewCodes"] = true,       -- Whether to automatically redeem new codes
-
-    -- Enchant Settings
-    ["AutoEnchant"] = true,              -- Whether to automatically enchant pets
-    ["SelectedEnchants"] = {             -- Which enchants to apply to pets
-        ["looter"] = true,    -- Increases coin multiplier
-        ["bubbler"] = true,   -- Increases bubble multiplier
-        ["team-up"] = true,   -- Increases team stats
-        ["gleaming"] = true   -- Chance to drop gems
-    }
+    ["Debug"] = {
+        DisableUI = false,
+    },
 }
-
-
--- Загружаем основной скрипт
-loadstring(game:HttpGet("https://raw.githubusercontent.com/fornamess/BubbleGumSimulator/refs/heads/main/Egg.lua"))()
+loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/aab9fba1c9d41f8edf82e1d0bd14b1ea.lua"))()
