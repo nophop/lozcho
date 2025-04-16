@@ -1,3 +1,4 @@
+setfpscap(5)
 getgenv().Settings = {
     ["Egg Settings"] = {
         OpenEggs = true,
