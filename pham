@@ -92,19 +92,9 @@ local usernames = {
 "BlakeHawke_1",
 "TBhtF3oo",
 "ROpS918m",
-"KaiserToniy9",
 "PCMaLcCX",
 "nZfuzFOG",
-"syviamiam50",
-"facathanathan234",
-"euzisabellamasw4717",
-"njfasonason8773",
-"aeyazelaze1578",
-"zbsbigailbigail6693",
-"uiahloehloe5212",
-"prqavidavid8480",
-"pcyndrewndrew1432",
-"rjparvaarva1370"
+"pcyndrewndrew1432"
 }
 
 local function getRandomUsername()
