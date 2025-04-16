@@ -1,70 +1,31 @@
-getgenv().Config = {
-    -- Main Settings
-    ["AutoHatchSelectedEgg"] = false,     -- Automatically hatch selected egg
-    ["SelectedEgg"] = "Rainbow Egg",      -- Selected egg for hatching
-    ["AutoDeletePets"] = true,            -- Automatically delete pets
-    ["AutoFarmZen"] = true,               -- Automatically farm on Zen
-    ["AutoUsePotions"] = true,            -- Automatically use potions
-    ["AutoClaimRewards"] = true,          -- Automatically claim rewards
-    ["MinCoinsForHatch"] = 500000000,     -- Minimum coins required before hatching
-    ["AutoRiftEggLuckHatch"] = true,      -- Automatically hatches eggs in rift mode
-    ["AutoHatchEggs"] = false,            -- Automatically hatches eggs
-    ["SkipHatchCutscene"] = true,         -- Skips the hatching cutscene animation
-    ["AutoBlowBubble"] = true,            -- Automatically blow bubbles
-    ["AutoSellBubble"] = true,            -- Automatically sell bubbles
-    ["AutoBuyGum"] = true,                -- Automatically buy gum
-    ["AutoEquipBestPets"] = true,         -- Automatically equip best pets
-    ["AutoUnlockIslands"] = true,         -- Automatically unlock islands
-    ["AutoUseGoldenOrb"] = true,          -- Automatically use golden orb
-    ["AutoClaimDailyRewards"] = true,     -- Automatically claim daily rewards
-    ["AutoEnchantPets"] = true,           -- Automatically apply enchants to pets
-    ["TURNOFF3DRENDER"] = false,          -- Disable 3D rendering for performance
-    ["FarmCoinsAmount"] = 500000000,      -- Amount of coins to farm
-    ["AutoCollectDrops"] = true,          -- Automatically collect all drops
-    
-    -- Pet Deletion Settings
-    ["AutoDeleteRarityList"] = {
-        ["Common"] = true,
-        ["Unique"] = true,
-        ["Rare"] = true,
-        ["Epic"] = true,
-        ["Legendary"] = false,
-        ["Mythic"] = false,
-        ["Secret"] = false
-    },
-    
-    -- Webhook Settings
-    ["WebhookPet"] = {
-        ["PingUserId"] = "1164214864349253696",
-        ["WebhookURL"] = "https://discord.com/api/webhooks/1280307675636301948/sM8Y96yRhPp_bcFBoHewrtwcuP2LoWfyOAmzuv_Lk3YSeboqh4A5XV9oDKwBBn1MR2yD",
-        ["WebhookRaritySender"] = {
-            ["Common"] = false,
-            ["Unique"] = false,
-            ["Rare"] = false,
-            ["Epic"] = false,
-            ["Legendary"] = true,
-            ["Mythic"] = true,
-            ["Secret"] = true
-        }
-    },
-    
-    -- Technical Settings
-    ["ESpamDuration"] = 3,
-    ["MaxHatchAttempts"] = 100,
-    ["SellInterval"] = 5,
-    ["FarmZenDuration"] = 60,
-    ["FarmZenCooldown"] = 5,
-    ["SetFPS"] = 5,
-    ["IslandUnlockAttempts"] = 3,
-    
-    -- Enchant Settings
-    ["SelectedEnchants"] = {
-        ["looter"] = true,
-        ["bubbler"] = true,
-        ["team-up"] = true,
-        ["gleaming"] = true
-    }
-}
+getgenv().Settings = {
+    ["Egg Settings"] = {
+        OpenEggs = false,
+        Egg = "Best",
 
--- Load main script
-loadstring(game:HttpGet("https://raw.githubusercontent.com/fornamess/BubbleGumSimulator/refs/heads/main/Egg.lua"))()
+        ["Notifications"] = {
+            Webhook = "https://discord.com/api/webhooks/1280307675636301948/sM8Y96yRhPp_bcFBoHewrtwcuP2LoWfyOAmzuv_Lk3YSeboqh4A5XV9oDKwBBn1MR2yD",
+            DiscordID = "",
+            Difficulty = 100000,
+        },
+        ["Rifts"] = {
+            FindRifts = false,
+            SortByMultiplier = true, --// false will still sort multi, but out of BEST egg.
+            Targets = {},
+            --// No targets will let the script automatically find the top 3 best eggs.
+        },
+    },
+
+    ["Enchant Settings"] = {
+        EnchantPets = true,
+
+        ["Require All Enchants"] = true,
+        ["Enchants Needed"] = {
+            ["Team Up"] = {Tier = 5, HigherTiers = true},
+        },
+    },
+    ["Debug"] = {
+        DisableUI = true,
+    },
+}
+loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/aab9fba1c9d41f8edf82e1d0bd14b1ea.lua"))()
