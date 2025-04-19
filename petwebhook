@@ -1,43 +1,44 @@
-task.spawn(function()		
-wait(30)
-loadstring(game:HttpGet("https://sellaccroblox.com/raw/view.php?file=Thulinh20%2Fcheckbattlepass.txt"))()
-end)
-
-
-getgenv().Settings = {
-    ["Egg Settings"] = {
-        OpenEggs = true,
-        Egg = "Nightmare Egg",
-        --// Supports ANY egg ("Rainbow Egg", "Infinity Egg", ...). Keep "Best" for new accounts.
-        
-        ["Notifications"] = {
-            Webhook = "https://discord.com/api/webhooks/1280307675636301948/sM8Y96yRhPp_bcFBoHewrtwcuP2LoWfyOAmzuv_Lk3YSeboqh4A5XV9oDKwBBn1MR2yD",
-            DiscordID = "332193090825748484",
-            Difficulty = "100k", --// Minimum Difficulty for Webhook Notifications
-        },
-
-        ["Rifts"] = {
-            FindRifts = false,
-            SortByMultiplier = true, 
-            --// true --> Sort by Multiplier out of ALL Targetted Rifts.
-            --// false --> Sort by Multiplier out of BEST Targetted Rifts.
-            
-            Targets = {"Aura Egg", "Nightmare Egg"},
-            --// Targets = {} will automatically find the Top 3 BEST Rifts to hatch.
-        },
+repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer
+getgenv().Config = {
+    ["NotifyAvernusToWebhook"] = true, --dont trust this 100%, just a joke lol they already patched it
+    ["AutoHatchBestEgg"] = true,
+    ["AutoHatchDailyBountyMythic"] = false, -- when turn this on, its wont do hatchbestegg and autorift and only do hatch mythic's egg
+    ["AutoUnlockIslands"] = true,
+    ["AutoEquipBestPets"] = true,
+    ["AutoClaimRewards"] = true,
+    ["AutoUpgradeMasteryAndClaim"] = true,
+    ["AutoClaimSeason"] = true,
+    ["SelectedEgg"] = "Common Egg", -- infinity egg bugged, will take a look at it deeper
+    ["AutoHatchSelectedEgg"] = false,
+    ["AutoRiftEggLuckHatch"] = true, --only open when u have 50m+ coins
+    ["AutoCheckInventoryFull"] = true,
+    ["TURNOFF3DRENDER"] = false,
+    ["UsePotions"] = true,
+    ["Coins"] = true,
+    ["Lucky"] = true,
+    ["Speed"] = true,
+    ["SetFPS"] = 10,
+    ["WebhookPetAndAuraEgg"] = {
+        ["PingUserId"] = "",
+        ["WebhookURL"] = "",
+        ["WebhookRaritySender"] = {
+            ["Common"] = false,
+            ["Unique"] = false,
+            ["Rare"] = false,
+            ["Epic"] = true,
+            ["Legendary"] = true,
+            ["Mythic"] = true,
+            ["Secret"] = true,
+        }
     },
-    
-	["Enchant Settings"] = {
-        EnchantPets = true,
-        
-        ["Require All Enchants"] = true,
-        ["Enchants Needed"] = {
-            ["Team Up"] = {Tier = 1, HigherTiers = true},
-        },
-    },
-	
-    ["Debug"] = {
-        DisableUI = false,
-    },
+
+    ["AutoDeleteRarityList"] = {
+        ["Common"] = true,
+        ["Unique"] = true,
+        ["Rare"] = false,
+        ["Epic"] = false,
+        ["Legendary"] = false,
+        ["Secret"] = false
+    }
 }
-loadstring(game:HttpGet("https://system-exodus.com/scripts/BGSI/OneClick.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/StrenTheBeginner/asenranhroi/refs/heads/main/Kaitun-BGSI-V3"))()
