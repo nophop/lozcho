@@ -94,9 +94,11 @@ if not petsLevel then
 else
     if petsLevel >= 15 then
         Settings["Egg Settings"].Rifts.FindRifts = true
+		Settings["Egg Settings"].Egg = "Pastel Egg"
         print("Pets Level: " .. petsLevel .. " (>= 15), set FindRifts to true")
     else
         Settings["Egg Settings"].Rifts.FindRifts = false
+		Settings["Egg Settings"].Egg = "Nightmare Egg"
         print("Pets Level: " .. petsLevel .. " (< 15), set FindRifts to false")
     end
 end
