@@ -4,7 +4,6 @@ if not game:IsLoaded() then
 
 
 
-
 task.spawn(function()
 wait(10)
 
@@ -21,7 +20,7 @@ getgenv().Settings = {
         ["Notifications"] = {
             Webhook = "https://discord.com/api/webhooks/1280307675636301948/sM8Y96yRhPp_bcFBoHewrtwcuP2LoWfyOAmzuv_Lk3YSeboqh4A5XV9oDKwBBn1MR2yD",
             DiscordID = "1070055033225347212",
-            Difficulty = "30m", --// Minimum Difficulty for Webhook Notifications
+            Difficulty = "2m", --// Minimum Difficulty for Webhook Notifications
         },
 
         ["Rifts"] = {
@@ -48,4 +47,60 @@ getgenv().Settings = {
         DisableUI = false,
     },
 }
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+-- Hàm lấy nhãn Level cho Pets
+local function getLevelLabel()
+    local success, result = pcall(function()
+        return player
+            :WaitForChild("PlayerGui")
+            :WaitForChild("ScreenGui")
+            :WaitForChild("Mastery")
+            :WaitForChild("Container")
+            :WaitForChild("Left")
+            :WaitForChild("ScrollingFrame")
+            :WaitForChild("Pets")
+            :WaitForChild("Button")
+            :WaitForChild("Level")
+    end)
+    if not success then
+        warn("Failed to find Level label for Pets: " .. result)
+        return nil
+    end
+    return result
+end
+
+-- Hàm lấy cấp độ hiện tại cho Pets
+local function getCurrentLevel()
+    local levelLabel = getLevelLabel()
+    if not levelLabel then
+        return nil
+    end
+    local levelText = levelLabel.Text
+    local levelNumber = tonumber(string.match(levelText, "%d+"))
+    if not levelNumber then
+        warn("Could not parse level number for Pets from text: " .. levelText)
+        return nil
+    end
+    return levelNumber
+end
+
+-- Kiểm tra cấp độ Pets và cập nhật FindRifts
+local petsLevel = getCurrentLevel()
+if not petsLevel then
+    warn("Could not retrieve Pets level, keeping FindRifts unchanged.")
+else
+    if petsLevel >= 15 then
+        Settings["Egg Settings"].Rifts.FindRifts = true
+        print("Pets Level: " .. petsLevel .. " (>= 15), set FindRifts to true")
+    else
+        Settings["Egg Settings"].Rifts.FindRifts = false
+        print("Pets Level: " .. petsLevel .. " (< 15), set FindRifts to false")
+    end
+end
+
+
+
 loadstring(game:HttpGet("https://system-exodus.com/scripts/BGSI/OneClick.lua"))()
