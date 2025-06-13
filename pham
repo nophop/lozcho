@@ -1,108 +1,513 @@
-if not game:IsLoaded() then
-    game.Loaded:Wait()
-  end
+daubuoi = true
+local placeId = game.PlaceId
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Eggs = require(ReplicatedStorage.Shared.Data.Eggs)
+local Pets = require(ReplicatedStorage.Shared.Data.Pets)
+local LocalData = require(ReplicatedStorage.Client.Framework.Services.LocalData)
+local SecretBountyUtil = require(ReplicatedStorage.Shared.Utils.Stats.SecretBountyUtil)
+local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+local TeleportService = game:GetService("TeleportService")
+
+local discovered = LocalData:Get().Discovered
+
+-- Lấy dữ liệu từ LocalData:Get()
+local playerData = LocalData:Get()
 
 
+-- Danh sách potions cần kiểm tra
+local potionList = {
+    { Name = "Infinity Elixir", MinAmount = 10 }
+}
 
-task.spawn(function()
-wait(10)
-
-loadstring(game:HttpGet("https://sellaccroblox.com/raw/view.php?file=lilbip%2Fextrabsi.txt"))()
-
-end)
-
-getgenv().Settings = {
-    ["Egg Settings"] = {
-        OpenEggs = true,
-        Egg = "Pastel Egg",
-        --// Supports ANY egg ("Rainbow Egg", "Infinity Egg", ...). Keep "Best" for new accounts.
-        
-        ["Notifications"] = {
-            Webhook = "https://discord.com/api/webhooks/1280307675636301948/sM8Y96yRhPp_bcFBoHewrtwcuP2LoWfyOAmzuv_Lk3YSeboqh4A5XV9oDKwBBn1MR2yD",
-            DiscordID = "1070055033225347212",
-            Difficulty = "2m", --// Minimum Difficulty for Webhook Notifications
-        },
-
-        ["Rifts"] = {
-            FindRifts = true,
-            SortByMultiplier = false, 
-            --// true --> Sort by Multiplier out of ALL Targetted Rifts.
-            --// false --> Sort by Multiplier out of BEST Targetted Rifts.
-            
-            Targets = {"Aura Egg", "Bunny Egg", "Pastel Egg", "Nightmare Egg"},
-            --// Targets = {} will automatically find the Top 3 BEST Rifts to hatch.
-        },
+-- Danh sách Egglist
+local Egglist = {
+    ["W1"] = {
+        ["Void Egg"] = {"NULLVoid", "Dark Phoenix", "Neon Elemental"},
+        ["Rainbow Egg"] = {"Hexarium", "Rainbow Shock", "Green Angel"},
+        ["Nightmare Egg"] = {"Green Hydra", "Demonic Hydra", "Hell Bat"},
+        ["Hell Egg"] = {"Virus", "Inferno Demon", "Inferno Cube"},
     },
-    
-	["Enchant Settings"] = {
-    EnchantPets = false,
-
-    ["Require All Enchants"] = false,
-    ["Enchants Needed"] = {
-        ["Team Up"] = {Tier = 1, HigherTiers = true},
-    },
-	},
-	
-    ["Debug"] = {
-        DisableUI = false,
+    ["W2"] = {
+        ["Cyber Egg"] = {"Cyborg Phoenix", "Space Invader", "Bionic Shard"},
+        ["Mining Egg"] = {"Ore Golem", "Crystal Unicorn", "Stone Gargoyle"},
+        ["Neon Egg"] = {"Neon Wyvern", "Neon Wire Eye", "Equalizer"},
     },
 }
 
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
+-- Lấy bountysecret.Egg
+local bountysecret = SecretBountyUtil.Get()
+local bountyEgg = bountysecret.Egg
+print("Egg:", bountyEgg)
 
--- Hàm lấy nhãn Level cho Pets
-local function getLevelLabel()
-    local success, result = pcall(function()
-        return player
-            :WaitForChild("PlayerGui")
-            :WaitForChild("ScreenGui")
-            :WaitForChild("Mastery")
-            :WaitForChild("Container")
-            :WaitForChild("Left")
-            :WaitForChild("ScrollingFrame")
-            :WaitForChild("Pets")
-            :WaitForChild("Button")
-            :WaitForChild("Level")
+-- Kiểm tra Egglist và tìm các trứng có ít nhất một pet không trong discovered
+local eggsToAdd = {}
+for world, eggData in pairs(Egglist) do
+    for eggName, petList in pairs(eggData) do
+        local hasMissingPet = false
+        for _, petName in ipairs(petList) do
+            if not discovered[petName] then
+                hasMissingPet = true
+                break
+            end
+        end
+        if hasMissingPet then
+            table.insert(eggsToAdd, eggName)
+            print("Có ít nhất một pet không tồn tại cho trứng: " .. eggName .. " (" .. world .. "), sẽ thêm vào RIFT_EGGS")
+        else
+            print("Tất cả pet đều tồn tại cho trứng: " .. eggName .. " (" .. world .. "), không thêm vào RIFT_EGGS")
+        end
+    end
+end
+
+task.spawn(function()
+    loadstring(game:HttpGet("https://sellaccroblox.com/raw/view.php?file=lilbip%2Fextrabsi.txt"))()
+end)
+task.spawn(function()
+    loadstring(game:HttpGet("https://sellaccroblox.com/raw/view.php?file=ThulinhTrade%2Fcheckpet.txt"))()
+end)
+task.spawn(function()
+    loadstring(game:HttpGet("https://sellaccroblox.com/raw/view.php?file=Thulinh20%2Ftrack.txt"))()
+end)
+
+
+-- Hàm kiểm tra potion khớp với cấu hình
+local function matchesConfig(potion, potionConfig)
+    if potion.Name == potionConfig.Name and potion.Amount > potionConfig.MinAmount then
+        return true
+    end
+    return false
+end
+
+-- Kiểm tra potions
+local foundInfinityElixir = false
+if playerData and playerData.Potions then
+    for _, potion in pairs(playerData.Potions) do
+        for _, config in ipairs(potionList) do
+            if matchesConfig(potion, config) then
+                foundInfinityElixir = true
+                print("Tìm thấy Potion: " .. potion.Name .. " với số lượng: " .. potion.Amount)
+            end
+        end
+    end
+end
+
+local totalNormal = 0
+local totalShiny = 0
+local totalMythic = 0
+local countNormal = 0
+local countShiny = 0
+local countMythic = 0
+
+local totalNormalW2 = 0
+local totalShinyW2 = 0
+local countNormalW2 = 0
+local countShinyW2 = 0
+
+-- Kiểm tra số lượng pet trong discovered của W1 ("The Overworld") và W2 ("Minigame Paradise")
+for eggName, eggData in pairs(Eggs) do
+    if eggData.World == "The Overworld" then
+        for _, poolItem in ipairs(eggData.Pool) do
+            if poolItem.Item.Type == "Pet" then
+                local petName = poolItem.Item.Name
+                local petData = Pets[petName]
+
+                if petData and petData.Rarity ~= "Secret" then
+                    -- Normal
+                    totalNormal += 1
+                    if discovered[petName] then
+                        countNormal += 1
+                    end
+
+                    -- Shiny
+                    totalShiny += 1
+                    if discovered["Shiny " .. petName] then
+                        countShiny += 1
+                    end
+
+                    -- Mythic
+                    if discovered["Mythic " .. petName] then
+                        countMythic += 1
+                    end
+                end
+            end
+        end
+    elseif eggData.World == "Minigame Paradise" then
+        for _, poolItem in ipairs(eggData.Pool) do
+            if poolItem.Item.Type == "Pet" then
+                local petName = poolItem.Item.Name
+                local petData = Pets[petName]
+
+                if petData and petData.Rarity ~= "Secret" then
+                    -- Normal
+                    totalNormalW2 += 1
+                    if discovered[petName] then
+                        countNormalW2 += 1
+                    end
+
+                    -- Shiny
+                    totalShinyW2 += 1
+                    if discovered["Shiny " .. petName] then
+                        countShinyW2 += 1
+                    end
+                end
+            end
+        end
+    end
+end
+
+print("W1: Normal " .. countNormal .. "/" .. totalNormal .. ", Shiny " .. countShiny .. "/" .. totalShiny)
+print("W2: Normal " .. countNormalW2 .. "/" .. totalNormalW2 .. ", Shiny " .. countShinyW2 .. "/" .. totalShinyW2)
+
+local function ClaimIndex50shinyw1()
+    local args = {
+        [1] = "ClaimIndex",
+        [2] = "The Overworld",
+        [3] = "Normal"
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Framework"):WaitForChild("Network"):WaitForChild("Remote"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+end
+
+local function ClaimIndex50shinyw2()
+    local args = {
+        [1] = "ClaimIndex",
+        [2] = "Minigame Paradise",
+        [3] = "Normal"
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Framework"):WaitForChild("Network"):WaitForChild("Remote"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+end
+
+local function ClaimIndex50mythicw1()
+    local args = {
+        [1] = "ClaimIndex",
+        [2] = "The Overworld",
+        [3] = "Shiny"
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Framework"):WaitForChild("Network"):WaitForChild("Remote"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+end
+
+local function ClaimIndex50mythicw2()
+    local args = {
+        [1] = "ClaimIndex",
+        [2] = "Minigame Paradise",
+        [3] = "Shiny"
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Framework"):WaitForChild("Network"):WaitForChild("Remote"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+end
+
+
+--[[
+-- Hàm webhook được cung cấp
+local function webhook(url, data)
+    pcall(function()
+        local newdata = game:GetService("HttpService"):JSONEncode(data)
+        local headers = {
+            ["content-type"] = "application/json"
+        }
+        request = http_request or request or HttpPost or syn.request
+        local a = {
+            Url = url,
+            Body = newdata,
+            Method = "POST",
+            Headers = headers
+        }
+        request(a)
     end)
-    if not success then
-        warn("Failed to find Level label for Pets: " .. result)
-        return nil
-    end
-    return result
 end
 
--- Hàm lấy cấp độ hiện tại cho Pets
-local function getCurrentLevel()
-    local levelLabel = getLevelLabel()
-    if not levelLabel then
-        return nil
-    end
-    local levelText = levelLabel.Text
-    local levelNumber = tonumber(string.match(levelText, "%d+"))
-    if not levelNumber then
-        warn("Could not parse level number for Pets from text: " .. levelText)
-        return nil
-    end
-    return levelNumber
-end
 
--- Kiểm tra cấp độ Pets và cập nhật FindRifts
-local petsLevel = getCurrentLevel()
-if not petsLevel then
-    warn("Could not retrieve Pets level, keeping FindRifts unchanged.")
-else
-    if petsLevel >= 15 then
-        Settings["Egg Settings"].Rifts.FindRifts = true
-		Settings["Egg Settings"].Egg = "Pastel Egg"
-        print("Pets Level: " .. petsLevel .. " (>= 15), set FindRifts to true")
+-- Hàm gửi thông báo qua webhook
+local function sendWebhook(milestones)
+    if #milestones == 0 then
+        print("Không có mục nào đạt được, không gửi webhook")
+        return
+    end
+
+    local playerName = Players.LocalPlayer.Name
+    local content = playerName .. ": " .. table.concat(milestones, ", ") .. " Done"
+    local webhookUrl = "https://discord.com/api/webhooks/1330886743590703175/TDAvi0vzfBZU-UbEDwUg3RtEzy_Xz8BVUu2NKljEso4PezFUDuOJ1ZI5BJoL2x2_VuAq"
+
+    local success, errorMsg = pcall(function()
+        webhook(webhookUrl, {
+            ["content"] = content,
+            ["username"] = "Pet Collection Bot"
+        })
+    end)
+
+    if success then
+        print("Đã gửi webhook thành công: " .. content)
     else
-        Settings["Egg Settings"].Rifts.FindRifts = false
-		Settings["Egg Settings"].Egg = "Nightmare Egg"
-        print("Pets Level: " .. petsLevel .. " (< 15), set FindRifts to false")
+        warn("Lỗi khi gửi webhook: " .. tostring(errorMsg))
     end
+end
+]]
+
+-- Hàm chuyển TimeElixir thành giây
+
+local function parseTimeElixir(timeStr)
+    if not timeStr or timeStr == "" then
+        return 0
+    end
+
+    -- Xử lý định dạng "X day" hoặc "X days"
+    if timeStr:match("^%d+ day[s]?$") then
+        local days = tonumber(timeStr:match("^%d+"))
+        return days * 86400 -- 1 ngày = 86400 giây
+    end
+
+    -- Xử lý các định dạng thời gian (giây, phút:giây, giờ:phút:giây)
+    local parts = {}
+    for part in timeStr:gmatch("[^:]+") do
+        table.insert(parts, part)
+    end
+
+    if #parts == 1 then
+        -- Định dạng "30s"
+        if parts[1]:match("s$") then
+            return tonumber(parts[1]:match("^%d+")) or 0
+        end
+    elseif #parts == 2 then
+        -- Định dạng "1:30" (phút:giây)
+        local minutes = tonumber(parts[1]) or 0
+        local seconds = tonumber(parts[2]) or 0
+        return minutes * 60 + seconds
+    elseif #parts == 3 then
+        -- Định dạng "2:3:15" (giờ:phút:giây)
+        local hours = tonumber(parts[1]) or 0
+        local minutes = tonumber(parts[2]) or 0
+        local seconds = tonumber(parts[3]) or 0
+        return hours * 3600 + minutes * 60 + seconds
+    end
+
+    return 0 -- Trả về 0 nếu không khớp định dạng
+end
+
+-- Lấy TimeElixir an toàn
+local TimeElixir
+local success, result = pcall(function()
+    return game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.Buffs["Infinity Elixir"].Button.Label.Text
+end)
+if success then
+    TimeElixir = result
+else
+    TimeElixir = "0" -- Coi như 0 giây nếu lỗi
+    print("Lỗi khi lấy TimeElixir, coi TimeElixir = 0 giây")
 end
 
 
+script_key = "mvXYwlMffLzNaVnUlOVYYvPBNMzURMvu"
 
-loadstring(game:HttpGet("https://system-exodus.com/scripts/BGSI/OneClick.lua"))()
+getgenv().bgsInfConfig = {
+    IGNORE_SEASON_CHALLENGES = true,
+    SUMMER_EVENT = true,
+    IGNORE_MINIGAME = true,
+    -- IGNORE_EQUIP_BEST_PET = true,
+    HATCH_INFERNO_CUBE_AMOUNT = 5,
+    -- ENCHANT_HIGH_ROLLER = true,
+    -- USE_GEMS_ENCHANT = true,
+    MASTERY_PETS_LEVEL = 15,
+    -- MASTERY_BUFFS_LEVEL = 18, 
+    ADD_FRIEND = true,
+    MIN_GEMS_BEFORE_HATCHING = 3000000,
+    MIN_COINS_BEFORE_HATCHING = 11000000000,
+    MIN_TICKETS_BEFORE_HATCHING = 20000000000,
+    MIN_SEASHELLS_BEFORE_HATCHING = 11000000000,
+    ALWAYS_INFINITY_ELIXIR = true,
+    ALWAYS_EGG_ELIXIR = false,
+    AUTO_UPDATE_RESTART = false,
+    PURCHASE_ALIENSHOP = false,
+    PURCHASE_BLACKMARKET = true,
+    PURCHASE_DICE_MERCHANT = true,
+    PURCHASE_EVENT_SHOP = true,
+    PURCHASE_TRAVELING_MERCHANT = true,
+    PURCHASE_STARSHOP_SLOT = 14,
+    RESTOCK_SHOP = "Event Shop",
+    IGNORE_WORLD_CHEST = true,
+    USE_DICE_KEY = true,
+    USE_ROYAL_KEY = true,
+    USE_MYSTERY_BOX = true,
+    RARITY_TO_DELETE = {"Common", "Unique", "Rare", "Epic", "Legendary"},
+    RARITY_TO_SHINY = {"Common", "Unique", "Rare", "Epic", "Legendary"},
+    DELETE_LEGENDARY_SHINY = true,
+    DELETE_LEGENDARY_MYTHIC = true,
+    MAX_LEGENDARY_TIER_TO_DELETE = 2,
+    -- PETS_TO_DELETE = {"Crystal Unicorn","Popsicle Trio","Crimson Butterfly","Cyborg Phoenix","Inferno Dragon"},
+    ENCHANT_TEAMUP = true,
+    ENCHANT_TEAMUP_TIER = 3,
+    -- INFINITY_EGG_TYPE = "World1",
+    RIFT_EGGS = {"abc"},
+    MIN_RIFT_MULTIPLIER = 10,
+    -- Infinity Egg , "Cyber Egg", "Nightmare Egg" Fruit Egg Icecream Egg Fossil Egg "Dark Egg", "Light Egg"
+    HATCH_1X_EGG = {"Dark Egg", "Light Egg", "Fossil Egg", "Icecream Egg"}, 
+    WEBHOOK_URL = "https://discord.com/api/webhooks/1372629533693579264/ZhLhTFY2xBBmfAzCaShjrlIKBE1YwMzSCVfMBoAmC6HUhrwzofubI9zHT7F3cjYFJEi4",
+    DISCORD_ID = "627013557695021087",
+    WEBHOOK_ODDS = 50000000,
+    SHOW_PET_WEBHOOK_USERNAME = true
+}
+
+-- Chuyển TimeElixir thành giây và kiểm tra
+local farmthuocx2 = false
+local timeInSeconds = parseTimeElixir(TimeElixir)
+print("TimeElixir: " .. TimeElixir .. " (" .. timeInSeconds .. " giây)")
+if timeInSeconds < 1800 then -- 30 phút = 1800 giây
+    print("TimeElixir < 30 phút, chay che do farm thuoc")
+    farmthuocx2 = true
+end
+
+
+local success, buffluck = pcall(function()
+        return game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.SummerEventBoard.Frame.Main.ActiveEvents.Container.List.Template.Frame.Title.Event.Text
+end)
+
+if buffluck == "🍀 Double Luck 🍀" or buffluck == "🚀 Fast Hatch 🚀" or buffluck == "🥚 Extra Hatch 🥚" then
+    getgenv().bgsInfConfig.USE_ROYAL_KEY = false
+    getgenv().bgsInfConfig.USE_DICE_KEY = false
+    getgenv().bgsInfConfig.MASTERY_PETS_LEVEL = 1
+    getgenv().bgsInfConfig.MASTERY_BUFFS_LEVEL = 1
+    getgenv().bgsInfConfig.MASTERY_SHOPS_LEVEL = 1
+    getgenv().bgsInfConfig.MASTERY_MINIGAMES_LEVEL = 1
+    getgenv().bgsInfConfig.MIN_GEMS_BEFORE_HATCHING = 2
+    getgenv().bgsInfConfig.MIN_COINS_BEFORE_HATCHING = 1
+    getgenv().bgsInfConfig.MIN_TICKETS_BEFORE_HATCHING = 1
+    foundInfinityElixir = true
+
+end
+
+if buffluck == "🍀 Double Luck 🍀" then
+    getgenv().bgsInfConfig.ALWAYS_EGG_ELIXIR = true
+end
+
+if not foundInfinityElixir and farmthuocx2 then
+    -- getgenv().bgsInfConfig.RESTOCK_SHOP = "Traveling Merchant"
+    getgenv().bgsInfConfig.ALWAYS_EGG_ELIXIR = false
+    getgenv().bgsInfConfig.IGNORE_SEASON_CHALLENGES = true
+    getgenv().bgsInfConfig.SUPER_TICKET_MINIGAME = "Robot Claw"
+    getgenv().bgsInfConfig.ALWAYS_INFINITY_ELIXIR = false
+    getgenv().bgsInfConfig.SUMMER_EVENT = false
+    getgenv().bgsInfConfig.IGNORE_MINIGAME = false
+    getgenv().bgsInfConfig.RIFT_EGGS = {"Neon Egg"}
+    getgenv().bgsInfConfig.MIN_RIFT_MULTIPLIER = 5
+    getgenv().bgsInfConfig.HATCH_1X_EGG = {"Neon Egg"}
+    -- getgenv().bgsInfConfig.RESTOCK_SHOP = "Blackmarket"
+end
+
+
+-- Kiểm tra pet và thêm trứng vào RIFT_EGGS
+local eggsToAddW1 = {}
+local eggsToAddW2 = {}
+local milestones = {}
+
+-- Kiểm tra pet Normal tại W1
+if countNormal < 63 then
+    print("Chưa đủ 63 pet Normal tại W1, kiểm tra pet thiếu trong Egglist.W1")
+    for eggName, petList in pairs(Egglist.W1) do
+        for _, petName in ipairs(petList) do
+            if not discovered[petName] then
+                table.insert(eggsToAddW1, eggName)
+                print("Thiếu pet Normal: " .. petName .. ", thêm trứng: " .. eggName .. " vào RIFT_EGGS (W1)")
+                break
+            end
+        end
+    end
+else
+    print("Đã đủ 63 pet Normal tại W1, gọi ClaimIndex50shinyw1")
+    task.spawn(ClaimIndex50shinyw1)
+    table.insert(milestones, "Normal W1")
+end
+
+-- Kiểm tra pet Normal tại W2
+--[[
+if countNormalW2 < 21 then
+    print("Chưa đủ 21 pet Normal tại W2, kiểm tra pet thiếu trong Egglist.W2")
+    for eggName, petList in pairs(Egglist.W2) do
+        for _, petName in ipairs(petList) do
+            if not discovered[petName] then
+                table.insert(eggsToAddW2, eggName)
+                print("Thiếu pet Normal: " .. petName .. ", thêm trứng: " .. eggName .. " vào RIFT_EGGS (W2)")
+                break
+            end
+        end
+    end
+else
+    print("Đã đủ 21 pet Normal tại W2, gọi ClaimIndex50shinyw2")
+    task.spawn(ClaimIndex50shinyw2)
+    table.insert(milestones, "Normal W2")
+end
+]]
+-- Kiểm tra pet Shiny tại W1 và W2 and countNormalW2 >= 21
+if countNormal >= 63 then
+    print("Đã đủ pet Normal tại W1 và W2, kiểm tra pet Shiny")
+    if countShiny < 63 then
+        print("Chưa đủ 63 pet Shiny tại W1, kiểm tra pet thiếu trong Egglist.W1")
+        for eggName, petList in pairs(Egglist.W1) do
+            for _, petName in ipairs(petList) do
+                if not discovered["Shiny " .. petName] then
+                    table.insert(eggsToAddW1, eggName)
+                    print("Thiếu pet Shiny: Shiny " .. petName .. ", thêm trứng: " .. eggName .. " vào RIFT_EGGS (W1)")
+                    break
+                end
+            end
+        end
+    else
+        print("Đã đủ 63 pet Shiny tại W1, gọi ClaimIndex50mythicw1")
+        task.spawn(ClaimIndex50mythicw1)
+        table.insert(milestones, "Shiny W1")
+    end
+end
+--[[
+    if countShinyW2 < 21 then
+        print("Chưa đủ 21 pet Shiny tại W2, kiểm tra pet thiếu trong Egglist.W2")
+        for eggName, petList in pairs(Egglist.W2) do
+            for _, petName in ipairs(petList) do
+                if not discovered["Shiny " .. petName] then
+                    table.insert(eggsToAddW2, eggName)
+                    print("Thiếu pet Shiny: Shiny " .. petName .. ", thêm trứng: " .. eggName .. " vào RIFT_EGGS (W2)")
+                    break
+                end
+            end
+        end
+    else
+        print("Đã đủ 21 pet Shiny tại W2, gọi ClaimIndex50mythicw2")
+        task.spawn(ClaimIndex50mythicw2)
+        table.insert(milestones, "Shiny W2")
+    end
+end
+]]
+-- Gửi webhook nếu có mục đạt được
+--[[
+if #milestones > 0 then
+    task.spawn(function()
+        sendWebhook(milestones)
+    end)
+end
+
+
+-- Đảm bảo RIFT_EGGS là danh sách hợp lệ
+getgenv().bgsInfConfig.RIFT_EGGS = getgenv().bgsInfConfig.RIFT_EGGS or {}
+
+-- Thêm các trứng từ eggsToAddW1 và eggsToAddW2 vào RIFT_EGGS
+for _, egg in ipairs(eggsToAddW1) do
+    table.insert(getgenv().bgsInfConfig.RIFT_EGGS, egg)
+    print("Đã thêm " .. egg .. " vào perspective vào RIFT_EGGS (W1). RIFT_EGGS hiện tại: " .. table.concat(getgenv().bgsInfConfig.RIFT_EGGS, ", "))
+end
+for _, egg in ipairs(eggsToAddW2) do
+    table.insert(getgenv().bgsInfConfig.RIFT_EGGS, egg)
+    print("Đã thêm " .. egg .. " vào RIFT_EGGS (W2). RIFT_EGGS hiện tại: " .. table.concat(getgenv().bgsInfConfig.RIFT_EGGS, ", "))
+end
+
+-- Loại bỏ các trứng trùng lặp trong RIFT_EGGS
+local seen = {}
+local uniqueEggs = {}
+for _, egg in ipairs(getgenv().bgsInfConfig.RIFT_EGGS) do
+    if not seen[egg] then
+        seen[egg] = true
+        table.insert(uniqueEggs, egg)
+    end
+end
+getgenv().bgsInfConfig.RIFT_EGGS = uniqueEggs
+print("RIFT_EGGS sau khi lọc trùng lặp: " .. table.concat(getgenv().bgsInfConfig.RIFT_EGGS, ", "))
+]]
+
+loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/3dc52e6a2fc4f671b66757e93f4fd38b.lua"))()
