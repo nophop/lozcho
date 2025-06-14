@@ -1,0 +1,836 @@
+print("load thanh cong extrabgsi")
+task.wait(20)
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local LocalDataService = require(ReplicatedStorage.Client.Framework.Services.LocalData)
+local player = Players.LocalPlayer
+
+-- Danh sách các loại thuốc
+local listPotions = {
+    { Name = "Lucky", MinAmount = 10 },
+    { Name = "Speed", MinAmount = 10 },
+    { Name = "Mythic", MinAmount = 10 },
+    { Name = "Coins", MinAmount = 10 },
+    { Name = "Tickets", MinAmount = 10 }
+}
+-- Danh sách các loại elixir
+local listPotionsUse = {
+    { Name = "Infinity Elixir", MinAmount = 10 }
+}
+
+-- Biến để quản lý trạng thái luồng autorolldice
+local isRolling = false
+local rollTask = nil
+local mindices = 100
+
+-- Hàm định dạng số với dấu phẩy (ví dụ: 1456448 -> 1,456,448)
+local function formatNumber(number)
+    if not number then return "0" end
+    local formatted = tostring(number)
+    local result = ""
+    local count = 0
+    for i = #formatted, 1, -1 do
+        result = formatted:sub(i, i) .. result
+        count = count + 1
+        if count % 3 == 0 and i > 1 then
+            result = "," .. result
+        end
+    end
+    return result
+end
+
+-- Hàm kiểm tra Gems, Coins, Tickets mỗi 5 phút và rejoin nếu không thay đổi hoặc không xác định
+local function checkCurrencies()
+    local playerData = LocalDataService:Get()
+    local previousGems = playerData.Gems
+    local previousCoins = playerData.Coins
+    local previousTickets = playerData.Tickets
+    local previousSeashells = playerData.Seashells
+    task.wait(120)
+    while true do
+        playerData = LocalDataService:Get()
+        local currentGems = playerData.Gems
+        local currentCoins = playerData.Coins
+        local currentTickets = playerData.Tickets
+        local currentSeashells = playerData.Seashells
+        print("Gems: " .. formatNumber(currentGems) .. ", Coins: " .. formatNumber(currentCoins) .. ", Tickets: " .. formatNumber(currentTickets) .. ", Seashells: " .. formatNumber(currentSeashells))
+        if currentGems == previousGems and currentCoins == previousCoins and currentTickets == previousTickets and  currentSeashells == previousSeashells then
+            print("Không có thay đổi trong Gems, Coins, Tickets. Rejoining server...")
+            rejoinServer()
+            task.wait(5)
+        end
+        previousGems = currentGems
+        previousCoins = currentCoins
+        previousTickets = currentTickets
+        previousSeashells = currentSeashells
+        task.wait(180) -- Chờ 5 phút (300 giây)
+    end
+end
+
+-- Hàm gửi yêu cầu nâng cấp
+local function upgradeMastery(category)
+    local success, result = pcall(function()
+        local args = {
+            [1] = "UpgradeMastery",
+            [2] = category
+        }
+        local remote = ReplicatedStorage
+            :WaitForChild("Shared")
+            :WaitForChild("Framework")
+            :WaitForChild("Network")
+            :WaitForChild("Remote")
+            :WaitForChild("RemoteEvent")
+        remote:FireServer(unpack(args))
+    end)
+    if not success then
+        warn("Failed to upgrade " .. category .. ": " .. result)
+    end
+end
+
+-- Hàm chạy vòng lặp nâng cấp cho Shops
+local function autoUpgradeShops()
+    wait(60)
+    while true do
+        local success, playerData = pcall(function()
+            return LocalDataService:Get()
+        end)
+        local shopsLevel = 0
+        if success and playerData and playerData.MasteryLevels then
+            shopsLevel = playerData.MasteryLevels.Shops or 0
+        else
+            warn("Could not retrieve Shops level, treating as Level 0...")
+        end
+        if shopsLevel >= 11 then
+            print("Shops reached Level 10, stopping Shops auto-upgrade.")
+            break
+        else
+            print("Shops Level: " .. shopsLevel .. ", upgrading Shops...")
+            upgradeMastery("Shops")
+        end
+        task.wait(110)
+    end
+end
+
+-- Hàm chạy vòng lặp nâng cấp cho Minigames
+local function autoUpgradeMinigames()
+    wait(60)
+    while true do
+        local success, playerData = pcall(function()
+            return LocalDataService:Get()
+        end)
+        local minigamesLevel = 0
+        if success and playerData and playerData.MasteryLevels then
+            minigamesLevel = playerData.MasteryLevels.Minigames or 0
+        else
+            warn("Could not retrieve Minigames level, treating as Level 0...")
+        end
+        if minigamesLevel >= 8 then
+            print("Minigames reached Level 8, stopping Minigames auto-upgrade.")
+            break
+        else
+            print("Minigames Level: " .. minigamesLevel .. ", upgrading Minigames...")
+            upgradeMastery("Minigames")
+        end
+        task.wait(120)
+    end
+end
+
+-- Hàm chạy vòng lặp nâng cấp cho Pets và Buffs
+local function autoUpgradePetsAndBuffs()
+    wait(100)
+    while true do
+        local success, playerData = pcall(function()
+            return LocalDataService:Get()
+        end)
+        local petsLevel = 0
+        local buffsLevel = 0
+        if success and playerData and playerData.MasteryLevels then
+            petsLevel = playerData.MasteryLevels.Pets or 0
+            buffsLevel = playerData.MasteryLevels.Buffs or 0
+        else
+            warn("Could not retrieve Pets or Buffs level, treating as Level 0...")
+        end
+
+        -- Giai đoạn 1: Nâng cấp cả Pets và Buffs đến khi Buffs đạt cấp 7
+        if buffsLevel < 7 and petsLevel < 15 then
+            print("Buffs Level: " .. buffsLevel .. ", upgrading Buffs...")
+            upgradeMastery("Buffs")
+            print("Pets Level: " .. petsLevel .. ", upgrading Pets...")
+            upgradeMastery("Pets")
+        -- Giai đoạn 2: Buffs đạt cấp 7, ưu tiên nâng cấp Pets đến cấp 15
+        elseif buffsLevel >= 7 and petsLevel < 15 then
+            print("Buffs reached Level 7, prioritizing Pets...")
+            print("Pets Level: " .. petsLevel .. ", upgrading Pets...")
+            upgradeMastery("Pets")
+        -- Giai đoạn 3: Pets đạt cấp 15, tiếp tục nâng cấp Buffs đến cấp 14
+        elseif petsLevel >= 15 and buffsLevel < 21 then
+            print("Pets reached Level 15, resuming Buffs upgrade...")
+            print("Buffs Level: " .. buffsLevel .. ", upgrading Buffs...")
+            upgradeMastery("Pets")
+            task.wait(1)
+            upgradeMastery("Buffs")
+        -- Giai đoạn 4: Pets đạt cấp 15 và Buffs đạt cấp 14, dừng lại
+        elseif petsLevel >= 17 and buffsLevel >= 21 then
+            print("Pets Level 15 and Buffs Level 14 achieved, stopping upgrades...")
+            break
+        end
+        task.wait(100)
+    end
+end
+
+-- Hàm trang bị pet tốt nhất
+local function equipbestpet()
+    game:GetService("ReplicatedStorage").Shared.Framework.Network.Remote.RemoteEvent:FireServer("EquipBestPets")
+end
+
+-- Hàm chế tạo Potion
+local function craftPotion(potionName, level)
+    local success, result = pcall(function()
+        local args = {
+            [1] = "CraftPotion",
+            [2] = potionName,
+            [3] = level,
+            [4] = false
+        }
+        local remote = ReplicatedStorage
+            :WaitForChild("Shared")
+            :WaitForChild("Framework")
+            :WaitForChild("Network")
+            :WaitForChild("Remote")
+            :WaitForChild("RemoteEvent")
+        remote:FireServer(unpack(args))
+    end)
+    if success then
+        print("Đã chế tạo " .. potionName .. " cấp " .. level)
+    else
+        warn("Lỗi khi chế tạo " .. potionName .. " cấp " .. level .. ": " .. result)
+    end
+end
+
+-- Hàm kiểm tra và chế tạo Potions
+local function autoCraftPotions()
+    task.wait(180) -- Chờ 60 giây trước khi bắt đầu
+    while true do
+        local success, playerData = pcall(function()
+            return LocalDataService:Get()
+        end)
+        if success and playerData and playerData.Potions then
+            for _, potionConfig in ipairs(listPotions) do
+                local potionName = potionConfig.Name
+                local minAmount = potionConfig.MinAmount
+                local level5Count = 0
+
+                -- Kiểm tra số lượng Potion cấp 5
+                for _, potion in pairs(playerData.Potions) do
+                    if potion.Name == potionName and potion.Level == 5 then
+                        level5Count = potion.Amount or 0
+                        break
+                    end
+                end
+
+                print("Potion " .. potionName .. " cấp 5: " .. level5Count .. " (Yêu cầu tối thiểu: " .. minAmount .. ")")
+                if level5Count < minAmount then
+                    print("Số lượng Potion " .. potionName .. " cấp 5 dưới mức tối thiểu, bắt đầu chế tạo...")
+
+                    -- Chế tạo từ cấp 4 lên cấp 5 (nếu có đủ)
+                    local level4Count = 0
+                    for _, potion in pairs(playerData.Potions) do
+                        if potion.Name == potionName and potion.Level == 4 then
+                            level4Count = potion.Amount or 0
+                            break
+                        end
+                    end
+                    while level4Count >= 8 do
+                        craftPotion(potionName, 5)
+                        level4Count = level4Count - 8
+                        task.wait(1) -- Chờ 1 giây giữa các lần chế tạo
+                    end
+
+                    -- Chế tạo từ cấp 3 lên cấp 4 (nếu có đủ)
+                    local level3Count = 0
+                    for _, potion in pairs(playerData.Potions) do
+                        if potion.Name == potionName and potion.Level == 3 then
+                            level3Count = potion.Amount or 0
+                            break
+                        end
+                    end
+                    while level3Count >= 6 do
+                        craftPotion(potionName, 4)
+                        level3Count = level3Count - 6
+                        task.wait(1)
+                    end
+
+                    -- Chế tạo từ cấp 2 lên cấp 3 (nếu có đủ)
+                    local level2Count = 0
+                    for _, potion in pairs(playerData.Potions) do
+                        if potion.Name == potionName and potion.Level == 2 then
+                            level2Count = potion.Amount or 0
+                            break
+                        end
+                    end
+                    while level2Count >= 4 do
+                        craftPotion(potionName, 3)
+                        level2Count = level2Count - 4
+                        task.wait(1)
+                    end
+
+                    -- Chế tạo từ cấp 1 lên cấp 2 (nếu có đủ)
+                    local level1Count = 0
+                    for _, potion in pairs(playerData.Potions) do
+                        if potion.Name == potionName and potion.Level == 1 then
+                            level1Count = potion.Amount or 0
+                            break
+                        end
+                    end
+                    while level1Count >= 4 do
+                        craftPotion(potionName, 2)
+                        level1Count = level1Count - 4
+                        task.wait(1)
+                    end
+                end
+            end
+        else
+            warn("Không thể lấy dữ liệu Potions, thử lại sau...")
+        end
+        task.wait(300) -- Kiểm tra lại sau 5 phút
+    end
+end
+
+-- Hàm sử dụng Potion
+local function usePotion(potionName)
+    local success, result = pcall(function()
+        local args = {
+            [1] = "UsePotion",
+            [2] = potionName,
+            [3] = 1
+        }
+        local remote = ReplicatedStorage
+            :WaitForChild("Shared")
+            :WaitForChild("Framework")
+            :WaitForChild("Network")
+            :WaitForChild("Remote")
+            :WaitForChild("RemoteEvent")
+        remote:FireServer(unpack(args))
+    end)
+    if success then
+        print("Đã sử dụng 1 " .. potionName)
+    else
+        warn("Lỗi khi sử dụng " .. potionName .. ": " .. result)
+    end
+end
+
+-- Hàm kiểm tra và sử dụng Potions từ listPotionsUse
+local function autoUsePotions()
+    while true do
+        local success, playerData = pcall(function()
+            return LocalDataService:Get()
+        end)
+        if success and playerData and playerData.Potions then
+            for _, potionConfig in ipairs(listPotionsUse) do
+                local potionName = potionConfig.Name
+                local minAmount = potionConfig.MinAmount
+                local potionCount = 0
+
+                -- Kiểm tra số lượng Potion cấp 1
+                for _, potion in pairs(playerData.Potions) do
+                    if potion.Name == potionName and potion.Level == 1 then
+                        potionCount = potion.Amount or 0
+                        break
+                    end
+                end
+
+                print("Potion " .. potionName .. " cấp 1: " .. potionCount .. " (Yêu cầu tối thiểu: " .. minAmount .. ")")
+                if potionCount > minAmount then
+                    print("Số lượng Potion " .. potionName .. " cấp 1 lớn hơn mức tối thiểu, bắt đầu sử dụng...")
+                    while potionCount > minAmount do
+                        usePotion(potionName)
+                        potionCount = potionCount - 1
+                        task.wait(1) -- Chờ 1 giây giữa các lần sử dụng
+                    end
+                end
+            end
+        else
+            warn("Không thể lấy dữ liệu Potions, thử lại sau...")
+        end
+        task.wait(300) -- Kiểm tra lại sau 5 phút
+    end
+end
+
+local RemoteFolder = ReplicatedStorage
+    :WaitForChild("Shared")
+    :WaitForChild("Framework")
+    :WaitForChild("Network")
+    :WaitForChild("Remote")
+
+local RemoteFunction = RemoteFolder:WaitForChild("RemoteFunction")
+local RemoteEvent = RemoteFolder:WaitForChild("RemoteEvent")
+
+-- Hàm tự động tung xúc xắc
+local function autorolldice()
+    isRolling = true
+    print("Bắt đầu autorolldice...")
+    while isRolling do
+        local success, playerData = pcall(function()
+            return LocalDataService:Get()
+        end)
+        if success and playerData and playerData.Powerups then
+            local diceCount = playerData.Powerups.Dice or 0
+            if diceCount <= mindices then
+                print("Số lượng Dice <= 100, dừng autorolldice...")
+                isRolling = false
+                rollTask = nil
+                break
+            end
+        else
+            warn("Không thể lấy dữ liệu Powerups trong autorolldice, tiếp tục thử...")
+        end
+
+        local success = pcall(function()
+            RemoteFunction:InvokeServer("RollDice", "Dice")
+        end)
+
+        if not success then
+            pcall(function()
+                RemoteFunction:InvokeServer("RollDice", "Giant Dice")
+            end)
+        end
+
+        task.wait(1)
+
+        RemoteEvent:FireServer("ClaimTile")
+
+        task.wait(1)
+    end
+end
+
+-- Hàm kiểm tra số lượng Dice và quản lý luồng autorolldice
+local function checkDiceAndRoll()
+    wait(5) -- Chờ 60 giây trước khi bắt đầu
+    while true do
+        local success, playerData = pcall(function()
+            return LocalDataService:Get()
+        end)
+        if success and playerData and playerData.Powerups then
+            local diceCount = playerData.Powerups.Dice or 0
+            print("Số lượng Dice: " .. diceCount)
+            if diceCount > mindices and not isRolling then
+                print("Số lượng Dice > 100, kích hoạt autorolldice...")
+                rollTask = task.spawn(autorolldice)
+            elseif diceCount <= mindices and isRolling then
+                print("Số lượng Dice <= 100, yêu cầu dừng autorolldice...")
+                isRolling = false -- Dừng luồng bằng cách đặt isRolling thành false
+                rollTask = nil
+            end
+        else
+            warn("Không thể lấy dữ liệu Powerups, thử lại sau...")
+        end
+        task.wait(300) -- Kiểm tra lại sau 5 phút
+    end
+end
+
+-- Hàm gửi cài đặt game
+local function setSetting(settingName, value)
+    local args = {
+        [1] = "SetSetting",
+        [2] = settingName,
+        [3] = value
+    }
+    ReplicatedStorage.Shared.Framework.Network.Remote.RemoteEvent:FireServer(unpack(args))
+    task.wait(1)
+end
+
+-- Hàm equip pet
+local function equipPet(idpet)
+    local args = {
+        "EquipPet",
+        idpet
+    }
+    local success = pcall(function()
+        RemoteEvent:FireServer(unpack(args))
+    end)
+    if not success then
+        warn("Lỗi khi equip pet với ID: " .. idpet)
+        return false
+    end
+    task.wait(1) -- Tăng thời gian chờ để đảm bảo đồng bộ
+    return true
+end
+
+-- Hàm unequip pet
+local function unequipPet(idpet)
+    local args = {
+        "UnequipPet",
+        idpet
+    }
+    local success = pcall(function()
+        RemoteEvent:FireServer(unpack(args))
+    end)
+    if not success then
+        warn("Lỗi khi unequip pet với ID: " .. idpet)
+        return false
+    end
+    task.wait(1) -- Tăng thời gian chờ để đảm bảo đồng bộ
+    return true
+end
+
+-- Hàm kiểm tra xem pet có enchant high-roller không
+local function hasHighRoller(pet)
+    if pet.Enchants then
+        for _, enchant in pairs(pet.Enchants) do
+            if enchant.Id == "high-roller" then
+                return true
+            end
+        end
+    end
+    return false
+end
+
+-- Hàm cập nhật trạng thái Team 1
+local function updateTeam1Status(playerData, currentTeam, petsWithoutHighRoller, highRollerCountInTeam, teamSize)
+    if not playerData or not playerData.Teams or not playerData.Teams[1] or not playerData.Pets then
+        warn("Không thể lấy dữ liệu Team 1 hoặc Pets.")
+        return nil, nil, nil, nil, nil
+    end
+
+    local team1 = playerData.Teams[1].Pets
+    local allPets = playerData.Pets
+
+    currentTeam = {}
+    highRollerCountInTeam = 0
+    petsWithoutHighRoller = {}
+    print("Danh sách pet trong Team 1 (cập nhật):")
+    for _, id in pairs(team1) do
+        currentTeam[id] = true
+        local pet = nil
+        for _, p in pairs(allPets) do
+            if p.Id == id then
+                pet = p
+                break
+            end
+        end
+        if pet then
+            local isHighRoller = hasHighRoller(pet)
+            print("Pet ID: " .. id .. ", Có high-roller: " .. tostring(isHighRoller))
+            if isHighRoller then
+                highRollerCountInTeam = highRollerCountInTeam + 1
+            else
+                table.insert(petsWithoutHighRoller, id)
+            end
+        else
+            warn("Không tìm thấy pet với ID " .. id .. " trong allPets.")
+        end
+    end
+    teamSize = #team1
+
+    return team1, allPets, currentTeam, highRollerCountInTeam, petsWithoutHighRoller, teamSize
+end
+
+-- Hàm quản lý pet trong Team 1
+local function manageTeam1Pets()
+    -- Lấy dữ liệu người chơi từ LocalDataService
+    local playerData = LocalDataService:Get()
+
+    -- Kiểm tra xem dữ liệu có tồn tại không
+    if not playerData or not playerData.Teams or not playerData.Teams[1] or not playerData.Pets then
+        warn("Không thể lấy dữ liệu Team 1 hoặc Pets từ LocalDataService.")
+        return
+    end
+
+    local team1 = playerData.Teams[1].Pets
+    local allPets = playerData.Pets
+
+    -- Tạo danh sách các pet có high-roller từ tất cả pet
+    local availableHighRollerPets = {}
+    for _, pet in pairs(allPets) do
+        if hasHighRoller(pet) then
+            table.insert(availableHighRollerPets, pet.Id)
+        end
+    end
+
+    -- In danh sách pet high-roller có sẵn
+    print("Danh sách pet high-roller có sẵn: " .. table.concat(availableHighRollerPets, ", "))
+
+    -- Kiểm tra Team 1 và đếm số pet high-roller ban đầu
+    local currentTeam = {}
+    local highRollerCountInTeam = 0
+    local petsWithoutHighRoller = {}
+    print("Danh sách pet trong Team 1 ban đầu:")
+    for _, id in pairs(team1) do
+        currentTeam[id] = true
+        local pet = nil
+        for _, p in pairs(allPets) do
+            if p.Id == id then
+                pet = p
+                break
+            end
+        end
+        if pet then
+            local isHighRoller = hasHighRoller(pet)
+            print("Pet ID: " .. id .. ", Có high-roller: " .. tostring(isHighRoller))
+            if isHighRoller then
+                highRollerCountInTeam = highRollerCountInTeam + 1
+            else
+                table.insert(petsWithoutHighRoller, id)
+            end
+        else
+            warn("Không tìm thấy pet với ID " .. id .. " trong allPets.")
+        end
+    end
+
+    -- So sánh số pet high-roller trong Team 1 với số pet high-roller có sẵn
+    local totalHighRollerPets = #availableHighRollerPets
+    local teamSize = #team1
+    print("Số pet high-roller trong Team 1 ban đầu: " .. highRollerCountInTeam .. "/" .. totalHighRollerPets .. ", Tổng số pet: " .. teamSize .. "/8")
+
+    -- Nếu chưa sử dụng hết pet high-roller, tối ưu hóa
+    if highRollerCountInTeam < totalHighRollerPets then
+        -- Tính số pet high-roller cần thêm
+        local highRollersToAdd = totalHighRollerPets - highRollerCountInTeam
+        -- Tính số slot có thể thay thế (dựa trên số pet không có high-roller hoặc slot trống)
+        local slotsAvailable = 8 - teamSize
+        local nonHighRollerCount = #petsWithoutHighRoller
+        local replacementsPossible = math.min(highRollersToAdd, nonHighRollerCount + slotsAvailable)
+
+        if replacementsPossible > 0 then
+            print("Chưa sử dụng hết pet high-roller, cần thêm " .. replacementsPossible .. " pet high-roller...")
+
+            -- Unequip các pet không có high-roller nếu cần
+            local replacementsNeeded = math.min(nonHighRollerCount, highRollersToAdd)
+            for i = 1, replacementsNeeded do
+                local id = petsWithoutHighRoller[i]
+                if not unequipPet(id) then
+                    warn("Không thể unequip pet " .. id .. ", bỏ qua...")
+                    return
+                end
+                currentTeam[id] = nil
+                print("Unequipped pet " .. id .. " vì không có high-roller")
+            end
+
+            -- Cập nhật dữ liệu Team 1 sau khi unequip
+            task.wait(2) -- Đợi để dữ liệu đồng bộ
+            playerData = LocalDataService:Get()
+            team1, allPets, currentTeam, highRollerCountInTeam, petsWithoutHighRoller, teamSize = updateTeam1Status(playerData, currentTeam, petsWithoutHighRoller, highRollerCountInTeam, teamSize)
+            if not team1 then return end
+
+            -- Equip thêm pet high-roller
+            local addedCount = 0
+            for _, id in pairs(availableHighRollerPets) do
+                if not currentTeam[id] and addedCount < replacementsPossible then
+                    if equipPet(id) then
+                        currentTeam[id] = true
+                        addedCount = addedCount + 1
+                        print("Equipped pet " .. id .. " với high-roller")
+                    else
+                        warn("Không thể equip pet " .. id .. ", bỏ qua...")
+                        return
+                    end
+                end
+                if addedCount >= replacementsPossible then break end
+            end
+
+            -- Kiểm tra lại Team 1 sau khi thay thế
+            task.wait(2) -- Tăng thời gian chờ để đảm bảo đồng bộ
+            playerData = LocalDataService:Get()
+            team1, allPets, currentTeam, highRollerCountInTeam, petsWithoutHighRoller, teamSize = updateTeam1Status(playerData, currentTeam, petsWithoutHighRoller, highRollerCountInTeam, teamSize)
+            if not team1 then return end
+
+            print("Số pet high-roller trong Team 1 sau khi thay thế: " .. highRollerCountInTeam .. "/" .. totalHighRollerPets .. ", Tổng số pet: " .. teamSize .. "/8")
+
+            -- Lặp lại để tối ưu hóa cho đến khi sử dụng hết pet high-roller hoặc Team 1 đầy và tối ưu
+            local maxIterations = 5 -- Giới hạn số lần lặp để tránh vòng lặp vô hạn
+            local iteration = 0
+            while highRollerCountInTeam < totalHighRollerPets and iteration < maxIterations do
+                iteration = iteration + 1
+                slotsAvailable = 8 - teamSize
+
+                -- Trường hợp 1: Còn slot trống, bổ sung pet high-roller
+                if slotsAvailable > 0 then
+                    local additionalHighRollersToAdd = totalHighRollerPets - highRollerCountInTeam
+                    local additionalSlotsPossible = math.min(additionalHighRollersToAdd, slotsAvailable)
+
+                    if additionalSlotsPossible > 0 then
+                        print("Còn " .. additionalSlotsPossible .. " slot trống, bổ sung thêm pet high-roller (lần " .. iteration .. ")...")
+                        addedCount = 0
+                        for _, id in pairs(availableHighRollerPets) do
+                            if not currentTeam[id] and addedCount < additionalSlotsPossible then
+                                if equipPet(id) then
+                                    currentTeam[id] = true
+                                    addedCount = addedCount + 1
+                                    print("Equipped additional pet " .. id .. " với high-roller")
+                                else
+                                    warn("Không thể equip pet " .. id .. ", bỏ qua...")
+                                    return
+                                end
+                            end
+                            if addedCount >= additionalSlotsPossible then break end
+                        end
+
+                        -- Kiểm tra lại Team 1 sau khi bổ sung
+                        task.wait(2) -- Tăng thời gian chờ để đảm bảo đồng bộ
+                        playerData = LocalDataService:Get()
+                        team1, allPets, currentTeam, highRollerCountInTeam, petsWithoutHighRoller, teamSize = updateTeam1Status(playerData, currentTeam, petsWithoutHighRoller, highRollerCountInTeam, teamSize)
+                        if not team1 then return end
+                        print("Số pet high-roller trong Team 1 sau khi bổ sung slot trống (lần " .. iteration .. "): " .. highRollerCountInTeam .. "/" .. totalHighRollerPets .. ", Tổng số pet: " .. teamSize .. "/8")
+                    end
+                end
+
+                -- Trường hợp 2: Còn pet không có high-roller và vẫn còn pet high-roller chưa sử dụng, thay thế ngay cả khi còn slot trống
+                if highRollerCountInTeam < totalHighRollerPets and #petsWithoutHighRoller > 0 then
+                    local additionalHighRollersToAdd = totalHighRollerPets - highRollerCountInTeam
+                    local additionalReplacementsPossible = math.min(additionalHighRollersToAdd, #petsWithoutHighRoller)
+
+                    if additionalReplacementsPossible > 0 then
+                        print("Vẫn còn " .. additionalReplacementsPossible .. " pet high-roller chưa sử dụng, thay thế pet không có high-roller (lần " .. iteration .. ")...")
+
+                        -- Unequip các pet không có high-roller
+                        for i = 1, additionalReplacementsPossible do
+                            local id = petsWithoutHighRoller[i]
+                            if not unequipPet(id) then
+                                warn("Không thể unequip pet " .. id .. ", bỏ qua...")
+                                return
+                            end
+                            currentTeam[id] = nil
+                            print("Unequipped pet " .. id .. " vì không có high-roller")
+                        end
+
+                        -- Cập nhật dữ liệu Team 1 sau khi unequip
+                        task.wait(2) -- Đợi để dữ liệu đồng bộ
+                        playerData = LocalDataService:Get()
+                        team1, allPets, currentTeam, highRollerCountInTeam, petsWithoutHighRoller, teamSize = updateTeam1Status(playerData, currentTeam, petsWithoutHighRoller, highRollerCountInTeam, teamSize)
+                        if not team1 then return end
+
+                        -- Equip thêm pet high-roller
+                        addedCount = 0
+                        for _, id in pairs(availableHighRollerPets) do
+                            if not currentTeam[id] and addedCount < additionalReplacementsPossible then
+                                if equipPet(id) then
+                                    currentTeam[id] = true
+                                    addedCount = addedCount + 1
+                                    print("Equipped additional pet " .. id .. " với high-roller")
+                                else
+                                    warn("Không thể equip pet " .. id .. ", bỏ qua...")
+                                    return
+                                end
+                            end
+                            if addedCount >= additionalReplacementsPossible then break end
+                        end
+
+                        -- Kiểm tra lại Team 1 sau khi thay thế
+                        task.wait(2) -- Đợi để dữ liệu đồng bộ
+                        playerData = LocalDataService:Get()
+                        team1, allPets, currentTeam, highRollerCountInTeam, petsWithoutHighRoller, teamSize = updateTeam1Status(playerData, currentTeam, petsWithoutHighRoller, highRollerCountInTeam, teamSize)
+                        if not team1 then return end
+                        print("Số pet high-roller trong Team 1 sau khi thay thế (lần " .. iteration .. "): " .. highRollerCountInTeam .. "/" .. totalHighRollerPets .. ", Tổng số pet: " .. teamSize .. "/8")
+                    end
+                else
+                    break -- Không còn pet để thay thế hoặc đã sử dụng hết pet high-roller
+                end
+            end
+
+            -- In trạng thái cuối cùng của Team 1
+            print("Trạng thái cuối cùng của Team 1:")
+            for _, id in pairs(team1) do
+                local pet = nil
+                for _, p in pairs(allPets) do
+                    if p.Id == id then
+                        pet = p
+                        break
+                    end
+                end
+                if pet then
+                    local isHighRoller = hasHighRoller(pet)
+                    print("Pet ID: " .. id .. ", Có high-roller: " .. tostring(isHighRoller))
+                else
+                    warn("Không tìm thấy pet với ID " .. id .. " trong allPets.")
+                end
+            end
+            print("Số pet high-roller trong Team 1 cuối cùng: " .. highRollerCountInTeam .. "/" .. totalHighRollerPets .. ", Tổng số pet: " .. teamSize .. "/8")
+        else
+            print("Không có pet không có high-roller để thay thế hoặc không có slot trống.")
+        end
+    else
+        print("Đã sử dụng hết pet high-roller có sẵn hoặc Team 1 đã tối ưu.")
+    end
+end
+
+-- Hàm tự động quản lý Team 1 mỗi 5 phút
+local function autoManageTeam1Pets()
+        equipbestpet()
+        task.wait(1)
+    while true do    
+        print("Kiểm tra và quản lý pet trong Team 1...")
+        local success, err = pcall(manageTeam1Pets)
+        if not success then
+            warn("Lỗi khi quản lý Team 1 Pets: " .. tostring(err))
+        end
+        task.wait(300) -- Chờ 5 phút (300 giây) trước khi kiểm tra lại
+    end
+end
+
+-- Hàm kiểm tra giá trị buffluck
+local function checkBuffLuck()
+    local success, buffluck = pcall(function()
+    return game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.SummerEventBoard.Frame.Main.ActiveEvents.Container.List.Template.Frame.Title.Event.Text
+    end)
+
+    local ignoredBuffs = {
+        "🍀 Double Luck 🍀",
+        "🚀 Fast Hatch 🚀",
+        "🥚 Extra Hatch 🥚",
+    }
+    
+    -- Kiểm tra nếu buffluck không nằm trong danh sách bỏ qua
+    for _, buff in ipairs(ignoredBuffs) do
+        if buffluck == buff then
+            return -- Thoát nếu buffluck là một trong các giá trị bỏ qua
+        end
+    end
+
+    -- Nếu buffluck không nằm trong danh sách bỏ qua, bắt đầu kiểm tra định kỳ
+    while true do
+        local newSuccess, newBuffluck = pcall(function()
+            return game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.SummerEventBoard.Frame.Main.ActiveEvents.Container.List.Template.Frame.Title.Event.Text
+        end)
+
+        if newSuccess then
+            for _, buff in ipairs(ignoredBuffs) do
+                if newBuffluck == buff then
+                    task.wait(math.random(1, 600))
+                    rejoinServer()
+                    break
+                end
+            end
+
+        else
+            print("Lỗi khi lấy giá trị buffluck")
+        end
+        task.wait(math.random(30, 180)) -- Chờ 30 giây trước khi kiểm tra lại
+    end
+end
+
+
+
+
+-- Bắt đầu các luồng song song
+-- task.spawn(equipbestpet)
+task.spawn(autoUpgradePetsAndBuffs)
+task.spawn(autoUpgradeShops)
+task.spawn(autoUpgradeMinigames)
+task.spawn(checkCurrencies)
+-- task.spawn(autoManageTeam1Pets) -- Thêm luồng quản lý Team 1
+task.spawn(autoCraftPotions)
+-- task.spawn(autoUsePotions)
+-- task.spawn(checkDiceAndRoll)
+task.spawn(checkBuffLuck)
+
+-- Áp dụng các cài đặt game
+setSetting("Low Detail Mode", true)
+setSetting("Hide All Pets", true)
+setSetting("Hide Others Pets", true)
+setSetting("Hide Bubbles", true)
+setSetting("kip Easy Legendary", true)
+setSetting("Compact Pet Inventory", true)
+setSetting("Hide Global Secret Messages", true)
+setSetting("Sound Effects", 0)
+setSetting("Music", 0)
+setSetting("Bubble Gravity", 0)
