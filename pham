@@ -1,114 +1,102 @@
-repeat
-    wait()
-until game:IsLoaded()
-task.wait(10)
-script_key="MjkpXBXXPReWiUxQgCPeoqqzvDqqeNua";
-getgenv().Config = {
-    ["Time To Sell"] = 35, -- Seconds
-    ["Craft Event"] = 
-    {
-        ["Crafters Seed Pack"] = true,
-        ["Anti Bee Egg"] = true
-    },
-    ["Dont Spawn Bee Egg"] = true,
-    ["Dont Open Pack"] = false,
-    ["Dont Use Flower Seed Pack"] = true, -- If u Enable Crafters Seed Pack pls enable this
-    ["Seed"] = {
-        ["Strawberry"] = 44,
-        ["Corn"] = 44,
-        ["Coconut"] = 44,
-        ["Apple"] = 44,
-        ["Watermelon"] = 44,
-        ["Mushroom"] = 44,
-        ["Carrot"] = 44,
-        ["Pumpkin"] = 44,
-        ["Pepper"] = 44,
-        ["Cacao"] = 44,
-        ["Banana"] = 44,
-        ["Dragon Fruit"] = 44,
-        ["Mango"] = 44,
-        ["Cactus"] = 44,
-        ["Beanstalk"] = 44,
-        ["Grape"] = 44,
-        ["Bamboo"] = 44
-    },
-    ["FPS"] = 3,
-    ["Buy Egg"] = true,
-    ["Egg"] = {
-        ["Common Egg"] = false,
-        ["Uncommon Egg"] = true,
-        ["Rare Egg"] = false,
-        ["Mythical Egg"] = true,
-        ["Legendary Egg"] = false,
-        ["Bug Egg"] = true
-    },
-    ["Honey Item"] = {
-        ["Nectarine"] = false,
-        ["Flower Seed Pack"] = true,
-        ["Honey Sprinkler"] = false,
-        ["Bee Egg"] = true,
-        ["Pollen Radar"] = false,
-        ["Nectar Staff"] = false,
-        ["Nectarshade"] = false,
-        ["Lavender"] = false,
-        ["Hive Fruit"] = false
-    },
-    ["Sprinkler"] = {
-        ["Basic Sprinkler"] = true,
-        ["Advanced Sprinkler"] = true,
-        ["Master Sprinkler"] = true,
-        ["Godly Sprinkler"] = true
-    },
-    ["Plant Candy"] = false,
-    ["PetNeedSend"] = {"Queen Bee", "Dragonfly", "Raccoon", "Disco Bee", "Butterfly", "Red Fox"},
-    ["Destroy Mode"] = {
-        ["Auto Destroy when have money"] = 1000000, -- its will destroy all trees select when money >= select
-        ["Trees"] = {"Strawberry", "Blueberry", "Corn", "Tomato", "Orange Tulip", "Carrot"}
-    },
-    ["Url"] = "https://discord.com/api/webhooks/1377572766995316856/azXs7Cw3wSKjCrLv-M7q1-hm3ocm8J6rjYw2i8PVqtogpZFTwMNwHQVRyUDH3C6e2kd7", -- Webhook 
+getgenv().ConfigsKaitun = {
+    ["Stack Plant"] = true,
+    ["Low Cpu"] = true,
 
-    ["Boost FPS"] = true,
-    ["Black Screen"] = true,
-    ["Note"] = "BANDAUHU",
-    ["Pet Mode"] = {
-        ["Sell Pet"] = true,
-        ["Equip Pet"] = true,
-        ["Name Pet Equip"] = {
-            ["Night Owl"] = true,
-            ["Chicken"] = true
-        },
-        ["Rarity"] = { -- Rarity Sell Pet
-            ["Common"] = true,
-            ["Uncommon"] = true,
-            ["Rare"] = true,
-            ["Legendary"] = false,
-            ["Divine"] = false,
-            ["Mythical"] = false
-        },
-        ["Pet Dont Delete"] = {"Queen Bee", "Dragonfly", "Raccoon", "Disco Bee", "Butterfly", "Red Fox"}
+    ["Limit Tree"] = {
+        ["Limit"] = 300,
+        ["Sell Untill"] = 250 
     },
-    ["Webhook Mode"] = {
-        ["Enable Send Pet Weight"] = false,
-        ["Weight"] = 10 -- if Weight >= 10 they will send wh
+
+    ["Seed"] = {
+        ["Mode"] = "Auto",
+        ["Custom"] = {
+        }
     },
-    ["Rejoin After X Time"] = 60, -- Minutes
-    ["Mutation Skips"] = { -- Skip Havest
-        ["Pollinated"] = false,
-        ["Disco"] = false,
-        ["Twisted"] = false,
-        ["Wet"] = false,
-        ["Choc"] = false,
-        ["Bloodlit"] = false,
-        ["Celestial"] = false,
-        ["Moonlit"] = false,
-        ["Chilled"] = false,
-        ["Zombified"] = false,
-        ["Plasma"] = false,
-        ["Burnt"] = false,
-        ["Frozen"] = false,
-        ["Voidtouched"] = false,
-        ["HoneyGlazed"] = false,
-        ["Shocked"] = false
+
+    ["Craft Event"] = {
+        "Crafters Seed Pack",
+        "Anti Bee Egg",
+    },
+
+    ["Event Shop"] =  {
+        "Flower Seed Pack",
+        --"Nectarine",
+        --"Hive Fruit",
+        --"Honey Sprinkler",
+        "Bee Egg",
+        --"Bee Crate",
+    },
+
+    ["Gear Shop"] = {
+        "Master Sprinkler",
+        "Godly Sprinkler",
+        "Advanced Sprinkler",
+        "Basic Sprinkler",
+        "Lightning Rod"
+    },
+    ["Gear Lock"] = {
+
+    },
+
+    ["Eggs"] = {
+        ["Hatch"] = {
+            "Anti Bee Egg",
+            "Bee Egg",
+            "Night Egg",
+            "Premium Night Egg",
+            "Bug Egg",
+            "Exotic Bug Egg",
+            "Mythical Egg",
+            "Uncommon Egg"
+        },
+        ["Safe Eggs"] = {
+            "Bee Egg",
+        }
+    },
+
+    ["Limit Upgrade Slot"] = 1,
+    ["Equip When Done"] = {
+        "Blood Kiwi",
+        "Chicken"
+    },
+
+    ["Webhook"] = {
+        UrlPet = "xxx",
+        UrlSeed = "xx",
+        PcName = "xxxx"
+    },
+    ["Noti Seeds"] = {
+        "Sunflower",
+        "Dragon Pepper"
+    },
+    ["Lock Seeds"] = {
+        "Sunflower",
+        "Dragon Pepper"
+    },
+    ["Noti Seed Packs"] = {
+        "Flower Seed Pack"
+    },
+    ["Lock Seed Packs"] = {
+        "Flower Seed Pack"
+    },
+    ["Noti Pets"] = {
+        "Queen Bee",
+        "Petal Bee",
+        "Dragonfly",
+        "Raccoon",
+        "Red Fox",
+    },
+    ["Lock Pets"] = {
+        "Queen Bee",
+        "Disco Bee",
+        "Dragonfly",
+        "Raccoon",
+        "Red Fox",
+        "Blood Owl",
+        "Blood Kiwi", 
+        "Butterfly", 
+        ["Chiken"] = 5,
     }
-}
-setfpscap(getgenv().Config["FPS"])loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/392bd177458276c103d5ec042d7d4e38.lua"))()
+} 
+License = "imPTF7guCKxCZ6t9BDddQG8U8onOpPaA"
+loadstring(game:HttpGet('https://raw.githubusercontent.com/Real-Aya/Loader/main/Init.lua'))()
