@@ -1,0 +1,21 @@
+spawn(function()
+    local controlFileUrl = "https://sellaccroblox.com/rawapp/REJOIN.txt"  -- Đổi đường dẫn file nếu cần
+    local flagFile = "rejoin_flag_" .. game.Players.LocalPlayer.Name .. ".txt"
+    local hasRejoined = false
+
+    -- Nếu đã rejoin trước đó thì bỏ qua
+    if isfile(flagFile) and readfile(flagFile) == "done" then
+        hasRejoined = true
+    end
+
+    while wait(5) do
+        if hasRejoined then break end
+
+        local status = game:HttpGet(controlFileUrl)
+        if status and status:lower():find("on") then
+            hasRejoined = true
+            writefile(flagFile, "done")  -- Ghi cờ rejoin
+            game:GetService("TeleportService"):Teleport(game.PlaceId)
+        end
+    end
+end)
