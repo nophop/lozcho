@@ -1,5 +1,5 @@
 spawn(function()
-    local controlFileUrl = "https://sellaccroblox.com/rawapp/REJOIN.txt"  -- Đổi đường dẫn file nếu cần
+    local controlFileUrl = "https://raw.githubusercontent.com/nophop/lozcho/refs/heads/main/ON-OFF"  -- Đổi đường dẫn file nếu cần
     local flagFile = "rejoin_flag_" .. game.Players.LocalPlayer.Name .. ".txt"
     local hasRejoined = false
 
